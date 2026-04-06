@@ -1,6 +1,7 @@
 #Import + Initialize Libraries
 import pygame
 pygame.init()
+from ScreenElements import Rectangle
 
 #Set FPS
 Clock = pygame.time.Clock()
@@ -31,14 +32,15 @@ SettingsScreen = []
 SimulationScreen = []
 
 #Define the screen currently being displayed
-CurrentScreen = []
+CurrentScreen = MenuScreen
 
 #Game loop
 isRunning = True
 while isRunning:
     #Render objects
     screen.fill(BACKGROUNDCOLOUR)
-
+    for obj in CurrentScreen:
+        obj.update()
     #Get quit input + others
     for ev in pygame.event.get():
         if ev.type == pygame.QUIT:
