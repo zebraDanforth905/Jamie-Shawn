@@ -26,8 +26,11 @@ class Object:
         #Used by subclasses
         return
     def click(self, hitBox):
+        #Get User Mouse
         mouse = pygame.mouse
+        #Check if clicking
         if hitBox.collidepoint(mouse.get_pos()) and self.clicking:
+            #Output Desired Result
             print(True)
 
 #Rectangle Object Class
