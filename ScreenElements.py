@@ -4,7 +4,7 @@ pygame.init()
 
 #Generic Object Class
 class Object:
-    def __init__(self, screen, clickable, x, y, width, height, colour, backgroundColour, Text):
+    def __init__(self, screen, clickable, clickingType, x, y, width, height, colour, backgroundColour, Text):
         #Screen/Drawing-location
         self.screen = screen
         #Object position
@@ -22,6 +22,7 @@ class Object:
         #Attributes
         self.clickable = clickable
         self.clicking = False
+        self.clickingType = clickingType
     def update(self):
         #Used by subclasses
         return
@@ -32,6 +33,8 @@ class Object:
         if hitBox.collidepoint(mouse.get_pos()) and self.clicking:
             #Output Desired Result
             print(True)
+            if self.clickingType == None:
+                pass
 
 #Rectangle Object Class
 class Rectangle(Object):
