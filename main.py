@@ -21,12 +21,16 @@ GREEN = [0,255,0]
 BLUE = [0,0,255]
 BLACK = [0,0,0]
 YELLOW = [255,255,0]
-PURPLE = [255,0,255]
+PURPLE = [155,0,155]
 ORANGE = [255,180,0]
 BACKGROUNDCOLOUR = [115, 147, 179]
+MENUBUTTONCOLOUR = [178, 0, 0]
 
 #Define the different screens/visual-segments of the game
-MenuScreen = []
+#Menu
+Title = Text(screen, False, None, WIDTH/2, 100, None, 80, None,  BLACK, None, "comic sans ms", "Ride Rush")
+PlayButton = Rectangle(screen, True, None, WIDTH/2 - 195, 300, 400, 100, 0, None, MENUBUTTONCOLOUR, None, None)
+MenuScreen = [Title, PlayButton]
 
 SettingsScreen = []
 
@@ -47,7 +51,7 @@ while isRunning:
         if ev.type == pygame.QUIT:
             isRunning = False
         elif ev.type == pygame.MOUSEBUTTONDOWN:
-            # print(pygame.mouse.get_pos())
+            print(pygame.mouse.get_pos())
             if ev.button == 1:
                 #Check if left-clicking + alert every object in the current screen that the user is clicking
                 for obj in CurrentScreen:
