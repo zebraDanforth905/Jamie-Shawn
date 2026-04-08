@@ -26,7 +26,7 @@ ORANGE = [255,180,0]
 BACKGROUNDCOLOUR = [115, 147, 179]
 
 #Define the different screens/visual-segments of the game
-MenuScreen = [Text(screen, 200, 200, None, 20, BLACK, None, "Hello World!")]
+MenuScreen = []
 
 SettingsScreen = []
 
