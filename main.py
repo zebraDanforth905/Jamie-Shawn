@@ -47,7 +47,10 @@ while isRunning:
         if ev.type == pygame.QUIT:
             isRunning = False
         elif ev.type == pygame.MOUSEBUTTONDOWN:
-            print(pygame.mouse.get_pos())
+            # print(pygame.mouse.get_pos())
+            if ev.button == 1:
+                for obj in CurrentScreen:
+                    obj.clicking = True
     
     #Display frame
     pygame.display.update()

@@ -21,11 +21,14 @@ class Object:
         self.text = Text
         #Attributes
         self.clickable = clickable
+        self.clicking = False
     def update(self):
         #Used by subclasses
         return
-    def click(self):
-        print(True)
+    def click(self, hitBox):
+        mouse = pygame.mouse
+        if hitBox.collidepoint(mouse.get_pos()) and self.clicking:
+            print(True)
 
 #Rectangle Object Class
 class Rectangle(Object):
@@ -34,7 +37,8 @@ class Rectangle(Object):
         self.rect = pygame.rect.Rect(self.x, self.y, self.w, self.h)
         pygame.draw.rect(self.screen, self.bc, self.rect)
         if self.clickable:
-            self.click()
+            self.click(self.rect)
+        self.clicking = False
 
 class Text(Object):
     def update(self):
@@ -43,4 +47,5 @@ class Text(Object):
         self.TextRect = self.render.get_rect(center=(self.x, self.y))
         self.screen.blit(self.render, self.TextRect)
         if self.clickable:
-            self.click()
+            self.click(self.TextRect)
+        self.clicking = False
