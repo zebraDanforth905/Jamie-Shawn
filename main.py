@@ -3,6 +3,7 @@ import pygame
 pygame.init()
 from ScreenElements import Rectangle
 from ScreenElements import Text
+from RideData import Ride_data
 
 #Set FPS
 Clock = pygame.time.Clock()
