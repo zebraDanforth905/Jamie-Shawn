@@ -39,6 +39,12 @@ SimulationScreen = []
 #Define the screen currently being displayed
 CurrentScreen = MenuScreen
 
+#Define hour system
+currentHour = 0
+FinalHour = 11
+secondsPerHour = 10
+HourTimer = 0
+
 #Game loop
 isRunning = True
 while isRunning:
@@ -60,6 +66,14 @@ while isRunning:
     #Display frame
     pygame.display.update()
     Clock.tick(FPS)
+    #Update Hour Simulation
+    #if statement Goes here:
+    HourTimer += Clock.get_time()/1000
+    print(HourTimer)
+    if HourTimer >= secondsPerHour:
+        HourTimer = 0
+        currentHour += 1
+    #Note: The code above is unfinished
 
 #Exit the game
 pygame.quit()
