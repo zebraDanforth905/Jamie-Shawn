@@ -28,16 +28,16 @@ BACKGROUNDCOLOUR = [115, 147, 179]
 MENUBUTTONCOLOUR = [178, 0, 0]
 
 #Define the different screens/visual-segments of the game
-#Menu
-Title = Text(screen, False, None, WIDTH/2, 100, None, 80, None,  BLACK, None, "comic sans ms", "Ride Rush")
-PlayButton = Rectangle(screen, True, None, WIDTH/2 - 195, 300, 400, 100, 0, None, MENUBUTTONCOLOUR, None, None)
-PlayText = Text(screen, False, None, WIDTH/2, 350, None, 100, 0, BLACK, None, None, "Play")
-
-MenuScreen = [Title, PlayButton, PlayText]
 
 SettingsScreen = []
 
 SimulationScreen = []
+
+Title = Text(screen, False, None, None, WIDTH/2, 100, None, 80, None,  BLACK, None, "comic sans ms", "Ride Rush")
+PlayButton = Rectangle(screen, True, "Play", SimulationScreen, WIDTH/2 - 195, 300, 400, 100, 0, None, MENUBUTTONCOLOUR, None, None)
+PlayText = Text(screen, False, None, None, WIDTH/2, 350, None, 100, 0, BLACK, None, None, "Play")
+
+MenuScreen = [Title, PlayButton, PlayText]
 
 #Define the screen currently being displayed
 CurrentScreen = MenuScreen
@@ -65,6 +65,11 @@ while isRunning:
                 #Check if left-clicking + alert every object in the current screen that the user is clicking
                 for obj in CurrentScreen:
                     obj.clicking = True
+                    #SwitchScreens
+                    if obj.clickingType == "Play":
+                        newScreen = obj.update()
+                        if newScreen != None:
+                            CurrentScreen = newScreen
     
     #Display frame
     pygame.display.update()
