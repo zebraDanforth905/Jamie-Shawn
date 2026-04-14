@@ -21,7 +21,6 @@ class Object:
         #Text font
         self.font = pygame.font.Font(None, self.h)
         self.text = Text
-        print(self.font)
         #Attributes
         self.clickable = clickable
         self.clicking = False
