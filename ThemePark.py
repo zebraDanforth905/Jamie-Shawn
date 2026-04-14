@@ -26,14 +26,17 @@ class Attraction:
     def alert(self):
         pass
     def update(self, time):
-        self.waitTime = Ride_data[time][self.name]["wait"]
-        self.satisfaction = Ride_data[time][self.name]["satisfaction"]
+        if self.type == "Ride":
+            self.waitTime = Ride_data[time][self.name]["wait"]
+            self.satisfaction = Ride_data[time][self.name]["satisfaction"]
+        if self.type == "Concession":
+            pass
         self.rect.update()
         self.render = self.font.render(self.name, True, [0, 0, 0], None)
         self.screen.blit(self.render, self.render.get_rect(center=(self.x + self.width/2, self.y + self.height/2)))
         if self.type == "Ride" and not self.fixed:
             if self.waitTime > 30 or self.satisfaction < 75:
                 self.alert()
-        elif self.type == "Concenssion" and not self.fixed:
+        elif self.type == "Concession" and not self.fixed:
             if self.itemsSold < 20:
                 self.alert()
