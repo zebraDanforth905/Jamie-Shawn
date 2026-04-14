@@ -24,21 +24,23 @@ class Attraction:
         self.itemsSold = 20
         self.sales = 100
         self.fixed = False
-    def alert(self):
-        print("ALERT!!! ALERT!!")
+        self.alerting = False
     def update(self, time):
         if self.type == "Ride":
             self.waitTime = Ride_data[time][self.name]["wait"]
             self.satisfaction = Ride_data[time][self.name]["satisfaction"]
-        if self.type == "Concession":
+        elif self.type == "Concession":
             self.itemsSold = CONCESSIONS[time][self.name]["items"]
             self.sales = CONCESSIONS[time][self.name]["sales"]
+        
+        if self.alerting:
+            pass
         self.rect.update()
         self.render = self.font.render(self.name, True, [0, 0, 0], None)
         self.screen.blit(self.render, self.render.get_rect(center=(self.x + self.width/2, self.y + self.height/2)))
         if self.type == "Ride" and not self.fixed:
             if self.waitTime > 30 or self.satisfaction < 75:
-                self.alert()
+                self.alerting = True
         elif self.type == "Concession" and not self.fixed:
             if self.itemsSold < 20:
-                self.alert()
+                self.alerting = True
