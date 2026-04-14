@@ -5,7 +5,7 @@ pygame.font.init()
 
 #Generic Object Class
 class Object:
-    def __init__(self, screen, clickable, clickingType, x, y, width, height, borderWidth, colour, backgroundColour, Font, Text):
+    def __init__(self, screen, clickable, clickingType, clickScreen, x, y, width, height, borderWidth, colour, backgroundColour, Font, Text):
         #Screen/Drawing-location
         self.screen = screen
         #Object position
@@ -25,6 +25,7 @@ class Object:
         self.clickable = clickable
         self.clicking = False
         self.clickingType = clickingType
+        self.clickScreen = clickScreen
     def update(self):
         #Used by subclasses
         return
@@ -37,6 +38,8 @@ class Object:
             print(True)
             if self.clickingType == None:
                 pass
+            elif self.clickingType == "Play":
+                return self.clickScreen
 
 #Rectangle Object Class
 class Rectangle(Object):
@@ -44,9 +47,11 @@ class Rectangle(Object):
         #Draw rectangle
         self.rect = pygame.rect.Rect(self.x, self.y, self.w, self.h)
         pygame.draw.rect(self.screen, self.bc, self.rect, self.bw)
+        output = None
         if self.clickable:
-            self.click(self.rect)
+            output = self.click(self.rect)
         self.clicking = False
+        return output
 
 class Text(Object):
     def update(self):
