@@ -99,77 +99,77 @@ Ride_data = [
 
 
 
-CONCESSIONS = {
-    "10:00": {
+CONCESSIONS = [
+    {
         "Hydration Station": {"items": 13, "sales": 53.53},
         "Pixel Popcorn": {"items": 18, "sales": 112.26},
         "Quantum Cafe": {"items": 19, "sales": 113.32},
         "The Sugar Shack": {"items": 26, "sales": 157.05},
     },
-    "11:00": {
+    {
         "Hydration Station": {"items": 18, "sales": 74.95},
         "Pixel Popcorn": {"items": 26, "sales": 157.16},
         "Quantum Cafe": {"items": 27, "sales": 158.65},
         "The Sugar Shack": {"items": 36, "sales": 219.87},
     },
-    "12:00": {
+    {
         "Hydration Station": {"items": 32, "sales": 132.08},
         "Pixel Popcorn": {"items": 45, "sales": 269.42},
         "Quantum Cafe": {"items": 48, "sales": 283.31},
         "The Sugar Shack": {"items": 62, "sales": 376.92},
     },
-    "13:00": {
+    {
         "Hydration Station": {"items": 40, "sales": 164.55},
         "Pixel Popcorn": {"items": 56, "sales": 336.78},
         "Quantum Cafe": {"items": 59, "sales": 352.12},
         "The Sugar Shack": {"items": 78, "sales": 471.15},
     },
-    "14:00": {
+    {
         "Hydration Station": {"items": 32, "sales": 132.08},
         "Pixel Popcorn": {"items": 45, "sales": 269.42},
         "Quantum Cafe": {"items": 48, "sales": 283.31},
         "The Sugar Shack": {"items": 62, "sales": 376.92},
     },
-    "15:00": {
+    {
         "Hydration Station": {"items": 21, "sales": 85.86},
         "Pixel Popcorn": {"items": 30, "sales": 179.62},
         "Quantum Cafe": {"items": 31, "sales": 184.15},
         "The Sugar Shack": {"items": 41, "sales": 251.28},
     },
-    "16:00": {
+    {
         "Hydration Station": {"items": 18, "sales": 74.95},
         "Pixel Popcorn": {"items": 26, "sales": 157.16},
         "Quantum Cafe": {"items": 27, "sales": 158.65},
         "The Sugar Shack": {"items": 36, "sales": 219.87},
     },
-    "17:00": {
+    {
         "Hydration Station": {"items": 21, "sales": 85.86},
         "Pixel Popcorn": {"items": 30, "sales": 179.62},
         "Quantum Cafe": {"items": 31, "sales": 184.15},
         "The Sugar Shack": {"items": 41, "sales": 251.28},
     },
-    "18:00": {
+    {
         "Hydration Station": {"items": 35, "sales": 143.09},
         "Pixel Popcorn": {"items": 48, "sales": 291.88},
         "Quantum Cafe": {"items": 51, "sales": 306.91},
         "The Sugar Shack": {"items": 67, "sales": 408.33},
     },
-    "19:00": {
+    {
         "Hydration Station": {"items": 40, "sales": 164.55},
         "Pixel Popcorn": {"items": 56, "sales": 336.78},
         "Quantum Cafe": {"items": 59, "sales": 352.12},
         "The Sugar Shack": {"items": 78, "sales": 471.15},
     },
-    "20:00": {
+    {
         "Hydration Station": {"items": 27, "sales": 109.91},
         "Pixel Popcorn": {"items": 37, "sales": 224.52},
         "Quantum Cafe": {"items": 39, "sales": 234.74},
         "The Sugar Shack": {"items": 52, "sales": 314.10},
     },
-    "21:00": {
+    {
         "Hydration Station": {"items": 13, "sales": 53.53},
         "Pixel Popcorn": {"items": 18, "sales": 112.26},
         "Quantum Cafe": {"items": 19, "sales": 113.32},
         "The Sugar Shack": {"items": 26, "sales": 157.05},
     },
-}
+]

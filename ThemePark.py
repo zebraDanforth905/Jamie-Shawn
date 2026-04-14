@@ -5,6 +5,7 @@ pygame.init()
 from ScreenElements import Rectangle
 from ScreenElements import Text
 from RideData import Ride_data
+from RideData import CONCESSIONS
 class Attraction:
     def __init__(self, screen, name, backgroundcolor, width, height, x, y, type):
         self.screen = screen
@@ -24,13 +25,14 @@ class Attraction:
         self.sales = 100
         self.fixed = False
     def alert(self):
-        pass
+        print("ALERT!!! ALERT!!")
     def update(self, time):
         if self.type == "Ride":
             self.waitTime = Ride_data[time][self.name]["wait"]
             self.satisfaction = Ride_data[time][self.name]["satisfaction"]
         if self.type == "Concession":
-            pass
+            self.itemsSold = CONCESSIONS[time][self.name]["items"]
+            self.sales = CONCESSIONS[time][self.name]["sales"]
         self.rect.update()
         self.render = self.font.render(self.name, True, [0, 0, 0], None)
         self.screen.blit(self.render, self.render.get_rect(center=(self.x + self.width/2, self.y + self.height/2)))

@@ -29,8 +29,10 @@ BACKGROUNDCOLOUR = [115, 147, 179]
 MENUBUTTONCOLOUR = [178, 0, 0]
 
 #Define Attractions
-NebulaSpinner = Attraction(screen, "Nebula Spinner", PURPLE, 200, 75, 0, 0)
-Attractions = [NebulaSpinner]
+NebulaSpinner = Attraction(screen, "Nebula Spinner", PURPLE, 200, 75, 0, 0, "Ride")
+QuantumCafe = Attraction(screen, "Quantum Cafe", BLUE, 75, 200, 300, 500, "Concenssion")
+Attractions = [NebulaSpinner, QuantumCafe]
+
 #Define the different screens/visual-segments of the game
 
 SettingsScreen = []
@@ -49,7 +51,7 @@ CurrentScreen = MenuScreen
 #Define hour system
 currentHour = 0
 FinalHour = 11
-secondsPerHour = 10
+secondsPerHour = 2
 HourTimer = 0
 
 #Game loop
