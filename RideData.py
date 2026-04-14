@@ -1,5 +1,5 @@
-Ride_data = {
-    "0": {
+Ride_data = [
+    {
         "Lazy River": {"wait": 0.0, "satisfaction": 98},
         "Nebula Spinner": {"wait": 2.3, "satisfaction": 97},
         "Pixel Arcade": {"wait": 17.0, "satisfaction": 79},
@@ -7,7 +7,7 @@ Ride_data = {
         "Splashing Mountain": {"wait": 0.0, "satisfaction": 98},
         "Titan Coaster": {"wait": 11.6, "satisfaction": 86},
     },
-    "1": {
+    {
         "Lazy River": {"wait": 11.2, "satisfaction": 86},
         "Nebula Spinner": {"wait": 15.4, "satisfaction": 81},
         "Pixel Arcade": {"wait": 0.0, "satisfaction": 98},
@@ -15,7 +15,7 @@ Ride_data = {
         "Splashing Mountain": {"wait": 8.3, "satisfaction": 90},
         "Titan Coaster": {"wait": 5.1, "satisfaction": 93},
     },
-    "2": {
+    {
         "Lazy River": {"wait": 20.5, "satisfaction": 75},
         "Nebula Spinner": {"wait": 30.1, "satisfaction": 65},
         "Pixel Arcade": {"wait": 0.0, "satisfaction": 98},
@@ -23,7 +23,7 @@ Ride_data = {
         "Splashing Mountain": {"wait": 12.4, "satisfaction": 85},
         "Titan Coaster": {"wait": 20.2, "satisfaction": 75},
     },
-    "3": {
+    {
         "Lazy River": {"wait": 15.0, "satisfaction": 82},
         "Nebula Spinner": {"wait": 12.5, "satisfaction": 85},
         "Pixel Arcade": {"wait": 5.5, "satisfaction": 93},
@@ -31,7 +31,7 @@ Ride_data = {
         "Splashing Mountain": {"wait": 15.1, "satisfaction": 81},
         "Titan Coaster": {"wait": 25.4, "satisfaction": 69},
     },
-    "4": {
+    {
         "Lazy River": {"wait": 5.2, "satisfaction": 93},
         "Nebula Spinner": {"wait": 0.0, "satisfaction": 98},
         "Pixel Arcade": {"wait": 12.0, "satisfaction": 85},
@@ -39,7 +39,7 @@ Ride_data = {
         "Splashing Mountain": {"wait": 5.0, "satisfaction": 94},
         "Titan Coaster": {"wait": 10.2, "satisfaction": 87},
     },
-    "5": {
+    {
         "Lazy River": {"wait": 0.0, "satisfaction": 98},
         "Nebula Spinner": {"wait": 4.5, "satisfaction": 94},
         "Pixel Arcade": {"wait": 18.5, "satisfaction": 77},
@@ -47,7 +47,7 @@ Ride_data = {
         "Splashing Mountain": {"wait": 0.0, "satisfaction": 98},
         "Titan Coaster": {"wait": 5.5, "satisfaction": 93},
     },
-    "6": {
+    {
         "Lazy River": {"wait": 8.8, "satisfaction": 89},
         "Nebula Spinner": {"wait": 11.2, "satisfaction": 86},
         "Pixel Arcade": {"wait": 22.1, "satisfaction": 73},
@@ -55,7 +55,7 @@ Ride_data = {
         "Splashing Mountain": {"wait": 4.2, "satisfaction": 94},
         "Titan Coaster": {"wait": 12.8, "satisfaction": 84},
     },
-    "7": {
+    {
         "Lazy River": {"wait": 25.5, "satisfaction": 69},
         "Nebula Spinner": {"wait": 35.8, "satisfaction": 65},
         "Pixel Arcade": {"wait": 10.0, "satisfaction": 88},
@@ -63,7 +63,7 @@ Ride_data = {
         "Splashing Mountain": {"wait": 18.6, "satisfaction": 77},
         "Titan Coaster": {"wait": 30.5, "satisfaction": 65},
     },
-    "8": {
+    {
         "Lazy River": {"wait": 32.4, "satisfaction": 65},
         "Nebula Spinner": {"wait": 40.1, "satisfaction": 65},
         "Pixel Arcade": {"wait": 0.0, "satisfaction": 98},
@@ -71,7 +71,7 @@ Ride_data = {
         "Splashing Mountain": {"wait": 25.0, "satisfaction": 70},
         "Titan Coaster": {"wait": 45.2, "satisfaction": 65},
     },
-    "9": {
+    {
         "Lazy River": {"wait": 12.0, "satisfaction": 85},
         "Nebula Spinner": {"wait": 10.2, "satisfaction": 87},
         "Pixel Arcade": {"wait": 8.4, "satisfaction": 89},
@@ -79,7 +79,7 @@ Ride_data = {
         "Splashing Mountain": {"wait": 12.0, "satisfaction": 85},
         "Titan Coaster": {"wait": 15.5, "satisfaction": 81},
     },
-    "10": {
+    {
         "Lazy River": {"wait": 6.5, "satisfaction": 92},
         "Nebula Spinner": {"wait": 0.0, "satisfaction": 98},
         "Pixel Arcade": {"wait": 15.0, "satisfaction": 82},
@@ -87,7 +87,7 @@ Ride_data = {
         "Splashing Mountain": {"wait": 5.5, "satisfaction": 93},
         "Titan Coaster": {"wait": 10.0, "satisfaction": 88},
     },
-    "11": {
+    {
         "Lazy River": {"wait": 0.0, "satisfaction": 98},
         "Nebula Spinner": {"wait": 2.1, "satisfaction": 97},
         "Pixel Arcade": {"wait": 20.3, "satisfaction": 75},
@@ -95,4 +95,4 @@ Ride_data = {
         "Splashing Mountain": {"wait": 1.2, "satisfaction": 98},
         "Titan Coaster": {"wait": 15.1, "satisfaction": 81},
     },
-}
+]
