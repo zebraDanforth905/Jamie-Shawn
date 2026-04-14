@@ -92,7 +92,7 @@ while isRunning:
     if InSimulation:
         HourTimer += Clock.get_time()/1000
     #print(HourTimer)
-    if HourTimer >= secondsPerHour:
+    if HourTimer >= secondsPerHour and currentHour < 11:
         HourTimer = 0
         currentHour += 1
     #Note: The code above is unfinished
