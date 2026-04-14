@@ -47,6 +47,7 @@ MenuScreen = [Title, PlayButton, PlayText]
 
 #Define the screen currently being displayed
 CurrentScreen = MenuScreen
+InSimulation = False
 
 #Define hour system
 currentHour = 0
@@ -81,13 +82,15 @@ while isRunning:
                             CurrentScreen = newScreen
                             for attraction in Attractions:
                                 attraction.visible = True
+                            InSimulation = True
     
     #Display frame
     pygame.display.update()
     Clock.tick(FPS)
     #Update Hour Simulation
     #if statement Goes here:
-    HourTimer += Clock.get_time()/1000
+    if InSimulation:
+        HourTimer += Clock.get_time()/1000
     #print(HourTimer)
     if HourTimer >= secondsPerHour:
         HourTimer = 0

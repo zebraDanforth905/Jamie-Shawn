@@ -97,8 +97,6 @@ Ride_data = [
     },
 ]
 
-
-
 CONCESSIONS = [
     {
         "Hydration Station": {"items": 13, "sales": 53.53},
