@@ -29,8 +29,10 @@ BACKGROUNDCOLOUR = [115, 147, 179]
 MENUBUTTONCOLOUR = [178, 0, 0]
 
 #Define Attractions
-NebulaSpinner = Attraction(screen, "Nebula Spinner", PURPLE, 200, 75, 0, 0)
-Attractions = [NebulaSpinner]
+NebulaSpinner = Attraction(screen, "Nebula Spinner", PURPLE, 200, 75, 0, 0, "Ride")
+QuantumCafe = Attraction(screen, "Quantum Cafe", BLUE, 75, 200, 300, 500, "Concenssion")
+Attractions = [NebulaSpinner, QuantumCafe]
+
 #Define the different screens/visual-segments of the game
 
 SettingsScreen = []
@@ -45,11 +47,12 @@ MenuScreen = [Title, PlayButton, PlayText]
 
 #Define the screen currently being displayed
 CurrentScreen = MenuScreen
+InSimulation = False
 
 #Define hour system
 currentHour = 0
 FinalHour = 11
-secondsPerHour = 10
+secondsPerHour = 2
 HourTimer = 0
 
 #Game loop
@@ -79,15 +82,17 @@ while isRunning:
                             CurrentScreen = newScreen
                             for attraction in Attractions:
                                 attraction.visible = True
+                            InSimulation = True
     
     #Display frame
     pygame.display.update()
     Clock.tick(FPS)
     #Update Hour Simulation
     #if statement Goes here:
-    HourTimer += Clock.get_time()/1000
+    if InSimulation:
+        HourTimer += Clock.get_time()/1000
     #print(HourTimer)
-    if HourTimer >= secondsPerHour:
+    if HourTimer >= secondsPerHour and currentHour < 11:
         HourTimer = 0
         currentHour += 1
     #Note: The code above is unfinished
