@@ -31,7 +31,9 @@ MENUBUTTONCOLOUR = [178, 0, 0]
 #Menu
 Title = Text(screen, False, None, WIDTH/2, 100, None, 80, None,  BLACK, None, "comic sans ms", "Ride Rush")
 PlayButton = Rectangle(screen, True, None, WIDTH/2 - 195, 300, 400, 100, 0, None, MENUBUTTONCOLOUR, None, None)
-MenuScreen = [Title, PlayButton]
+PlayText = Text(screen, False, None, WIDTH/2, 350, None, 100, 0, BLACK, None, None, "Play")
+
+MenuScreen = [Title, PlayButton, PlayText]
 
 SettingsScreen = []
 
