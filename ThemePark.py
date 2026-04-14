@@ -14,6 +14,7 @@ class Attraction:
         self.height = height
         self.x = x
         self.y = y
+        self.visible = False
         self.font = pygame.font.Font(None, 30)
         self.rect = Rectangle(self.screen, None, None, None, self.x, self.y, self.width, self.height, 0, None, self.backgroundcolor, None, None)
     def update(self, time):

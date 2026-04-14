@@ -4,6 +4,7 @@ pygame.init()
 from ScreenElements import Rectangle
 from ScreenElements import Text
 from RideData import Ride_data
+from ThemePark import Attraction
 
 #Set FPS
 Clock = pygame.time.Clock()
@@ -27,6 +28,9 @@ ORANGE = [255,180,0]
 BACKGROUNDCOLOUR = [115, 147, 179]
 MENUBUTTONCOLOUR = [178, 0, 0]
 
+#Define Attractions
+NebulaSpinner = Attraction(screen, "Nebula Spinner", PURPLE, 200, 75, 0, 0)
+Attractions = [NebulaSpinner]
 #Define the different screens/visual-segments of the game
 
 SettingsScreen = []
@@ -55,6 +59,9 @@ while isRunning:
     screen.fill(BACKGROUNDCOLOUR)
     for obj in CurrentScreen:
         obj.update()
+    for attraction in Attractions:
+        if attraction.visible == True:
+            attraction.update(currentHour)
     #Get quit input + others
     for ev in pygame.event.get():
         if ev.type == pygame.QUIT:
@@ -70,6 +77,8 @@ while isRunning:
                         newScreen = obj.update()
                         if newScreen != None:
                             CurrentScreen = newScreen
+                            for attraction in Attractions:
+                                attraction.visible = True
     
     #Display frame
     pygame.display.update()
