@@ -51,7 +51,8 @@ Attractions = [NebulaSpinner, QuantumCafe, MainEntrance, GrandExit, RocketSlings
 
 SettingsScreen = []
 
-SimulationScreen = []
+simulationClock = Text(screen, False, None, None, 30, 30, 0, 30, 0, BLACK, None, "comic sans ms", "10:00")
+SimulationScreen = [simulationClock]
 
 Title = Text(screen, False, None, None, WIDTH/2, 100, None, 80, None,  BLACK, None, "comic sans ms", "Ride Rush")
 PlayButton = Rectangle(screen, True, "Play", SimulationScreen, WIDTH/2 - 195, 300, 400, 100, 0, None, MENUBUTTONCOLOUR, None, None)
@@ -79,6 +80,7 @@ while isRunning:
     for attraction in Attractions:
         if attraction.visible == True:
             attraction.update(currentHour)
+    simulationClock.text = f"{10+currentHour}:00"
     #Get quit input + others
     for ev in pygame.event.get():
         if ev.type == pygame.QUIT:
