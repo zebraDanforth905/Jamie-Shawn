@@ -71,9 +71,11 @@ InSimulation = False
 
 #Define hour system
 currentHour = 0
-FinalHour = 12
-secondsPerHour = 2
+FinalHour = 11
+secondsPerHour = 0.5
 HourTimer = 0
+
+finishSound = pygame.mixer.Sound("FinishSound.mp3")
 
 #Game loop
 isRunning = True
@@ -121,6 +123,8 @@ while isRunning:
     if HourTimer >= secondsPerHour and currentHour < 11:
         HourTimer = 0
         currentHour += 1
+    # elif currentHour >= 11:
+    #     finishSound.play(loops=-1)
 
 #Exit the game
 pygame.quit()
