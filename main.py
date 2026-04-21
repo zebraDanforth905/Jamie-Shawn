@@ -30,7 +30,7 @@ MENUBUTTONCOLOUR = [178, 0, 0]
 
 #Define Attractions
 NebulaSpinner = Attraction(screen, "Nebula Spinner", PURPLE, 200, 75, 0, 0, "Ride")
-QuantumCafe = Attraction(screen, "Quantum Cafe", BLUE, 75, 200, 300, 500, "Concenssion")
+QuantumCafe = Attraction(screen, "Quantum Cafe", BLUE, 75, 200, 300, 500, "Concession")
 Attractions = [NebulaSpinner, QuantumCafe]
 
 #Define the different screens/visual-segments of the game
@@ -70,7 +70,7 @@ while isRunning:
         if ev.type == pygame.QUIT:
             isRunning = False
         elif ev.type == pygame.MOUSEBUTTONDOWN:
-            print(pygame.mouse.get_pos())
+            # print(pygame.mouse.get_pos())
             if ev.button == 1:
                 #Check if left-clicking + alert every object in the current screen that the user is clicking
                 for obj in CurrentScreen:
@@ -91,11 +91,9 @@ while isRunning:
     #if statement Goes here:
     if InSimulation:
         HourTimer += Clock.get_time()/1000
-    #print(HourTimer)
     if HourTimer >= secondsPerHour and currentHour < 11:
         HourTimer = 0
         currentHour += 1
-    #Note: The code above is unfinished
 
 #Exit the game
 pygame.quit()

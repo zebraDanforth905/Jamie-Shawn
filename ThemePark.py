@@ -21,10 +21,13 @@ class Attraction:
         self.font = pygame.font.Font(None, 30)
         self.rect = Rectangle(self.screen, None, None, None, self.x, self.y, self.width, self.height, 0, None, self.backgroundcolor, None, None)
 
-        self.waitTime = 0
-        self.satisfaction = 75
-        self.itemsSold = 20
-        self.sales = 100
+        if self.type == 'Ride':
+            self.waitTime = Ride_data[0][self.name]["wait"]
+            self.satisfaction = Ride_data[0][self.name]["satisfaction"]
+        elif self.type == "Concession":
+            self.itemsSold = CONCESSIONS[0][self.name]["items"]
+            self.sales = CONCESSIONS[0][self.name]["sales"]
+            print(self.itemsSold)
         self.fixed = False
         self.alerting = False
         self.alertImage = pygame.image.load("warningSign.png")
@@ -40,7 +43,6 @@ class Attraction:
         
         self.rect.update()
         if self.alerting:
-            print(self.alerting)
             self.screen.blit(self.alertImage, self.alertImageRect)
         self.render = self.font.render(self.name, True, [0, 0, 0], None)
         self.screen.blit(self.render, self.render.get_rect(center=(self.x + self.width/2, self.y + self.height/2)))
