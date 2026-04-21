@@ -21,17 +21,31 @@ WHITE = [255,255,255]
 RED = [255,0,0]
 GREEN = [0,255,0]
 BLUE = [0,0,255]
+LIGHTBLUE = [173, 216, 230]
 BLACK = [0,0,0]
+GREY = [142,142,142]
 YELLOW = [255,255,0]
 PURPLE = [155,0,155]
+MAGENTA = [255,0,255]
+PINK = [222, 49, 99]
 ORANGE = [255,180,0]
 BACKGROUNDCOLOUR = [115, 147, 179]
 MENUBUTTONCOLOUR = [178, 0, 0]
 
 #Define Attractions
-NebulaSpinner = Attraction(screen, "Nebula Spinner", PURPLE, 200, 75, 0, 0, "Ride")
-QuantumCafe = Attraction(screen, "Quantum Cafe", BLUE, 75, 200, 300, 500, "Concession")
-Attractions = [NebulaSpinner, QuantumCafe]
+MainEntrance = Attraction(screen, "Main Entrance", GREY, 450, 100, 100, 0, "Entrance")
+GrandExit = Attraction(screen, "Grand Exit", GREY, 450, 100, 700, 0, "Exit")
+NebulaSpinner = Attraction(screen, "Nebula Spinner", PURPLE, 80, 200, 20, 110, "Ride")
+RocketSlingshot = Attraction(screen, "Rocket Slingshot", WHITE, 80, 200, 20, 328, "Ride")
+TitanCoaster = Attraction(screen, "Titan Coaster", RED, 140, 150, 558, 110, "Ride")
+PixelArcade = Attraction(screen, "Pixel Arcade", MAGENTA, 140, 150, 558, 278, "Ride")
+SplashingMountain = Attraction(screen, "Splashing Mountain", BLUE, 80, 200, 1165, 105, "Ride")
+LazyRiver = Attraction(screen, "Lazy River", LIGHTBLUE, 80, 200, 1165, 328, "Ride")
+QuantumCafe = Attraction(screen, "Quantum Cafe", BLUE, 230, 75, 107, 546, "Concession")
+PixelPopcorn = Attraction(screen, "Pixel Popcorn", PINK, 230, 75, 355, 546, "Concession")
+SugarShack = Attraction(screen, "The Sugar Shack", WHITE, 230, 75, 660, 546, "Concession")
+HydrationStation = Attraction(screen, "Hydration Station", BLUE, 230, 75, 935, 546, "Concession")
+Attractions = [NebulaSpinner, QuantumCafe, MainEntrance, GrandExit, RocketSlingshot, TitanCoaster, PixelArcade, PixelPopcorn, SplashingMountain, LazyRiver, SugarShack, HydrationStation]
 
 #Define the different screens/visual-segments of the game
 
@@ -51,7 +65,7 @@ InSimulation = False
 
 #Define hour system
 currentHour = 0
-FinalHour = 11
+FinalHour = 12
 secondsPerHour = 2
 HourTimer = 0
 
@@ -70,7 +84,7 @@ while isRunning:
         if ev.type == pygame.QUIT:
             isRunning = False
         elif ev.type == pygame.MOUSEBUTTONDOWN:
-            # print(pygame.mouse.get_pos())
+            print(pygame.mouse.get_pos())
             if ev.button == 1:
                 #Check if left-clicking + alert every object in the current screen that the user is clicking
                 for obj in CurrentScreen:
@@ -83,6 +97,8 @@ while isRunning:
                             for attraction in Attractions:
                                 attraction.visible = True
                             InSimulation = True
+                for i in Attractions:
+                    i.rect.clicking = True
     
     #Display frame
     pygame.display.update()

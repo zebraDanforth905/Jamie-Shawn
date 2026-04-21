@@ -35,11 +35,14 @@ class Object:
         #Check if clicking
         if hitBox.collidepoint(mouse.get_pos()) and self.clicking:
             #Output Desired Result
-            print(True)
             if self.clickingType == None:
                 pass
             elif self.clickingType == "Play":
                 return self.clickScreen
+            elif self.clickingType == "Fix":
+                return True
+        else:
+            return False
 
 #Rectangle Object Class
 class Rectangle(Object):
