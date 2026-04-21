@@ -60,8 +60,13 @@ PlayText = Text(screen, False, None, None, WIDTH/2, 350, None, 100, 0, BLACK, No
 
 MenuScreen = [Title, PlayButton, PlayText]
 
+ControlsTitle = Text(screen, False, None, None, WIDTH/2, 100, None, 80, None,  BLACK, None, "comic sans ms", "Controls/Tutorial")
+CloseAlerts = Text(screen, False, None, None, WIDTH/2, 300, None, 50, None, BLACK, None, "comic sans ms", "To close alerts, simply left-click on the coloured object holding the alert.")
+ContinueButton = Rectangle(screen, True, "Continue", MenuScreen, 800, 550, 400, 100, 0, None, MENUBUTTONCOLOUR, None, None)
+ControlsScreen = [ControlsTitle, CloseAlerts, ContinueButton]
+
 #Define the screen currently being displayed
-CurrentScreen = MenuScreen
+CurrentScreen = ControlsScreen
 InSimulation = False
 
 #Define hour system
@@ -86,7 +91,7 @@ while isRunning:
         if ev.type == pygame.QUIT:
             isRunning = False
         elif ev.type == pygame.MOUSEBUTTONDOWN:
-            print(pygame.mouse.get_pos())
+            #print(pygame.mouse.get_pos())
             if ev.button == 1:
                 #Check if left-clicking + alert every object in the current screen that the user is clicking
                 for obj in CurrentScreen:
@@ -99,6 +104,10 @@ while isRunning:
                             for attraction in Attractions:
                                 attraction.visible = True
                             InSimulation = True
+                    if obj.clickingType == "Continue":
+                        newScreen = obj.update()
+                        if newScreen != None:
+                            CurrentScreen = newScreen
                 for i in Attractions:
                     i.rect.clicking = True
     

@@ -39,6 +39,8 @@ class Object:
                 pass
             elif self.clickingType == "Play":
                 return self.clickScreen
+            elif self.clickingType == "Continue":
+                return self.clickScreen
             elif self.clickingType == "Fix":
                 return True
         else:
