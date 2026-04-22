@@ -119,7 +119,8 @@ while isRunning:
     #Update Hour Simulation
     #if statement Goes here:
     if InSimulation:
-        HourTimer += Clock.get_time()/1000
+        print(Clock.get_time())
+        HourTimer += (Clock.get_time()/20000)#20000 is 10 sec = 1h
     if HourTimer >= secondsPerHour and currentHour < 11:
         HourTimer = 0
         currentHour += 1
