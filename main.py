@@ -100,16 +100,16 @@ while isRunning:
                     obj.clicking = True
                     #SwitchScreens
                     if obj.clickingType == "Play":
-                        newScreen = obj.update()
-                        if newScreen != None:
-                            CurrentScreen = newScreen
+                        if(obj.update()):
+                        
+                            CurrentScreen = SimulationScreen
                             for attraction in Attractions:
                                 attraction.visible = True
                             InSimulation = True
                     if obj.clickingType == "Continue":
-                        newScreen = obj.update()
-                        if newScreen != None:
-                            CurrentScreen = newScreen
+                        if(obj.update()):
+                            
+                            CurrentScreen = MenuScreen
                 for i in Attractions:
                     i.rect.clicking = True
     
