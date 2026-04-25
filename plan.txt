@@ -1,11 +1,19 @@
 Required:
--
-
-
+- Button to go back to menu
+- Button to view tutorial again
+- Button to disable tutorial from opening on start
+- More visual appeal added to the attractions
 
 Wanted:
-
-
-
+- Settings menu
+- Randomization toggle which randomizes the day
+- Sound effects and music
+- Difficulty modifier
+- More thorough tutorial
 
 Wish List:
+- Dots pathfinding to each location
+- Statistics menu at the end of a shift
+- Call To Action when fixing a problem
+- Minigame to fix a problem
+- Fully customizable maps + gameplay settings
