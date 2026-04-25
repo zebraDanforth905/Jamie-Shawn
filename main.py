@@ -51,7 +51,9 @@ Attractions = [NebulaSpinner, QuantumCafe, MainEntrance, GrandExit, RocketSlings
 SettingsScreen = []
 
 simulationClock = Text(screen, False, None, None, WIDTH/2 - 20, 30, 0, 30, 0, BLACK, None, "comic sans ms", "10:00")
-SimulationScreen = [simulationClock]
+OpenSign = Rectangle(screen, None, None, None, WIDTH/2 - 50, 40, 60, 30, 0, None, GREEN, None, None)
+OpenSignText = Text(screen, None, None, None, WIDTH/2 - 20, 55, 0, 20, 0, WHITE, None, None, "Open")
+SimulationScreen = [simulationClock, OpenSign, OpenSignText]
 
 Title = Text(screen, False, None, None, WIDTH/2, 100, None, 80, None,  BLACK, None, "comic sans ms", "Ride Rush")
 PlayButton = Rectangle(screen, True, "Play", SimulationScreen, WIDTH/2 - 195, 300, 400, 100, 0, None, MENUBUTTONCOLOUR, None, None)
@@ -124,6 +126,9 @@ while isRunning:
     if HourTimer >= secondsPerHour and currentHour < 11:
         HourTimer = 0
         currentHour += 1
+    elif currentHour == 11:
+        OpenSign.bc = RED
+        OpenSignText.text = "Closed"
 
 #Exit the game
 pygame.quit()
