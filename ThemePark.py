@@ -38,6 +38,8 @@ class Attraction:
         if self.type == "Ride":
             self.waitTime = Ride_data[time][self.name]["wait"]
             self.satisfaction = Ride_data[time][self.name]["satisfaction"]
+            print(str(self.name) + ": " + str(self.waitTime))
+            print(str(self.name) + ": " + str(self.satisfaction))
         elif self.type == "Concession":
             self.itemsSold = CONCESSIONS[time][self.name]["items"]
             self.sales = CONCESSIONS[time][self.name]["sales"]
