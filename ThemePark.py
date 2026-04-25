@@ -4,29 +4,32 @@ import pygame
 pygame.init()
 from ScreenElements import Rectangle
 from ScreenElements import Text
-from RideData import Ride_data
-from RideData import CONCESSIONS
+from RideData import Ride_Data
+from RideData import Concessions
 class Attraction:
     def __init__(self, screen, name, backgroundcolor, width, height, x, y, type):
-        #Define Attributes
         self.screen = screen
-        self.name = name
-        self.backgroundcolor = backgroundcolor
+        #Define size + coords
         self.width = width
         self.height = height
         self.x = x
         self.y = y
+        #Define Attributes
+        self.name = name
         self.type = type
         self.visible = False
+        self.backgroundcolor = backgroundcolor
+        #Define visible components
         self.font = pygame.font.Font(None, round(self.width/5))
         self.rect = Rectangle(self.screen, True, "Fix", None, self.x, self.y, self.width, self.height, 0, None, self.backgroundcolor, None, None)
-
+        #Set starting values
         if self.type == 'Ride':
-            self.waitTime = Ride_data[0][self.name]["wait"]
-            self.satisfaction = Ride_data[0][self.name]["satisfaction"]
+            self.waitTime = Ride_Data[0][self.name]["wait"]
+            self.satisfaction = Ride_Data[0][self.name]["satisfaction"]
         elif self.type == "Concession":
-            self.itemsSold = CONCESSIONS[0][self.name]["items"]
-            self.sales = CONCESSIONS[0][self.name]["sales"]
+            self.itemsSold = Concessions[0][self.name]["items"]
+            self.sales = Concessions[0][self.name]["sales"]
+        #Define alert system vars
         self.fixed = False
         self.OnFix = False
         self.alerting = False
@@ -35,26 +38,29 @@ class Attraction:
         self.alertImageRect = pygame.rect.Rect(self.x, self.y, 75, 75)
         self.timeOfAlert = 1000
     def update(self, time):
+        #Change values
         if self.type == "Ride":
-            self.waitTime = Ride_data[time][self.name]["wait"]
-            self.satisfaction = Ride_data[time][self.name]["satisfaction"]
+            self.waitTime = Ride_Data[time][self.name]["wait"]
+            self.satisfaction = Ride_Data[time][self.name]["satisfaction"]
         elif self.type == "Concession":
-            self.itemsSold = CONCESSIONS[time][self.name]["items"]
-            self.sales = CONCESSIONS[time][self.name]["sales"]
+            self.itemsSold = Concessions[time][self.name]["items"]
+            self.sales = Concessions[time][self.name]["sales"]
         
+        #Render rect + Check for fixes + sustain fixes
         self.OnFix = self.rect.update()
-        
         if self.OnFix == True and self.alerting == True:
             self.alerting = False
             self.fixed = True
-
         if time != self.timeOfAlert:
             self.fixed = False
 
+        #display alert image
         if self.alerting:
             self.screen.blit(self.alertImage, self.alertImageRect)
+        #Render text
         self.render = self.font.render(self.name, True, [0, 0, 0], None)
         self.screen.blit(self.render, self.render.get_rect(center=(self.x + self.width/2, self.y + self.height/2)))
+        #Check for any alerts
         if self.type == "Ride" and not self.fixed:
             if self.waitTime > 30 or self.satisfaction < 75:
                 self.alerting = True

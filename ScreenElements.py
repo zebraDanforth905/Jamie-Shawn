@@ -52,10 +52,12 @@ class Rectangle(Object):
         #Draw rectangle
         self.rect = pygame.rect.Rect(self.x, self.y, self.w, self.h)
         pygame.draw.rect(self.screen, self.bc, self.rect, self.bw)
+        #Check for clicks
         output = None
         if self.clickable:
             output = self.click(self.rect)
         self.clicking = False
+        #Output click result
         return output
 
 class Text(Object):
@@ -64,6 +66,10 @@ class Text(Object):
         self.render = self.font.render(self.text, True, self.c, self.bc)
         self.TextRect = self.render.get_rect(center=(self.x, self.y))
         self.screen.blit(self.render, self.TextRect)
+        #Check for clicks
+        output = None
         if self.clickable:
-            self.click(self.TextRect)
+            output = self.click(self.rect)
         self.clicking = False
+        #Output click result
+        return output
