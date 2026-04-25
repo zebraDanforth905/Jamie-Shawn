@@ -36,7 +36,7 @@ class Attraction:
         self.alerting = False
         self.alertImage = pygame.image.load("warningSign.png")
         self.alertImage = pygame.transform.scale(self.alertImage, (75, 75))
-        self.alertImageRect = pygame.rect.Rect(self.x, self.y, 75, 75)
+        self.alertImageRect = pygame.rect.Rect(self.x, self.y-30, 75, 75)
         self.timeOfAlert = 1000
     def update(self, time):
         #Change values
@@ -61,8 +61,8 @@ class Attraction:
         #Render text
         self.render = self.font.render(self.name, True, [0, 0, 0], None)
         if self.type == 'Ride':
-            self.renderWaitTime = self.statsFont.render(f"Wait Time: {self.waitTime}", True, [0,0,0], None)
-            self.renderLikability = self.statsFont.render(f"Satisfaction: {self.satisfaction}", True, [0,0,0], None)
+            self.renderWaitTime = self.statsFont.render(f"Wait Time: {self.waitTime}m", True, [0,0,0], None)
+            self.renderLikability = self.statsFont.render(f"Satisfaction: {self.satisfaction}%", True, [0,0,0], None)
             self.screen.blit(self.renderWaitTime, self.render.get_rect(center=(self.x + self.width/2, self.y + self.height/2 + 21)))
             self.screen.blit(self.renderLikability, self.render.get_rect(center=(self.x + self.width/2, self.y + self.height/2 + 42)))
         elif self.type == "Concession":
