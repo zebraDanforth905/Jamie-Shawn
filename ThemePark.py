@@ -20,7 +20,7 @@ class Attraction:
         self.visible = False
         self.backgroundcolor = backgroundcolor
         #Define visible components
-        self.font = pygame.font.Font(None, round(self.width/5))
+        self.font = pygame.font.Font(None, round(self.width/6))
         self.rect = Rectangle(self.screen, True, "Fix", None, self.x, self.y, self.width, self.height, 0, None, self.backgroundcolor, None, None)
         #Set starting values
         if self.type == 'Ride':
