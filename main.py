@@ -124,9 +124,6 @@ while isRunning:
     if HourTimer >= secondsPerHour and currentHour < 11:
         HourTimer = 0
         currentHour += 1
-    # elif currentHour == 11 and not FinishedSimulation:
-    #     finishSound.play()
-    #     FinishedSimulation = True
 
 #Exit the game
 pygame.quit()
