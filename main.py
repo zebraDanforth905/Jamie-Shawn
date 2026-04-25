@@ -50,7 +50,7 @@ Attractions = [NebulaSpinner, QuantumCafe, MainEntrance, GrandExit, RocketSlings
 
 SettingsScreen = []
 
-simulationClock = Text(screen, False, None, None, 30, 30, 0, 30, 0, BLACK, None, "comic sans ms", "10:00")
+simulationClock = Text(screen, False, None, None, WIDTH/2 - 20, 30, 0, 30, 0, BLACK, None, "comic sans ms", "10:00")
 SimulationScreen = [simulationClock]
 
 Title = Text(screen, False, None, None, WIDTH/2, 100, None, 80, None,  BLACK, None, "comic sans ms", "Ride Rush")
@@ -73,7 +73,7 @@ FinishedSimulation = False
 #Define hour system
 currentHour = 0
 FinalHour = 11
-secondsPerHour = 0.5
+secondsPerHour = 10
 HourTimer = 0
 
 #Define sounds
@@ -124,9 +124,9 @@ while isRunning:
     if HourTimer >= secondsPerHour and currentHour < 11:
         HourTimer = 0
         currentHour += 1
-    elif currentHour == 11 and not FinishedSimulation:
-        finishSound.play()
-        FinishedSimulation = True
+    # elif currentHour == 11 and not FinishedSimulation:
+    #     finishSound.play()
+    #     FinishedSimulation = True
 
 #Exit the game
 pygame.quit()
