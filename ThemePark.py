@@ -21,6 +21,7 @@ class Attraction:
         self.backgroundcolor = backgroundcolor
         #Define visible components
         self.font = pygame.font.Font(None, round(self.width/6))
+        self.statsFont = pygame.font.Font(None, round(self.width/7))
         self.rect = Rectangle(self.screen, True, "Fix", None, self.x, self.y, self.width, self.height, 0, None, self.backgroundcolor, None, None)
         #Set starting values
         if self.type == 'Ride':
@@ -59,6 +60,16 @@ class Attraction:
             self.screen.blit(self.alertImage, self.alertImageRect)
         #Render text
         self.render = self.font.render(self.name, True, [0, 0, 0], None)
+        if self.type == 'Ride':
+            self.renderWaitTime = self.statsFont.render(f"Wait Time: {self.waitTime}", True, [0,0,0], None)
+            self.renderLikability = self.statsFont.render(f"Satisfaction: {self.satisfaction}", True, [0,0,0], None)
+            self.screen.blit(self.renderWaitTime, self.render.get_rect(center=(self.x + self.width/2, self.y + self.height/2 + 22)))
+            self.screen.blit(self.renderLikability, self.render.get_rect(center=(self.x + self.width/2, self.y + self.height/2 + 44)))
+        elif self.type == "Concession":
+            self.renderitemsSold = self.statsFont.render(f"Items Sold: {self.itemsSold}", True, [0,0,0], None)
+            self.renderSales = self.statsFont.render(f"Sales: ${self.sales}", True, [0,0,0], None)
+            self.screen.blit(self.renderitemsSold, self.render.get_rect(center=(self.x + self.width/2, self.y + self.height/2 + 22)))
+            self.screen.blit(self.renderSales, self.render.get_rect(center=(self.x + self.width/2, self.y + self.height/2 + 44)))
         self.screen.blit(self.render, self.render.get_rect(center=(self.x + self.width/2, self.y + self.height/2)))
         #Check for any alerts
         if self.type == "Ride" and not self.fixed:
