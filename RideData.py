@@ -1,4 +1,5 @@
-Ride_data = [
+#Stores data for the ride attractions
+Ride_Data = [
     {
         "Lazy River": {"wait": 0.0, "satisfaction": 98},
         "Nebula Spinner": {"wait": 2.3, "satisfaction": 97},
@@ -97,7 +98,8 @@ Ride_data = [
     },
 ]
 
-CONCESSIONS = [
+#Stores data for the concessions attractions
+Concessions = [
     {
         "Hydration Station": {"items": 13, "sales": 53.53},
         "Pixel Popcorn": {"items": 18, "sales": 112.26},

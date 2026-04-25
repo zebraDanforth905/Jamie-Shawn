@@ -3,7 +3,6 @@ import pygame
 pygame.init()
 from ScreenElements import Rectangle
 from ScreenElements import Text
-from RideData import Ride_data
 from ThemePark import Attraction
 
 #Set FPS
@@ -51,7 +50,7 @@ Attractions = [NebulaSpinner, QuantumCafe, MainEntrance, GrandExit, RocketSlings
 
 SettingsScreen = []
 
-simulationClock = Text(screen, False, None, None, 30, 30, 0, 30, 0, BLACK, None, "comic sans ms", "10:00")
+simulationClock = Text(screen, False, None, None, WIDTH/2 - 20, 30, 0, 30, 0, BLACK, None, "comic sans ms", "10:00")
 SimulationScreen = [simulationClock]
 
 Title = Text(screen, False, None, None, WIDTH/2, 100, None, 80, None,  BLACK, None, "comic sans ms", "Ride Rush")
@@ -63,18 +62,21 @@ MenuScreen = [Title, PlayButton, PlayText]
 ControlsTitle = Text(screen, False, None, None, WIDTH/2, 100, None, 80, None,  BLACK, None, "comic sans ms", "Controls/Tutorial")
 CloseAlerts = Text(screen, False, None, None, WIDTH/2, 300, None, 50, None, BLACK, None, "comic sans ms", "To close alerts, simply left-click on the coloured object holding the alert.")
 ContinueButton = Rectangle(screen, True, "Continue", MenuScreen, 800, 550, 400, 100, 0, None, MENUBUTTONCOLOUR, None, None)
-ControlsScreen = [ControlsTitle, CloseAlerts, ContinueButton]
+ContinueText = Text(screen, None, None, None, 1000, 600, 0, 50, 0, BLACK, None, "comic sans ms", "Continue")
+ControlsScreen = [ControlsTitle, CloseAlerts, ContinueButton, ContinueText]
 
 #Define the screen currently being displayed
 CurrentScreen = ControlsScreen
 InSimulation = False
+FinishedSimulation = False
 
 #Define hour system
 currentHour = 0
 FinalHour = 11
-secondsPerHour = 0.5
+secondsPerHour = 10
 HourTimer = 0
 
+#Define sounds
 finishSound = pygame.mixer.Sound("FinishSound.mp3")
 
 #Game loop
@@ -84,16 +86,17 @@ while isRunning:
     screen.fill(BACKGROUNDCOLOUR)
     for obj in CurrentScreen:
         obj.update()
+    #Render attractions
     for attraction in Attractions:
         if attraction.visible == True:
             attraction.update(currentHour)
+    #Update visual clock display
     simulationClock.text = f"{10+currentHour}:00"
-    #Get quit input + others
+    #Get quit input + click inputs
     for ev in pygame.event.get():
         if ev.type == pygame.QUIT:
             isRunning = False
         elif ev.type == pygame.MOUSEBUTTONDOWN:
-            #print(pygame.mouse.get_pos())
             if ev.button == 1:
                 #Check if left-clicking + alert every object in the current screen that the user is clicking
                 for obj in CurrentScreen:
@@ -101,15 +104,14 @@ while isRunning:
                     #SwitchScreens
                     if obj.clickingType == "Play":
                         if(obj.update()):
-                        
                             CurrentScreen = SimulationScreen
                             for attraction in Attractions:
                                 attraction.visible = True
                             InSimulation = True
-                    if obj.clickingType == "Continue":
+                    elif obj.clickingType == "Continue":
                         if(obj.update()):
-                            
                             CurrentScreen = MenuScreen
+                #Alert attractions that the user is clicking
                 for i in Attractions:
                     i.rect.clicking = True
     
@@ -117,14 +119,14 @@ while isRunning:
     pygame.display.update()
     Clock.tick(FPS)
     #Update Hour Simulation
-    #if statement Goes here:
     if InSimulation:
-        HourTimer += (Clock.get_time()/5000)#20000 is 10 sec = 1h
+        HourTimer += (Clock.get_time()/1000)
     if HourTimer >= secondsPerHour and currentHour < 11:
         HourTimer = 0
         currentHour += 1
-    # elif currentHour >= 11:
-    #     finishSound.play(loops=-1)
+    # elif currentHour == 11 and not FinishedSimulation:
+    #     finishSound.play()
+    #     FinishedSimulation = True
 
 #Exit the game
 pygame.quit()
