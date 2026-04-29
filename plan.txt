@@ -1,6 +1,6 @@
 Required:
 - Button to go back to menu ✅
-- Button to view tutorial again
+- Button to view tutorial again ✅
 - Button to disable tutorial from opening on start
 - More visual appeal added to the attractions
 

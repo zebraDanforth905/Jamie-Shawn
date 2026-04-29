@@ -69,8 +69,10 @@ SimulationScreen = [simulationClock, OpenSign, OpenSignText, ExitToMenu, ExitToM
 Title = Text(screen, False, None, None, WIDTH/2, 100, None, 80, None,  BLACK, None, "comic sans ms", "Ride Rush")
 PlayButton = Rectangle(screen, True, "Play", SimulationScreen, WIDTH/2 - 195, 300, 400, 100, 0, None, MENUBUTTONCOLOUR, None, None)
 PlayText = Text(screen, False, None, None, WIDTH/2, 350, None, 100, 0, BLACK, None, None, "Play")
+TutorialButton = Rectangle(screen, True, "Continue", None, WIDTH/2 - 195, 450, 400, 100, 0, None, MENUBUTTONCOLOUR, None, None)
+TutorialButtonText = Text(screen, None, None, None, WIDTH/2, 500, 400, 100, 0, BLACK, None, None, "Tutorial")
 
-MenuScreen = [Title, PlayButton, PlayText]
+MenuScreen = [Title, PlayButton, PlayText, TutorialButton, TutorialButtonText]
 ConfirmExitButton.clickScreen = MenuScreen
 
 ControlsTitle = Text(screen, False, None, None, WIDTH/2, 100, None, 80, None,  BLACK, None, "comic sans ms", "Controls/Tutorial")
@@ -78,6 +80,7 @@ CloseAlerts = Text(screen, False, None, None, WIDTH/2, 300, None, 50, None, BLAC
 ContinueButton = Rectangle(screen, True, "Continue", MenuScreen, 800, 550, 400, 100, 0, None, MENUBUTTONCOLOUR, None, None)
 ContinueText = Text(screen, None, None, None, 1000, 600, 0, 50, 0, BLACK, None, "comic sans ms", "Continue")
 ControlsScreen = [ControlsTitle, CloseAlerts, ContinueButton, ContinueText]
+TutorialButton.clickScreen = ControlsScreen
 
 #Define the screen currently being displayed
 CurrentScreen = ControlsScreen
@@ -140,7 +143,7 @@ while isRunning:
                             InSimulation = False
                     elif obj.clickingType == "Continue":
                         if(obj.update()):
-                            CurrentScreen = MenuScreen
+                            CurrentScreen = obj.clickScreen
                     elif obj.clickingType == "OpenPopup":
                         if (obj.update()):
                             for object in obj.clickScreen:
