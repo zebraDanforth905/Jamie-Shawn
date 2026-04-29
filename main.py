@@ -35,16 +35,16 @@ MENUBUTTONCOLOUR = [178, 0, 0]
 #Define Attractions
 MainEntrance = Attraction(screen, "Main Entrance", GREY, 450, 100, 100, 0, "Entrance", "image/GrandExit.png")
 GrandExit = Attraction(screen, "Grand Exit", GREY, 450, 100, 700, 0, "Exit", "image/GrandExit.png")
-NebulaSpinner = Attraction(screen, "Nebula Spinner", PURPLE, 100, 200, 10, 110, "Ride", "image/nebulaSpinner.png")
-RocketSlingshot = Attraction(screen, "Rocket Slingshot", GREEN, 100, 200, 10, 328, "Ride", "image/RocketSlingshot.png")
+NebulaSpinner = Attraction(screen, "Nebula Spinner", PURPLE, 150, 200, 10, 110, "Ride", "image/nebulaSpinner.png")
+RocketSlingshot = Attraction(screen, "Rocket Slingshot", GREEN, 150, 200, 10, 328, "Ride", "image/RocketSlingshot.png")
 TitanCoaster = Attraction(screen, "Titan Coaster", RED, 140, 150, 558, 110, "Ride", "image/TitanCoaster.png")
 PixelArcade = Attraction(screen, "Pixel Arcade", MAGENTA, 140, 150, 558, 278, "Ride", "image/PixelArcade.png")
-SplashingMountain = Attraction(screen, "Splashing Mountain", BLUE, 100, 200, 1175, 105, "Ride", "image/SplashingMountain.png")
-LazyRiver = Attraction(screen, "Lazy River", LIGHTBLUE, 100, 200, 1175, 328, "Ride", "image/LazyRiver.png")
-QuantumCafe = Attraction(screen, "Quantum Cafe", PURPLE, 230, 95, 107, 546, "Concession", "image/QuantumCafe.png")
-PixelPopcorn = Attraction(screen, "Pixel Popcorn", PINK, 230, 95, 355, 546, "Concession", "image/PixelPopcorn.png")
-SugarShack = Attraction(screen, "The Sugar Shack", WHITE, 230, 95, 660, 546, "Concession", "image/SugarShack.png")
-HydrationStation = Attraction(screen, "Hydration Station", BLUE, 230, 95, 935, 546, "Concession", "image/HydrationStation.png")
+SplashingMountain = Attraction(screen, "Splashing Mountain", BLUE, 150, 200, 1125, 105, "Ride", "image/SplashingMountain.png")
+LazyRiver = Attraction(screen, "Lazy River", LIGHTBLUE, 150, 200, 1125, 328, "Ride", "image/LazyRiver.png")
+QuantumCafe = Attraction(screen, "Quantum Cafe", PURPLE, 230, 120, 107, 571, "Concession", "image/QuantumCafe.png")
+PixelPopcorn = Attraction(screen, "Pixel Popcorn", PINK, 230, 120, 355, 571, "Concession", "image/PixelPopcorn.png")
+SugarShack = Attraction(screen, "The Sugar Shack", WHITE, 230, 120, 660, 571, "Concession", "image/SugarShack.png")
+HydrationStation = Attraction(screen, "Hydration Station", BLUE, 230, 120, 935, 571, "Concession", "image/HydrationStation.png")
 Attractions = [NebulaSpinner, QuantumCafe, MainEntrance, GrandExit, RocketSlingshot, TitanCoaster, PixelArcade, PixelPopcorn, SplashingMountain, LazyRiver, SugarShack, HydrationStation]
 
 #Define the different screens/visual-segments of the game
@@ -78,11 +78,10 @@ ConfirmExitButton.clickScreen = MenuScreen
 ControlsTitle = Text(screen, False, None, None, WIDTH/2, 100, None, 80, None,  BLACK, None, "comic sans ms", "Controls/Tutorial")
 CloseAlerts = Text(screen, False, None, None, WIDTH/2, 300, None, 50, None, BLACK, None, "comic sans ms", "To close alerts, simply left-click on the coloured object holding the alert.")
 ContinueButton = Rectangle(screen, True, "Continue", MenuScreen, 800, 550, 400, 100, 0, None, MENUBUTTONCOLOUR, None, None)
-ContinueText = Text(screen, None, None, None, 1000, 600, 0, 50, 0, BLACK, None, "comic sans ms", "Continue")
 showTutOnStart = "ShowTutorialOnStart.txt"
-DoNotShowAgainButton = Rectangle(screen, True, "Edit", showTutOnStart, 800, 400, 400, 100, 0, None, MENUBUTTONCOLOUR, None, None)
-DoNotShowAgainText = Text(screen, None, None, None, 1000, 450, 0, 50, 0, BLACK, None, "comic sans ms", "Do Not Show Again")
-ControlsScreen = [ControlsTitle, CloseAlerts, ContinueButton, ContinueText, DoNotShowAgainButton, DoNotShowAgainText]
+DoNotShowAgainButton = Rectangle(screen, True, "Edit", showTutOnStart, 800, 550, 400, 100, 0, None, MENUBUTTONCOLOUR, None, None)
+DoNotShowAgainText = Text(screen, None, None, None, 1000, 600, 0, 50, 0, BLACK, None, "comic sans ms", "Do Not Show Again")
+ControlsScreen = [ControlsTitle, CloseAlerts, ContinueButton, DoNotShowAgainButton, DoNotShowAgainText]
 TutorialButton.clickScreen = ControlsScreen
 
 #Define the screen currently being displayed
@@ -106,14 +105,14 @@ finishSound = pygame.mixer.Sound("FinishSound.mp3")
 #Game loop
 isRunning = True
 while isRunning:
-    #Render objects
     screen.fill(BACKGROUNDCOLOUR)
-    for obj in CurrentScreen:
-        obj.update()
     #Render attractions
     for attraction in Attractions:
         if attraction.visible == True:
             attraction.update(currentHour)
+    #Render objects
+    for obj in CurrentScreen:
+        obj.update()
     #Update visual clock display
     simulationClock.text = f"{10+currentHour}:00"
     #Get quit input + click inputs
