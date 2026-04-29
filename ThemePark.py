@@ -7,7 +7,7 @@ from ScreenElements import Text
 from RideData import Ride_Data
 from RideData import Concessions
 class Attraction:
-    def __init__(self, screen, name, backgroundcolor, width, height, x, y, type):
+    def __init__(self, screen, name, backgroundcolor, width, height, x, y, type, image=None):
         self.screen = screen
         #Define size + coords
         self.width = width
@@ -19,6 +19,12 @@ class Attraction:
         self.type = type
         self.visible = False
         self.backgroundcolor = backgroundcolor
+        self.img = None
+        self.imgRect = None
+        if image != None:
+            self.img = pygame.image.load(image)
+            self.img = pygame.transform.scale(self.img, (width, height))
+            self.imgRect = self.img.get_rect(x=x, y=y)
         #Define visible components
         self.font = pygame.font.Font(None, round(self.width/6 - len(self.name)/5))
         self.statsFont = pygame.font.Font(None, round(self.width/7))
@@ -49,6 +55,9 @@ class Attraction:
         
         #Render rect + Check for fixes + sustain fixes
         self.OnFix = self.rect.update()
+        if self.img != None:
+            self.screen.blit(self.img, self.imgRect)
+
         if self.OnFix == True and self.alerting == True:
             self.alerting = False
             self.fixed = True
@@ -59,15 +68,15 @@ class Attraction:
         if self.alerting:
             self.screen.blit(self.alertImage, self.alertImageRect)
         #Render text
-        self.render = self.font.render(self.name, True, [0, 0, 0], None)
+        self.render = self.font.render(self.name, True, [255,255,255], None)
         if self.type == 'Ride':
-            self.renderWaitTime = self.statsFont.render(f"Wait Time: {self.waitTime}m", True, [0,0,0], None)
-            self.renderLikability = self.statsFont.render(f"Satisfaction: {self.satisfaction}%", True, [0,0,0], None)
+            self.renderWaitTime = self.statsFont.render(f"Wait Time: {self.waitTime}m", True, [255,255,255], None)
+            self.renderLikability = self.statsFont.render(f"Satisfaction: {self.satisfaction}%", True, [255,255,255], None)
             self.screen.blit(self.renderWaitTime, self.render.get_rect(center=(self.x + self.width/2, self.y + self.height/2 + 21)))
             self.screen.blit(self.renderLikability, self.render.get_rect(center=(self.x + self.width/2, self.y + self.height/2 + 42)))
         elif self.type == "Concession":
-            self.renderitemsSold = self.statsFont.render(f"Items Sold: {self.itemsSold}", True, [0,0,0], None)
-            self.renderSales = self.statsFont.render(f"Sales: ${self.sales}", True, [0,0,0], None)
+            self.renderitemsSold = self.statsFont.render(f"Items Sold: {self.itemsSold}", True, [255,255,255], None)
+            self.renderSales = self.statsFont.render(f"Sales: ${self.sales}", True, [255,255,255], None)
             self.screen.blit(self.renderitemsSold, self.render.get_rect(center=(self.x + self.width/2, self.y + self.height/2 + 21)))
             self.screen.blit(self.renderSales, self.render.get_rect(center=(self.x + self.width/2, self.y + self.height/2 + 42)))
         self.screen.blit(self.render, self.render.get_rect(center=(self.x + self.width/2, self.y + self.height/2)))

@@ -33,18 +33,18 @@ BACKGROUNDCOLOUR = [115, 147, 179]
 MENUBUTTONCOLOUR = [178, 0, 0]
 
 #Define Attractions
-MainEntrance = Attraction(screen, "Main Entrance", GREY, 450, 100, 100, 0, "Entrance")
-GrandExit = Attraction(screen, "Grand Exit", GREY, 450, 100, 700, 0, "Exit")
-NebulaSpinner = Attraction(screen, "Nebula Spinner", PURPLE, 100, 200, 10, 110, "Ride")
-RocketSlingshot = Attraction(screen, "Rocket Slingshot", GREEN, 100, 200, 10, 328, "Ride")
-TitanCoaster = Attraction(screen, "Titan Coaster", RED, 140, 150, 558, 110, "Ride")
-PixelArcade = Attraction(screen, "Pixel Arcade", MAGENTA, 140, 150, 558, 278, "Ride")
-SplashingMountain = Attraction(screen, "Splashing Mountain", BLUE, 100, 200, 1175, 105, "Ride")
-LazyRiver = Attraction(screen, "Lazy River", LIGHTBLUE, 100, 200, 1175, 328, "Ride")
-QuantumCafe = Attraction(screen, "Quantum Cafe", PURPLE, 230, 95, 107, 546, "Concession")
-PixelPopcorn = Attraction(screen, "Pixel Popcorn", PINK, 230, 95, 355, 546, "Concession")
-SugarShack = Attraction(screen, "The Sugar Shack", WHITE, 230, 95, 660, 546, "Concession")
-HydrationStation = Attraction(screen, "Hydration Station", BLUE, 230, 95, 935, 546, "Concession")
+MainEntrance = Attraction(screen, "Main Entrance", GREY, 450, 100, 100, 0, "Entrance", "image/GrandExit.png")
+GrandExit = Attraction(screen, "Grand Exit", GREY, 450, 100, 700, 0, "Exit", "image/GrandExit.png")
+NebulaSpinner = Attraction(screen, "Nebula Spinner", PURPLE, 100, 200, 10, 110, "Ride", "image/nebulaSpinner.png")
+RocketSlingshot = Attraction(screen, "Rocket Slingshot", GREEN, 100, 200, 10, 328, "Ride", "image/RocketSlingshot.png")
+TitanCoaster = Attraction(screen, "Titan Coaster", RED, 140, 150, 558, 110, "Ride", "image/TitanCoaster.png")
+PixelArcade = Attraction(screen, "Pixel Arcade", MAGENTA, 140, 150, 558, 278, "Ride", "image/PixelArcade.png")
+SplashingMountain = Attraction(screen, "Splashing Mountain", BLUE, 100, 200, 1175, 105, "Ride", "image/SplashingMountain.png")
+LazyRiver = Attraction(screen, "Lazy River", LIGHTBLUE, 100, 200, 1175, 328, "Ride", "image/LazyRiver.png")
+QuantumCafe = Attraction(screen, "Quantum Cafe", PURPLE, 230, 95, 107, 546, "Concession", "image/QuantumCafe.png")
+PixelPopcorn = Attraction(screen, "Pixel Popcorn", PINK, 230, 95, 355, 546, "Concession", "image/PixelPopcorn.png")
+SugarShack = Attraction(screen, "The Sugar Shack", WHITE, 230, 95, 660, 546, "Concession", "image/SugarShack.png")
+HydrationStation = Attraction(screen, "Hydration Station", BLUE, 230, 95, 935, 546, "Concession", "image/HydrationStation.png")
 Attractions = [NebulaSpinner, QuantumCafe, MainEntrance, GrandExit, RocketSlingshot, TitanCoaster, PixelArcade, PixelPopcorn, SplashingMountain, LazyRiver, SugarShack, HydrationStation]
 
 #Define the different screens/visual-segments of the game
