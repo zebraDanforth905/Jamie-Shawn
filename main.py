@@ -123,11 +123,20 @@ while isRunning:
                             for attraction in Attractions:
                                 attraction.visible = True
                             InSimulation = True
+                            ConfirmBackground.visible = False 
+                            ConfirmBackgroundText.visible = False
+                            ConfirmExitButton.visible = False
+                            ConfirmExitText.visible = False
+                            DenyExitButton.visible = False
+                            DenyExitText.visible = False
+                            currentHour = 0
+                            HourTimer = 0
                     elif obj.clickingType == "Exit":
                         if(obj.update()):
                             CurrentScreen = MenuScreen
                             for attraction in Attractions:
                                 attraction.visible = False
+                                attraction.alerting = False
                             InSimulation = False
                     elif obj.clickingType == "Continue":
                         if(obj.update()):
