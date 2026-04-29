@@ -5,7 +5,7 @@ pygame.font.init()
 
 #Generic Object Class
 class Object:
-    def __init__(self, screen, clickable, clickingType, clickScreen, x, y, width, height, borderWidth, colour, backgroundColour, Font, Text):
+    def __init__(self, screen, clickable, clickingType, clickScreen, x, y, width, height, borderWidth, colour, backgroundColour, Font, Text, visible=True):
         #Screen/Drawing-location
         self.screen = screen
         #Object position
@@ -26,6 +26,7 @@ class Object:
         self.clicking = False
         self.clickingType = clickingType
         self.clickScreen = clickScreen
+        self.visible = visible
     def update(self):
         #Used by subclasses
         return
@@ -43,33 +44,37 @@ class Object:
                 return self.clickScreen
             elif self.clickingType == "Fix":
                 return True
+            elif self.clickingType == "OpenPopup":
+                return self.clickScreen
         else:
             return False
 
 #Rectangle Object Class
 class Rectangle(Object):
     def update(self):
-        #Draw rectangle
-        self.rect = pygame.rect.Rect(self.x, self.y, self.w, self.h)
-        pygame.draw.rect(self.screen, self.bc, self.rect, self.bw)
-        #Check for clicks
-        output = None
-        if self.clickable:
-            output = self.click(self.rect)
-        self.clicking = False
-        #Output click result
-        return output
+        if self.visible:
+            #Draw rectangle
+            self.rect = pygame.rect.Rect(self.x, self.y, self.w, self.h)
+            pygame.draw.rect(self.screen, self.bc, self.rect, self.bw)
+            #Check for clicks
+            output = None
+            if self.clickable:
+                output = self.click(self.rect)
+            self.clicking = False
+            #Output click result
+            return output
 
 class Text(Object):
     def update(self):
-        #Render + Draw text
-        self.render = self.font.render(self.text, True, self.c, self.bc)
-        self.TextRect = self.render.get_rect(center=(self.x, self.y))
-        self.screen.blit(self.render, self.TextRect)
-        #Check for clicks
-        output = None
-        if self.clickable:
-            output = self.click(self.rect)
-        self.clicking = False
-        #Output click result
-        return output
+        if self.visible:
+            #Render + Draw text
+            self.render = self.font.render(self.text, True, self.c, self.bc)
+            self.TextRect = self.render.get_rect(center=(self.x, self.y))
+            self.screen.blit(self.render, self.TextRect)
+            #Check for clicks
+            output = None
+            if self.clickable:
+                output = self.click(self.rect)
+            self.clicking = False
+            #Output click result
+            return output
