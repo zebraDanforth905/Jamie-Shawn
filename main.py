@@ -54,17 +54,22 @@ SettingsScreen = []
 simulationClock = Text(screen, False, None, None, WIDTH/2 - 20, 30, 0, 30, 0, BLACK, None, "comic sans ms", "10:00")
 OpenSign = Rectangle(screen, None, None, None, WIDTH/2 - 50, 40, 60, 30, 0, None, GREEN, None, None)
 OpenSignText = Text(screen, None, None, None, WIDTH/2 - 20, 55, 0, 20, 0, WHITE, None, None, "Open")
-
 ExitToMenuText = Text(screen, None, None, None, 1230, 31, 60, 20, 0, BLACK, None, None, "Exit")
 ConfirmBackground = Rectangle(screen, None, None, None, 707, 111, 450, 400, 0, None, DARKGREY, None, None, visible=False)
 ExitToMenu = Rectangle(screen, True, "OpenPopup", ConfirmBackground, 1200, 11, 60, 40, 0, None, RED, None, None)
-SimulationScreen = [simulationClock, OpenSign, OpenSignText, ExitToMenu, ExitToMenuText, ConfirmBackground]
+ConfirmExitButton = Rectangle(screen, True, "continue", None, 728, 127, 408, 100, 0, None, GREEN, None, None, visible=True)
+ConfirmExitText = Text(screen, None, None, None, 932, 177, 408, 50, 0, BLACK, None, None, "Confirm", visible=True)
+DenyExitButton = Rectangle(screen, True, "ClosePopup", ConfirmBackground, 728, 350, 408, 100, 0, None, RED, None, None, visible=True)
+DenyExitText = Text(screen, None, None, None, 932, 400, 408, 50, 0, BLACK, None, None, "Deny", visible=True)
+
+SimulationScreen = [simulationClock, OpenSign, OpenSignText, ExitToMenu, ExitToMenuText, ConfirmBackground, ConfirmExitButton, ConfirmExitText, DenyExitButton]
 
 Title = Text(screen, False, None, None, WIDTH/2, 100, None, 80, None,  BLACK, None, "comic sans ms", "Ride Rush")
 PlayButton = Rectangle(screen, True, "Play", SimulationScreen, WIDTH/2 - 195, 300, 400, 100, 0, None, MENUBUTTONCOLOUR, None, None)
 PlayText = Text(screen, False, None, None, WIDTH/2, 350, None, 100, 0, BLACK, None, None, "Play")
 
 MenuScreen = [Title, PlayButton, PlayText]
+ConfirmExitButton.clickScreen = MenuScreen
 
 ControlsTitle = Text(screen, False, None, None, WIDTH/2, 100, None, 80, None,  BLACK, None, "comic sans ms", "Controls/Tutorial")
 CloseAlerts = Text(screen, False, None, None, WIDTH/2, 300, None, 50, None, BLACK, None, "comic sans ms", "To close alerts, simply left-click on the coloured object holding the alert.")
