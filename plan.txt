@@ -5,15 +5,14 @@ Required:
 - More visual appeal added to the attractions ✅
 
 Wanted:
-- Settings menu
-- Randomization toggle which randomizes the day
-- Sound effects and music
-- Difficulty modifier
-- More thorough tutorial
+- Settings menu 1
+- Randomization toggle which randomizes the day 2
+- Sound effects and music 4 
+- More thorough tutorial 3
+- move around with arrow key 5
 
 Wish List:
-- Dots pathfinding to each location
-- Statistics menu at the end of a shift
-- Call To Action when fixing a problem
-- Minigame to fix a problem
-- Fully customizable maps + gameplay settings
+- Dots pathfinding to each location 3
+- Statistics menu at the end of a shift 2
+- Call To Action when fixing a problem 1
+- Fully customizable maps + gameplay settings 4
