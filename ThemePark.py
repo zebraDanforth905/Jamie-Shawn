@@ -34,7 +34,7 @@ class Attraction:
         self.fixed = False
         self.OnFix = False
         self.alerting = False
-        self.alertImage = pygame.image.load("warningSign.png")
+        self.alertImage = pygame.image.load("image/warningSign.png")
         self.alertImage = pygame.transform.scale(self.alertImage, (75, 75))
         self.alertImageRect = pygame.rect.Rect(self.x, self.y-30, 75, 75)
         self.timeOfAlert = 1000
