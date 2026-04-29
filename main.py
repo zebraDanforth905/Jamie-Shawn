@@ -56,13 +56,15 @@ OpenSign = Rectangle(screen, None, None, None, WIDTH/2 - 50, 40, 60, 30, 0, None
 OpenSignText = Text(screen, None, None, None, WIDTH/2 - 20, 55, 0, 20, 0, WHITE, None, None, "Open")
 ExitToMenuText = Text(screen, None, None, None, 1230, 31, 60, 20, 0, BLACK, None, None, "Exit")
 ConfirmBackground = Rectangle(screen, None, None, None, 707, 111, 450, 400, 0, None, DARKGREY, None, None, visible=False)
-ExitToMenu = Rectangle(screen, True, "OpenPopup", ConfirmBackground, 1200, 11, 60, 40, 0, None, RED, None, None)
-ConfirmExitButton = Rectangle(screen, True, "continue", None, 728, 127, 408, 100, 0, None, GREEN, None, None, visible=True)
-ConfirmExitText = Text(screen, None, None, None, 932, 177, 408, 50, 0, BLACK, None, None, "Confirm", visible=True)
-DenyExitButton = Rectangle(screen, True, "ClosePopup", ConfirmBackground, 728, 350, 408, 100, 0, None, RED, None, None, visible=True)
-DenyExitText = Text(screen, None, None, None, 932, 400, 408, 50, 0, BLACK, None, None, "Deny", visible=True)
+ConfirmExitButton = Rectangle(screen, True, "Exit", None, 728, 277, 408, 100, 0, None, GREEN, None, None, visible=False)
+ConfirmExitText = Text(screen, None, None, None, 932, 327, 408, 50, 0, BLACK, None, None, "Confirm", visible=False)
+DenyExitText = Text(screen, None, None, None, 932, 450, 408, 50, 0, BLACK, None, None, "Deny", visible=False)
+ConfirmBackgroundText = Text(screen, None, None, None, 932, 200, 408, 100, 0, WHITE, None, None, "Exit", visible=False)
+DenyExitButton = Rectangle(screen, True, "ClosePopup", [ConfirmBackground, ConfirmBackgroundText, ConfirmExitButton, ConfirmExitText, DenyExitText], 728, 400, 408, 100, 0, None, RED, None, None, visible=False)
+DenyExitButton.clickScreen.append(DenyExitButton)
+ExitToMenu = Rectangle(screen, True, "OpenPopup", [ConfirmBackground, ConfirmBackgroundText, ConfirmExitButton, ConfirmExitText, DenyExitButton, DenyExitText], 1200, 11, 60, 40, 0, None, RED, None, None)
 
-SimulationScreen = [simulationClock, OpenSign, OpenSignText, ExitToMenu, ExitToMenuText, ConfirmBackground, ConfirmExitButton, ConfirmExitText, DenyExitButton]
+SimulationScreen = [simulationClock, OpenSign, OpenSignText, ExitToMenu, ExitToMenuText, ConfirmBackground, ConfirmBackgroundText, ConfirmExitButton, ConfirmExitText, DenyExitButton, DenyExitText]
 
 Title = Text(screen, False, None, None, WIDTH/2, 100, None, 80, None,  BLACK, None, "comic sans ms", "Ride Rush")
 PlayButton = Rectangle(screen, True, "Play", SimulationScreen, WIDTH/2 - 195, 300, 400, 100, 0, None, MENUBUTTONCOLOUR, None, None)
@@ -121,12 +123,23 @@ while isRunning:
                             for attraction in Attractions:
                                 attraction.visible = True
                             InSimulation = True
+                    elif obj.clickingType == "Exit":
+                        if(obj.update()):
+                            CurrentScreen = MenuScreen
+                            for attraction in Attractions:
+                                attraction.visible = False
+                            InSimulation = False
                     elif obj.clickingType == "Continue":
                         if(obj.update()):
                             CurrentScreen = MenuScreen
                     elif obj.clickingType == "OpenPopup":
                         if (obj.update()):
-                            obj.clickScreen.visible = True
+                            for object in obj.clickScreen:
+                                object.visible = True
+                    elif obj.clickingType == "ClosePopup":
+                        if (obj.update()):
+                            for object in obj.clickScreen:
+                                object.visible = False
                 #Alert attractions that the user is clicking
                 for i in Attractions:
                     i.rect.clicking = True

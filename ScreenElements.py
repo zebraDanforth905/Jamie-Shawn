@@ -40,11 +40,15 @@ class Object:
                 pass
             elif self.clickingType == "Play":
                 return self.clickScreen
+            elif self.clickingType == "Exit":
+                return True
             elif self.clickingType == "Continue":
                 return self.clickScreen
             elif self.clickingType == "Fix":
                 return True
             elif self.clickingType == "OpenPopup":
+                return self.clickScreen
+            elif self.clickingType == "ClosePopup":
                 return self.clickScreen
         else:
             return False
