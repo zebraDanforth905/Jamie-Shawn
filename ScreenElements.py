@@ -50,6 +50,11 @@ class Object:
                 return self.clickScreen
             elif self.clickingType == "ClosePopup":
                 return self.clickScreen
+            elif self.clickingType == "Edit":
+                self.file = open(self.clickScreen, "w")
+                self.file.write("False")
+                self.file.close()
+                return True
         else:
             return False
 

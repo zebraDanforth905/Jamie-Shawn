@@ -79,11 +79,18 @@ ControlsTitle = Text(screen, False, None, None, WIDTH/2, 100, None, 80, None,  B
 CloseAlerts = Text(screen, False, None, None, WIDTH/2, 300, None, 50, None, BLACK, None, "comic sans ms", "To close alerts, simply left-click on the coloured object holding the alert.")
 ContinueButton = Rectangle(screen, True, "Continue", MenuScreen, 800, 550, 400, 100, 0, None, MENUBUTTONCOLOUR, None, None)
 ContinueText = Text(screen, None, None, None, 1000, 600, 0, 50, 0, BLACK, None, "comic sans ms", "Continue")
-ControlsScreen = [ControlsTitle, CloseAlerts, ContinueButton, ContinueText]
+showTutOnStart = "ShowTutorialOnStart.txt"
+DoNotShowAgainButton = Rectangle(screen, True, "Edit", showTutOnStart, 800, 400, 400, 100, 0, None, MENUBUTTONCOLOUR, None, None)
+DoNotShowAgainText = Text(screen, None, None, None, 1000, 450, 0, 50, 0, BLACK, None, "comic sans ms", "Do Not Show Again")
+ControlsScreen = [ControlsTitle, CloseAlerts, ContinueButton, ContinueText, DoNotShowAgainButton, DoNotShowAgainText]
 TutorialButton.clickScreen = ControlsScreen
 
 #Define the screen currently being displayed
-CurrentScreen = ControlsScreen
+showTutOnStartFile = open(showTutOnStart, "r")
+if showTutOnStartFile.readline() == "True":
+    CurrentScreen = ControlsScreen
+else:
+    CurrentScreen = MenuScreen
 InSimulation = False
 FinishedSimulation = False
 
@@ -152,6 +159,9 @@ while isRunning:
                         if (obj.update()):
                             for object in obj.clickScreen:
                                 object.visible = False
+                    elif obj.clickingType == "Edit":
+                        if (obj.update()):
+                            pass
                 #Alert attractions that the user is clicking
                 for i in Attractions:
                     i.rect.clicking = True
