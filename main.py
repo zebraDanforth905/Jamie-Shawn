@@ -23,6 +23,7 @@ BLUE = [0,0,255]
 LIGHTBLUE = [173, 216, 230]
 BLACK = [0,0,0]
 GREY = [142,142,142]
+DARKGREY = [100, 100, 100]
 YELLOW = [255,255,0]
 PURPLE = [155,0,155]
 MAGENTA = [255,0,255]
@@ -34,12 +35,12 @@ MENUBUTTONCOLOUR = [178, 0, 0]
 #Define Attractions
 MainEntrance = Attraction(screen, "Main Entrance", GREY, 450, 100, 100, 0, "Entrance")
 GrandExit = Attraction(screen, "Grand Exit", GREY, 450, 100, 700, 0, "Exit")
-NebulaSpinner = Attraction(screen, "Nebula Spinner", PURPLE, 100, 200, 0, 110, "Ride")
-RocketSlingshot = Attraction(screen, "Rocket Slingshot", GREEN, 100, 200, 0, 328, "Ride")
+NebulaSpinner = Attraction(screen, "Nebula Spinner", PURPLE, 100, 200, 10, 110, "Ride")
+RocketSlingshot = Attraction(screen, "Rocket Slingshot", GREEN, 100, 200, 10, 328, "Ride")
 TitanCoaster = Attraction(screen, "Titan Coaster", RED, 140, 150, 558, 110, "Ride")
 PixelArcade = Attraction(screen, "Pixel Arcade", MAGENTA, 140, 150, 558, 278, "Ride")
-SplashingMountain = Attraction(screen, "Splashing Mountain", BLUE, 100, 200, 1185, 105, "Ride")
-LazyRiver = Attraction(screen, "Lazy River", LIGHTBLUE, 100, 200, 1185, 328, "Ride")
+SplashingMountain = Attraction(screen, "Splashing Mountain", BLUE, 100, 200, 1175, 105, "Ride")
+LazyRiver = Attraction(screen, "Lazy River", LIGHTBLUE, 100, 200, 1175, 328, "Ride")
 QuantumCafe = Attraction(screen, "Quantum Cafe", PURPLE, 230, 95, 107, 546, "Concession")
 PixelPopcorn = Attraction(screen, "Pixel Popcorn", PINK, 230, 95, 355, 546, "Concession")
 SugarShack = Attraction(screen, "The Sugar Shack", WHITE, 230, 95, 660, 546, "Concession")
@@ -53,7 +54,11 @@ SettingsScreen = []
 simulationClock = Text(screen, False, None, None, WIDTH/2 - 20, 30, 0, 30, 0, BLACK, None, "comic sans ms", "10:00")
 OpenSign = Rectangle(screen, None, None, None, WIDTH/2 - 50, 40, 60, 30, 0, None, GREEN, None, None)
 OpenSignText = Text(screen, None, None, None, WIDTH/2 - 20, 55, 0, 20, 0, WHITE, None, None, "Open")
-SimulationScreen = [simulationClock, OpenSign, OpenSignText]
+
+ExitToMenuText = Text(screen, None, None, None, 1230, 31, 60, 20, 0, BLACK, None, None, "Exit")
+ConfirmBackground = Rectangle(screen, None, None, None, 707, 111, 450, 400, 0, None, DARKGREY, None, None, visible=False)
+ExitToMenu = Rectangle(screen, True, "OpenPopup", ConfirmBackground, 1200, 11, 60, 40, 0, None, RED, None, None)
+SimulationScreen = [simulationClock, OpenSign, OpenSignText, ExitToMenu, ExitToMenuText, ConfirmBackground]
 
 Title = Text(screen, False, None, None, WIDTH/2, 100, None, 80, None,  BLACK, None, "comic sans ms", "Ride Rush")
 PlayButton = Rectangle(screen, True, "Play", SimulationScreen, WIDTH/2 - 195, 300, 400, 100, 0, None, MENUBUTTONCOLOUR, None, None)
@@ -100,6 +105,7 @@ while isRunning:
             isRunning = False
         elif ev.type == pygame.MOUSEBUTTONDOWN:
             if ev.button == 1:
+                print(pygame.mouse.get_pos())
                 #Check if left-clicking + alert every object in the current screen that the user is clicking
                 for obj in CurrentScreen:
                     obj.clicking = True
@@ -113,6 +119,9 @@ while isRunning:
                     elif obj.clickingType == "Continue":
                         if(obj.update()):
                             CurrentScreen = MenuScreen
+                    elif obj.clickingType == "OpenPopup":
+                        if (obj.update()):
+                            obj.clickScreen.visible = True
                 #Alert attractions that the user is clicking
                 for i in Attractions:
                     i.rect.clicking = True
