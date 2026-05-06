@@ -5,7 +5,7 @@ pygame.font.init()
 
 #Generic Object Class
 class Object:
-    def __init__(self, screen, clickable, clickingType, clickScreen, x, y, width, height, borderWidth, colour, backgroundColour, Font, Text, visible=True):
+    def __init__(self, screen, clickable=None, clickingType=None, clickScreen=None, x=0, y=0, width=1, height=1, borderWidth=0, colour=None, backgroundColour=None, Font=None, Text=None, visible=True):
         #Screen/Drawing-location
         self.screen = screen
         #Object position

@@ -53,7 +53,10 @@ Attractions = [NebulaSpinner, QuantumCafe, MainEntrance, GrandExit, RocketSlings
 
 #Define the different screens/visual-segments of the game
 
-SettingsScreen = []
+SettingsTitle = Text(screen=screen, x=WIDTH/2, y=75, height=100, colour=BLACK, backgroundColour=None, Text="Settings")
+RandomText = Text(screen=screen, x=170, y=300, height=50, colour=BLACK, backgroundColour=None, Text="Random Events: ")
+
+SettingsScreen = [SettingsTitle, RandomText]
 
 simulationClock = Text(screen, False, None, None, WIDTH/2 - 20, 30, 0, 30, 0, BLACK, None, "comic sans ms", "10:00")
 OpenSign = Rectangle(screen, None, None, None, WIDTH/2 - 50, 40, 60, 30, 0, None, GREEN, None, None)
@@ -75,8 +78,10 @@ PlayButton = Rectangle(screen, True, "Play", SimulationScreen, WIDTH/2 - 195, 30
 PlayText = Text(screen, False, None, None, WIDTH/2, 350, None, 100, 0, BLACK, None, None, "Play")
 TutorialButton = Rectangle(screen, True, "Continue", None, WIDTH/2 - 195, 450, 400, 100, 0, None, MENUBUTTONCOLOUR, None, None)
 TutorialButtonText = Text(screen, None, None, None, WIDTH/2, 500, 400, 100, 0, BLACK, None, None, "Tutorial")
+SettingsButton = Rectangle(screen=screen, clickable=True, clickingType="Continue", clickScreen=SettingsScreen, x=WIDTH/2 - 195, y=600, width=400, height=100, borderWidth=0, backgroundColour=MENUBUTTONCOLOUR)
+SettingsText = Text(screen=screen, x=WIDTH/2, y=650, width=0, height=100, borderWidth=0, colour=BLACK, backgroundColour=None, Text="Settings")
 
-MenuScreen = [Title, PlayButton, PlayText, TutorialButton, TutorialButtonText]
+MenuScreen = [Title, PlayButton, PlayText, TutorialButton, TutorialButtonText, SettingsButton, SettingsText]
 ConfirmExitButton.clickScreen = MenuScreen
 
 ControlsTitle = Text(screen, False, None, None, WIDTH/2, 100, None, 80, None,  BLACK, None, "comic sans ms", "Controls/Tutorial")
@@ -144,6 +149,7 @@ while isRunning:
                             DenyExitText.visible = False
                             currentHour = 0
                             HourTimer = 0
+                            
                     elif obj.clickingType == "Exit":
                         if(obj.update()):
                             CurrentScreen = MenuScreen
