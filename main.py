@@ -1,9 +1,13 @@
 #Import + Initialize Libraries
 import pygame
+import random
 pygame.init()
 from ScreenElements import Rectangle
 from ScreenElements import Text
 from ThemePark import Attraction
+from random import rand_int
+from RideData import Ride_Data
+from RideData import Concessions
 
 #Set FPS
 Clock = pygame.time.Clock()
