@@ -5,7 +5,7 @@ pygame.font.init()
 
 #Generic Object Class
 class Object:
-    def __init__(self, screen, clickable=None, clickingType=None, clickScreen=None, x=0, y=0, width=1, height=1, borderWidth=0, colour=None, backgroundColour=None, Font=None, Text=None, visible=True):
+    def __init__(self, screen, clickable=None, clickingType=None, clickScreen=None, clickValue=None, x=0, y=0, width=1, height=1, borderWidth=0, colour=None, backgroundColour=None, Font=None, Text=None, visible=True):
         #Screen/Drawing-location
         self.screen = screen
         #Object position
@@ -26,6 +26,7 @@ class Object:
         self.clicking = False
         self.clickingType = clickingType
         self.clickScreen = clickScreen
+        self.clickVal = clickValue
         self.visible = visible
     def update(self):
         #Used by subclasses
@@ -55,6 +56,8 @@ class Object:
                 self.file.write("False")
                 self.file.close()
                 return True
+            elif self.clickingType == "EditVar":
+                return self.clickVal
         else:
             return False
 

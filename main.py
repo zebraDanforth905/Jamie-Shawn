@@ -56,8 +56,11 @@ SettingsTitle = Text(screen=screen, x=WIDTH/2, y=75, height=100, colour=BLACK, b
 BackToMenu = Rectangle(screen, True, "Continue", None, 800, 550, 400, 100, 0, None, MENUBUTTONCOLOUR, None, None)
 BackToMenuText = Text(screen, None, None, None, 1000, 600, 0, 50, 0, BLACK, None, "comic sans ms", "Back")
 RandomText = Text(screen=screen, x=170, y=300, height=50, colour=BLACK, backgroundColour=None, Text="Random Events: ")
+#RandomToggleTrue = Rectangle(screen=screen, clickable=True, clickingType="ClosePopup", x=325, y=275, width=75, height=50, backgroundColour=GREEN, colour=None, visible=False)
+RandomToggleFalse = Rectangle(screen=screen, clickable=True, clickingType="EditVar", clickValue=True, x=325, y=275, width=75, height=50, backgroundColour=RED, colour=None)
 
-SettingsScreen = [SettingsTitle, RandomText, BackToMenu, BackToMenuText]
+
+SettingsScreen = [SettingsTitle, RandomText, BackToMenu, BackToMenuText, RandomToggleFalse]
 
 simulationClock = Text(screen, False, None, None, WIDTH/2 - 20, 30, 0, 30, 0, BLACK, None, "comic sans ms", "10:00")
 OpenSign = Rectangle(screen, None, None, None, WIDTH/2 - 50, 40, 60, 30, 0, None, GREEN, None, None)
@@ -200,6 +203,11 @@ while isRunning:
                     elif obj.clickingType == "Edit":
                         if (obj.update()):
                             pass
+                    elif obj.clickingType == "EditVar":
+                        value = obj.update()
+                        if value:
+                            RandomEvents = value
+                            
                 #Alert attractions that the user is clicking
                 for i in Attractions:
                     i.rect.clicking = True
