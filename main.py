@@ -53,9 +53,11 @@ Attractions = [NebulaSpinner, QuantumCafe, MainEntrance, GrandExit, RocketSlings
 #Define the different screens/visual-segments of the game
 
 SettingsTitle = Text(screen=screen, x=WIDTH/2, y=75, height=100, colour=BLACK, backgroundColour=None, Text="Settings")
+BackToMenu = Rectangle(screen, True, "Continue", None, 800, 550, 400, 100, 0, None, MENUBUTTONCOLOUR, None, None)
+BackToMenuText = Text(screen, None, None, None, 1000, 600, 0, 50, 0, BLACK, None, "comic sans ms", "Back")
 RandomText = Text(screen=screen, x=170, y=300, height=50, colour=BLACK, backgroundColour=None, Text="Random Events: ")
 
-SettingsScreen = [SettingsTitle, RandomText]
+SettingsScreen = [SettingsTitle, RandomText, BackToMenu, BackToMenuText]
 
 simulationClock = Text(screen, False, None, None, WIDTH/2 - 20, 30, 0, 30, 0, BLACK, None, "comic sans ms", "10:00")
 OpenSign = Rectangle(screen, None, None, None, WIDTH/2 - 50, 40, 60, 30, 0, None, GREEN, None, None)
@@ -82,6 +84,7 @@ SettingsText = Text(screen=screen, x=WIDTH/2, y=650, width=0, height=100, border
 
 MenuScreen = [Title, PlayButton, PlayText, TutorialButton, TutorialButtonText, SettingsButton, SettingsText]
 ConfirmExitButton.clickScreen = MenuScreen
+BackToMenu.clickScreen = MenuScreen
 
 ControlsTitle = Text(screen, False, None, None, WIDTH/2, 100, None, 80, None,  BLACK, None, "comic sans ms", "Controls/Tutorial")
 CloseAlerts = Text(screen, False, None, None, WIDTH/2, 300, None, 50, None, BLACK, None, "comic sans ms", "To close alerts, simply left-click on the coloured object holding the alert.")
@@ -100,7 +103,7 @@ else:
     CurrentScreen = MenuScreen
 InSimulation = False
 FinishedSimulation = False
-RandomEvents = True
+RandomEvents = False
 
 #Define hour system
 currentHour = 0
