@@ -56,11 +56,19 @@ SettingsTitle = Text(screen=screen, x=WIDTH/2, y=75, height=100, colour=BLACK, b
 BackToMenu = Rectangle(screen, True, "Continue", None, 800, 550, 400, 100, 0, None, MENUBUTTONCOLOUR, None, None)
 BackToMenuText = Text(screen, None, None, None, 1000, 600, 0, 50, 0, BLACK, None, "comic sans ms", "Back")
 RandomText = Text(screen=screen, x=170, y=300, height=50, colour=BLACK, backgroundColour=None, Text="Random Events: ")
-#RandomToggleTrue = Rectangle(screen=screen, clickable=True, clickingType="ClosePopup", x=325, y=275, width=75, height=50, backgroundColour=GREEN, colour=None, visible=False)
-RandomToggleFalse = Rectangle(screen=screen, clickable=True, clickingType="EditVar", clickValue=True, x=325, y=275, width=75, height=50, backgroundColour=RED, colour=None)
+RandomToggleTrue = Rectangle(screen=screen, clickable=True, clickingType="ClosePopup", x=400, y=275, width=75, height=50, backgroundColour=GREEN, colour=None, visible=False)
+RandomToggleTrueSecondAction = Rectangle(screen=screen, clickable=True, clickingType="ToggleRandom", clickValue=False, x=400, y=275, width=75, height=50, backgroundColour=GREEN, colour=None, visible=False)
+RandomToggleTrueThirdAction = Rectangle(screen=screen, clickable=True, clickingType="OpenPopup", x=400, y=275, width=75, height=50, backgroundColour=GREEN, colour=None, visible=False)
+RandomToggleTrue.clickScreen = [RandomToggleTrue, RandomToggleTrueSecondAction, RandomToggleTrueThirdAction]
 
+RandomToggleFalse = Rectangle(screen=screen, clickable=True, clickingType="ToggleRandom", clickValue=True, x=325, y=275, width=75, height=50, backgroundColour=RED, colour=None)
+RandomToggleFalseSecondAction = Rectangle(screen=screen, clickable=True, clickingType="ClosePopup", clickValue=True, x=325, y=275, width=75, height=50, backgroundColour=RED, colour=None)
+RandomToggleFalseThirdAction = Rectangle(screen=screen, clickable=True, clickingType="OpenPopup", clickValue=True, x=325, y=275, width=75, height=50, backgroundColour=RED, colour=None)
+RandomToggleFalseSecondAction.clickScreen = [RandomToggleFalseSecondAction, RandomToggleFalse, RandomToggleFalseThirdAction]
+RandomToggleFalseThirdAction.clickScreen = [RandomToggleTrue, RandomToggleTrueSecondAction, RandomToggleTrueThirdAction]
+RandomToggleTrueThirdAction.clickScreen = [RandomToggleFalseSecondAction, RandomToggleFalse, RandomToggleFalseThirdAction]
 
-SettingsScreen = [SettingsTitle, RandomText, BackToMenu, BackToMenuText, RandomToggleFalse]
+SettingsScreen = [SettingsTitle, RandomText, BackToMenu, BackToMenuText, RandomToggleFalseThirdAction, RandomToggleFalseSecondAction, RandomToggleFalse, RandomToggleTrue]
 
 simulationClock = Text(screen, False, None, None, WIDTH/2 - 20, 30, 0, 30, 0, BLACK, None, "comic sans ms", "10:00")
 OpenSign = Rectangle(screen, None, None, None, WIDTH/2 - 50, 40, 60, 30, 0, None, GREEN, None, None)
@@ -203,7 +211,7 @@ while isRunning:
                     elif obj.clickingType == "Edit":
                         if (obj.update()):
                             pass
-                    elif obj.clickingType == "EditVar":
+                    elif obj.clickingType == "ToggleRandom":
                         value = obj.update()
                         if value:
                             RandomEvents = value

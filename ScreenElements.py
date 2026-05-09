@@ -56,7 +56,7 @@ class Object:
                 self.file.write("False")
                 self.file.close()
                 return True
-            elif self.clickingType == "EditVar":
+            elif self.clickingType == "ToggleRandom":
                 return self.clickVal
         else:
             return False
