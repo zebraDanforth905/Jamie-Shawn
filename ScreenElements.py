@@ -57,9 +57,9 @@ class Object:
                 self.file.close()
                 return True
             elif self.clickingType == "ToggleRandom":
-                return self.clickVal
+                return True
         else:
-            return False
+            return None
 
 #Rectangle Object Class
 class Rectangle(Object):
