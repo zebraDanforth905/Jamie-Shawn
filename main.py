@@ -56,19 +56,9 @@ SettingsTitle = Text(screen=screen, x=WIDTH/2, y=75, height=100, colour=BLACK, b
 BackToMenu = Rectangle(screen, True, "Continue", None, 800, 550, 400, 100, 0, None, MENUBUTTONCOLOUR, None, None)
 BackToMenuText = Text(screen, None, None, None, 1000, 600, 0, 50, 0, BLACK, None, "comic sans ms", "Back")
 RandomText = Text(screen=screen, x=170, y=300, height=50, colour=BLACK, backgroundColour=None, Text="Random Events: ")
-RandomToggleTrue = Rectangle(screen=screen, clickable=True, clickingType="ClosePopup", x=400, y=275, width=75, height=50, backgroundColour=GREEN, colour=None, visible=False)
-RandomToggleTrueSecondAction = Rectangle(screen=screen, clickable=True, clickingType="ToggleRandom", clickValue=False, x=400, y=275, width=75, height=50, backgroundColour=GREEN, colour=None, visible=False)
-RandomToggleTrueThirdAction = Rectangle(screen=screen, clickable=True, clickingType="OpenPopup", x=400, y=275, width=75, height=50, backgroundColour=GREEN, colour=None, visible=False)
-RandomToggleTrue.clickScreen = [RandomToggleTrue, RandomToggleTrueSecondAction, RandomToggleTrueThirdAction]
+RandomToggle = Rectangle(screen=screen, clickable=True, clickingType="ToggleRandom", x=325, y=275, width=75, height=50, backgroundColour=RED, colour=None, visible=True)
 
-RandomToggleFalse = Rectangle(screen=screen, clickable=True, clickingType="ToggleRandom", clickValue=True, x=325, y=275, width=75, height=50, backgroundColour=RED, colour=None)
-RandomToggleFalseSecondAction = Rectangle(screen=screen, clickable=True, clickingType="ClosePopup", clickValue=True, x=325, y=275, width=75, height=50, backgroundColour=RED, colour=None)
-RandomToggleFalseThirdAction = Rectangle(screen=screen, clickable=True, clickingType="OpenPopup", clickValue=True, x=325, y=275, width=75, height=50, backgroundColour=RED, colour=None)
-RandomToggleFalseSecondAction.clickScreen = [RandomToggleFalseSecondAction, RandomToggleFalse, RandomToggleFalseThirdAction]
-RandomToggleFalseThirdAction.clickScreen = [RandomToggleTrue, RandomToggleTrueSecondAction, RandomToggleTrueThirdAction]
-RandomToggleTrueThirdAction.clickScreen = [RandomToggleFalseSecondAction, RandomToggleFalse, RandomToggleFalseThirdAction]
-
-SettingsScreen = [SettingsTitle, RandomText, BackToMenu, BackToMenuText, RandomToggleFalseThirdAction, RandomToggleFalseSecondAction, RandomToggleFalse, RandomToggleTrue]
+SettingsScreen = [SettingsTitle, RandomText, BackToMenu, BackToMenuText, RandomToggle]
 
 simulationClock = Text(screen, False, None, None, WIDTH/2 - 20, 30, 0, 30, 0, BLACK, None, "comic sans ms", "10:00")
 OpenSign = Rectangle(screen, None, None, None, WIDTH/2 - 50, 40, 60, 30, 0, None, GREEN, None, None)
@@ -99,11 +89,13 @@ BackToMenu.clickScreen = MenuScreen
 
 ControlsTitle = Text(screen, False, None, None, WIDTH/2, 100, None, 80, None,  BLACK, None, "comic sans ms", "Controls/Tutorial")
 CloseAlerts = Text(screen, False, None, None, WIDTH/2, 300, None, 50, None, BLACK, None, "comic sans ms", "To close alerts, simply left-click on the coloured object holding the alert.")
+AlertsExplain = Text(screen, False, None, None, WIDTH/2, 350, None, 40, None, BLACK, None, "comic sans ms", "Alerts only happen when the satisfaction/waiting time/items sold falls below an amount.")
+SettingsTip = Text(screen, False, None, None, WIDTH/2, 400, None, 50, None, BLACK, None, "comic sans ms", "There are many additional features in the settings.")
 ContinueButton = Rectangle(screen, True, "Continue", MenuScreen, 800, 550, 400, 100, 0, None, MENUBUTTONCOLOUR, None, None)
 showTutOnStart = "ShowTutorialOnStart.txt"
 DoNotShowAgainButton = Rectangle(screen, True, "Edit", showTutOnStart, 800, 550, 400, 100, 0, None, MENUBUTTONCOLOUR, None, None)
 DoNotShowAgainText = Text(screen, None, None, None, 1000, 600, 0, 50, 0, BLACK, None, "comic sans ms", "Do Not Show Again")
-ControlsScreen = [ControlsTitle, CloseAlerts, ContinueButton, DoNotShowAgainButton, DoNotShowAgainText]
+ControlsScreen = [ControlsTitle, CloseAlerts, ContinueButton, DoNotShowAgainButton, DoNotShowAgainText, AlertsExplain, SettingsTip]
 TutorialButton.clickScreen = ControlsScreen
 
 #Define the screen currently being displayed
@@ -177,6 +169,8 @@ while isRunning:
                                             i[v]["satisfaction"] = Ride_Data[list.index(Ride_Data, i)-1][v]["satisfaction"]+random.randint(-15, 15)
                                             if i[v]["satisfaction"] < 0:
                                                 i[v]["satisfaction"] = 0
+                                            elif i[v]["satisfaction"] > 100:
+                                                i[v]["satisfaction"] = 100
                                 for i in Concessions:
                                     if list.index(Concessions, i) == 0:
                                         for v in i.keys():
@@ -212,9 +206,14 @@ while isRunning:
                         if (obj.update()):
                             pass
                     elif obj.clickingType == "ToggleRandom":
-                        value = obj.update()
-                        if value:
-                            RandomEvents = value
+                        if (obj.update()):
+                            if RandomEvents:
+                                obj.bc = RED
+                                RandomEvents = False
+                            else:
+                                RandomEvents = True
+                                obj.bc = GREEN
+                            print(RandomEvents)
                             
                 #Alert attractions that the user is clicking
                 for i in Attractions:
