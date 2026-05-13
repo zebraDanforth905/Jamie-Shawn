@@ -1,5 +1,5 @@
 x=99
-for i in range(x,-2,-1):
+for i in range(x,0,-1):
     if i == 0:
         print(f"Take one down and pass it around, no more bottles of milk on the wall.")
         print(f"Go to the store and buy some more, 99 bottles of milk on the wall.")
