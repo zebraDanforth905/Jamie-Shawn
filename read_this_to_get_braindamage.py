@@ -23,7 +23,7 @@ if ((truE == True) == (false == False)) or (True and not False):
         false = true or False
 
 else:
-    false = not not not true
+    false = not not true or not True
 
 A = int(true)
 B = int(false)
