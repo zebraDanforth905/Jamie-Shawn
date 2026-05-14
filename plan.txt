@@ -8,7 +8,7 @@ Wanted:
 - Settings menu 1 ✅
 - Randomization toggle which randomizes the day 2 ✅
 - Sound effects and music 4 
-- More thorough tutorial 3
+- More thorough tutorial 3 ✅
 - move around with arrow key 5
 
 Wish List:

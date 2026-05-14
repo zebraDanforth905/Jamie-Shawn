@@ -28,7 +28,13 @@ class Attraction:
         #Define visible components
         self.font = pygame.font.Font(None, round(self.width/6 - len(self.name)/5))
         self.statsFont = pygame.font.Font(None, round(self.width/7))
-        self.rect = Rectangle(self.screen, True, "Fix", None, self.x, self.y, self.width, self.height, 0, None, self.backgroundcolor, None, None)
+        self.CTAPopup = Rectangle(screen, None, None, None, self.x+self.width, self.y, 125, 125, 0, None, [100, 100, 100], None, None, visible=False)
+        if self.y > 2*self.screen.get_height()/3:
+            self.CTAPopup.y -= 100
+            self.CTAPopup.x -= self.width/2
+        elif self.x > self.screen.get_width()/2:
+            self.CTAPopup.x += -self.width - 100
+        self.rect = Rectangle(self.screen, True, "OpenPopup", [self.CTAPopup], self.x, self.y, self.width, self.height, 0, None, self.backgroundcolor, None, None)
         #Set starting values
         if self.type == 'Ride':
             self.waitTime = Ride_Data[0][self.name]["wait"]
@@ -57,6 +63,10 @@ class Attraction:
         self.OnFix = self.rect.update()
         if self.img != None:
             self.screen.blit(self.img, self.imgRect)
+        
+        if self.OnFix != None:
+            self.CTAPopup.visible = True
+        self.CTAPopup.update()
 
         if self.OnFix == True and self.alerting == True:
             self.alerting = False
