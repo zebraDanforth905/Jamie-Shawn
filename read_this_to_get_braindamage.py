@@ -35,4 +35,4 @@ F = C + D + A
 G = (E == F) + (True == 1)
 H = G + A + B + C + D
 
-print(H + E + F)
+print(H + E + F + G)
