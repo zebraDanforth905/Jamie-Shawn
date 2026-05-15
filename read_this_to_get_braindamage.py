@@ -1,5 +1,5 @@
-true = False
-false = True
+false = (False or False or True or False) and True and True
+true = (not false) and (false and False)
 
 x = input("True or False: ")
 
