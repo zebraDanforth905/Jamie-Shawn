@@ -83,8 +83,7 @@ class PathfindingCharacter:
     def update(self):
         return
 
-
-test_object = PathfindingCharacter()
+characters = [PathfindingCharacter() for _ in range(20)]
 
 running = True
 
@@ -94,9 +93,9 @@ while running:
 
     pygame.draw.lines(screen, BLACK, False, path, 6)
 
-    test_object.draw_circle()
-
-    test_object.move_to_another_spot()
+    for character in characters:
+        character.draw_circle()
+        character.move_to_another_spot()
 
     pygame.display.flip()
 
