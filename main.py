@@ -5,6 +5,7 @@ pygame.init()
 from ScreenElements import Rectangle
 from ScreenElements import Text
 from ThemePark import Attraction
+from pathfindtestfile import PathfindingCharacter
 from RideData import Ride_Data
 from RideData import Concessions
 
@@ -98,6 +99,9 @@ DoNotShowAgainText = Text(screen, None, None, None, 1000, 600, 0, 50, 0, BLACK, 
 ControlsScreen = [ControlsTitle, CloseAlerts, ContinueButton, DoNotShowAgainButton, DoNotShowAgainText, AlertsExplain, SettingsTip]
 TutorialButton.clickScreen = ControlsScreen
 
+#Make pathfinding dot
+characters = [PathfindingCharacter() for i in range(20)]
+
 #Define the screen currently being displayed
 showTutOnStartFile = open(showTutOnStart, "r")
 if showTutOnStartFile.readline() == "True":
@@ -121,6 +125,10 @@ finishSound = pygame.mixer.Sound("FinishSound.mp3")
 isRunning = True
 while isRunning:
     screen.fill(BACKGROUNDCOLOUR)
+    if InSimulation:
+        for character in characters:
+            character.draw_circle()
+            character.move_to_another_spot()
     #Render attractions
     for attraction in Attractions:
         if attraction.visible == True:
