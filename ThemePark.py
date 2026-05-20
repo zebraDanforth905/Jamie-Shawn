@@ -29,11 +29,29 @@ class Attraction:
         self.font = pygame.font.Font(None, round(self.width/6 - len(self.name)/5))
         self.statsFont = pygame.font.Font(None, round(self.width/7))
         self.CTAPopup = Rectangle(screen, None, None, None, self.x+self.width, self.y, 125, 125, 0, None, [100, 100, 100], None, None, visible=False)
+        self.CTAFix = Rectangle(screen, True, "Fix", None, self.x+self.width + 5, self.y+10, 115, 50, 0, None, [255, 0, 0], None, None, visible=False)
+        self.CTAFixText = Text(screen=screen, clickable=None, clickingType=None, clickScreen=None, x=self.x+self.width + 5 + self.CTAFix.w/2, y=self.y+35, height=20, colour=[0,0,0], Text="Fix", visible=False)
+        self.CTAButton = Rectangle(screen, True, "ClosePopup", None, self.x+self.width + 5, self.y+70, 115, 50, 0, None, [255, 0, 0], None, None, visible=False)
+        self.CTAButton.clickScreen = [self.CTAPopup, self.CTAFix, self.CTAFixText, self.CTAButton]
+        self.CTAButtonText = Text(screen=screen, clickable=None, clickingType=None, clickScreen=None, x=self.x+self.width + 5 + self.CTAFix.w/2, y=self.y+95, height=30, colour=[0,0,0], Text="Close", visible=False)
+
         if self.y > 2*self.screen.get_height()/3:
             self.CTAPopup.y -= 100
             self.CTAPopup.x -= self.width/2
+            self.CTAFix.y -= 100
+            self.CTAFix.x -= self.width/2
+            self.CTAFixText.y -= 100
+            self.CTAFixText.x -= self.width/2
+            self.CTAButton.y -= 100
+            self.CTAButton.x -= self.width/2
+            self.CTAButtonText.y -= 100
+            self.CTAButtonText.x -= self.width/2
         elif self.x > self.screen.get_width()/2:
             self.CTAPopup.x += -self.width - 100
+            self.CTAFix.x += -self.width - 100
+            self.CTAFixText.x += -self.width - 100
+            self.CTAButtonText.x += -self.width - 100
+            self.CTAButton.x += -self.width - 100
         self.rect = Rectangle(self.screen, True, "OpenPopup", [self.CTAPopup], self.x, self.y, self.width, self.height, 0, None, self.backgroundcolor, None, None)
         #Set starting values
         if self.type == 'Ride':
@@ -50,23 +68,56 @@ class Attraction:
         self.alertImage = pygame.transform.scale(self.alertImage, (75, 75))
         self.alertImageRect = pygame.rect.Rect(self.x, self.y-30, 75, 75)
         self.timeOfAlert = 1000
+        self.inventory = 500
     def update(self, time):
         #Change values
         if self.type == "Ride":
             self.waitTime = Ride_Data[time][self.name]["wait"]
             self.satisfaction = Ride_Data[time][self.name]["satisfaction"]
+            
+            #Maintenance Overhall
+            if self.satisfaction < 75 and self.waitTime < 10:
+                self.CTAFixText.text = "Maintenance Overhall"
+            elif self.satisfaction > 90 and self.waitTime > 40:
+                self.CTAFixText.text = "Split Line"
+            else:
+                self.CTAFixText.text = "Fix"
         elif self.type == "Concession":
             self.itemsSold = Concessions[time][self.name]["items"]
             self.sales = Concessions[time][self.name]["sales"]
+            #Change CTA Vars
+            self.inventory -= self.itemsSold
+            #Change Fix Text
+            #Flash Sale
+            if self.itemsSold < 20 and self.inventory > 250 and time < 11:
+                self.CTAFixText.text = "Start a Flash Sale"
+            elif self.itemsSold < 20 and self.inventory < 100 and time >= 10:
+                self.CTAFixText.text = "Sell items in bulk"
+            else:
+                self.CTAFixText.text = "Fix"
         
         #Render rect + Check for fixes + sustain fixes
         self.OnFix = self.rect.update()
         if self.img != None:
             self.screen.blit(self.img, self.imgRect)
         
-        if self.OnFix != None:
+        if self.OnFix != None and self.alerting == True:
             self.CTAPopup.visible = True
+            self.CTAFix.visible = True
+            self.CTAFixText.visible = True
+            self.CTAButton.visible = True
+            self.CTAButtonText.visible = True
+
         self.CTAPopup.update()
+        self.OnFix = self.CTAFix.update()
+        self.CTAFixText.update()
+        if self.CTAButton.update():
+            self.CTAPopup.visible = False
+            self.CTAFix.visible = False
+            self.CTAFixText.visible = False
+            self.CTAButton.visible = False
+            self.CTAButtonText.visible = False
+        self.CTAButtonText.update()
 
         if self.OnFix == True and self.alerting == True:
             self.alerting = False

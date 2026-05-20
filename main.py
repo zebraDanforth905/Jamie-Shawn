@@ -136,7 +136,7 @@ while isRunning:
             isRunning = False
         elif ev.type == pygame.MOUSEBUTTONDOWN:
             if ev.button == 1:
-                print(pygame.mouse.get_pos())
+                #print(pygame.mouse.get_pos())
                 #Check if left-clicking + alert every object in the current screen that the user is clicking
                 for obj in CurrentScreen:
                     obj.clicking = True
@@ -218,6 +218,8 @@ while isRunning:
                 #Alert attractions that the user is clicking
                 for i in Attractions:
                     i.rect.clicking = True
+                    i.CTAButton.clicking = True
+                    i.CTAFix.clicking = True
     
     #Display frame
     pygame.display.update()
