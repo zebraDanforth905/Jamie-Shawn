@@ -54,6 +54,10 @@ class Attraction:
             self.CTAButton.x += -self.width - 100
         self.rect = Rectangle(self.screen, True, "OpenPopup", [self.CTAPopup], self.x, self.y, self.width, self.height, 0, None, self.backgroundcolor, None, None)
         #Set starting values
+        self.waitTime = 0
+        self.satisfaction = 0
+        self.itemsSold = 0
+        self.sales = 0
         if self.type == 'Ride':
             self.waitTime = Ride_Data[0][self.name]["wait"]
             self.satisfaction = Ride_Data[0][self.name]["satisfaction"]
@@ -76,17 +80,15 @@ class Attraction:
             self.satisfaction = Ride_Data[time][self.name]["satisfaction"]
             
             #Maintenance Overhall
-            if self.satisfaction < 75 and self.waitTime < 10:
+            if self.satisfaction < 75 and self.waitTime < 15:
                 self.CTAFixText.text = "Maintenance Overhall"
-            elif self.satisfaction > 90 and self.waitTime > 40:
+            elif self.satisfaction > 80 and self.waitTime > 30:
                 self.CTAFixText.text = "Split Line"
             else:
                 self.CTAFixText.text = "Fix"
         elif self.type == "Concession":
             self.itemsSold = Concessions[time][self.name]["items"]
             self.sales = Concessions[time][self.name]["sales"]
-            #Change CTA Vars
-            self.inventory -= self.itemsSold
             #Change Fix Text
             #Flash Sale
             if self.itemsSold < 20 and self.inventory > 250 and time < 11:
@@ -124,6 +126,7 @@ class Attraction:
             self.fixed = True
         if time != self.timeOfAlert:
             self.fixed = False
+            self.inventory -= self.itemsSold*(time-self.timeOfAlert)
 
         #display alert image
         if self.alerting:
