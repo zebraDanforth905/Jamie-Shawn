@@ -33,10 +33,6 @@ class PathfindingCharacter:
         self.y = random.randint(150, 200)
         self.x_destination = 0
         self.y_destination = 0
-        self.destination_top_left = False
-        self.destination_bottom_left = False
-        self.destination_bottom_right = False
-        self.destination_top_right = False
         self.currently_moving = False
         self.radius = 4
     
