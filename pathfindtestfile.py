@@ -9,27 +9,28 @@ pygame.init()
 screen = pygame.display.set_mode((1280, 720))
 clock = pygame.time.Clock()
 
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
+WHITE = [255, 255, 255]
+BLACK = [0, 0, 0]
+RED = [255, 0, 0]
 
 
-path = [
-    (100, 100),  # Top Left
-    (500, 100),   # corner to the right of top left
+# path = [
+#     (100, 100),  # Top Left
+#     (500, 100),   # corner to the right of top left
 
-    (500, 300),
-    (780, 300),
-    (780, 100),    # to the left of top right
+#     (500, 300),
+#     (780, 300),
+#     (780, 100),    # to the left of top right
 
-    (1150, 100),  # Top Right
-    (1150, 600),  # Bottom Right
-    (100, 600),    # Bottom Left
-    (100, 100)
-]
+#     (1150, 100),  # Top Right
+#     (1150, 600),  # Bottom Right
+#     (100, 600),    # Bottom Left
+#     (100, 100)
+# ]
 
 class PathfindingCharacter:
     def __init__(self):
-        self.x = random.randint(130, 470)
+        self.x = random.randint(170, 470)
         self.y = random.randint(150, 200)
         self.x_destination = 0
         self.y_destination = 0
@@ -37,24 +38,24 @@ class PathfindingCharacter:
         self.radius = 4
     
     def draw_circle(self):
-        pygame.draw.circle(screen, BLACK, (self.x, self.y), self.radius)
+        pygame.draw.circle(screen, RED, (self.x, self.y), self.radius)
     
     def move_to_another_spot(self):
         if not self.currently_moving:
 
-            if 130 <= self.x <= 470 and self.y <= 230:
-                self.x_destination = random.randint(130, 470)
-                self.y_destination = random.randint(530, 570)
+            if 170 <= self.x <= 470 and self.y <= 230:
+                self.x_destination = random.randint(170, 470)
+                self.y_destination = random.randint(530, 560)
                 self.currently_moving = True
 
-            if 130 <= self.x <= 470 and 530 <= self.y <= 570:
+            if 170 <= self.x <= 470 and 530 <= self.y <= 570:
                 self.x_destination = random.randint(710, 1120)
-                self.y_destination = random.randint(530, 570)
+                self.y_destination = random.randint(530, 560)
                 self.currently_moving = True
 
             if 710 <= self.x <= 1120 and 530 <= self.y <= 570:
                 self.x_destination = random.randint(710, 1120)
-                self.y_destination = random.randint(130, 270)
+                self.y_destination = random.randint(170, 270)
                 self.currently_moving = True
 
 
@@ -79,27 +80,27 @@ class PathfindingCharacter:
     def update(self):
         return
 
-characters = [PathfindingCharacter() for _ in range(20)]
+# characters = [PathfindingCharacter() for i in range(20)]
 
-running = True
+# running = True
 
-while running:
+# while running:
 
-    screen.fill(WHITE)
+#     screen.fill(WHITE)
 
-    pygame.draw.lines(screen, BLACK, False, path, 6)
+#     pygame.draw.lines(screen, BLACK, False, path, 6)
 
-    for character in characters:
-        character.draw_circle()
-        character.move_to_another_spot()
+#     for character in characters:
+#         character.draw_circle()
+#         character.move_to_another_spot()
 
-    pygame.display.flip()
+#     pygame.display.flip()
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+#     for event in pygame.event.get():
+#         if event.type == pygame.QUIT:
+#             running = False
 
 
-    clock.tick(60)
+#     clock.tick(60)
 
-pygame.quit()
+# pygame.quit()
