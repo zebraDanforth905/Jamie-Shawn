@@ -14,19 +14,6 @@ BLACK = [0, 0, 0]
 RED = [255, 0, 0]
 
 
-# path = [
-#     (100, 100),  # Top Left
-#     (500, 100),   # corner to the right of top left
-
-#     (500, 300),
-#     (780, 300),
-#     (780, 100),    # to the left of top right
-
-#     (1150, 100),  # Top Right
-#     (1150, 600),  # Bottom Right
-#     (100, 600),    # Bottom Left
-#     (100, 100)
-# ]
 
 class PathfindingCharacter:
     def __init__(self):
@@ -40,23 +27,33 @@ class PathfindingCharacter:
     def draw_circle(self):
         pygame.draw.circle(screen, RED, (self.x, self.y), self.radius)
     
-    def move_to_another_spot(self):
-        if not self.currently_moving:
+    def move_to_bottom_left(self):
+        if self.currently_moving == False:
+            self.x_destination = random.randint(170, 470)
+            self.y_destination = random.randint(530, 560)
+            self.currently_moving = True
 
-            if 170 <= self.x <= 470 and self.y <= 230:
-                self.x_destination = random.randint(170, 470)
-                self.y_destination = random.randint(530, 560)
-                self.currently_moving = True
 
-            if 170 <= self.x <= 470 and 530 <= self.y <= 570:
-                self.x_destination = random.randint(710, 1120)
-                self.y_destination = random.randint(530, 560)
-                self.currently_moving = True
+    def move_to_bottom_right(self):
+        if self.currently_moving == False:
+            self.x_destination = random.randint(710, 1120)
+            self.y_destination = random.randint(530, 560)
+            self.currently_moving = True
 
-            if 710 <= self.x <= 1120 and 530 <= self.y <= 570:
-                self.x_destination = random.randint(710, 1120)
-                self.y_destination = random.randint(170, 270)
-                self.currently_moving = True
+
+    def move_to_top_left(self):
+        if self.currently_moving == False:
+            self.x_destination = random.randint(170, 470)
+            self.y_destination = random.randint(150, 200)
+            self.currently_moving = True
+    
+    def move_to_destination(self, x_place_to_go, y_place_to_go):
+        self.currently_moving = True
+        self.x_destination = x_place_to_go
+        self.y_destination = y_place_to_go
+
+
+    def update_movement(self):
 
 
         if self.currently_moving:
@@ -75,10 +72,27 @@ class PathfindingCharacter:
             if self.x == self.x_destination and self.y == self.y_destination:
                 self.currently_moving = False
         
+    def moving_or_not(self):
+        return self.currently_moving
+    
+
+        
+
+# path = [
+#     (100, 100),  # Top Left
+#     (500, 100),   # corner to the right of top left
+
+#     (500, 300),
+#     (780, 300),
+#     (780, 100),    # to the left of top right
+
+#     (1150, 100),  # Top Right
+#     (1150, 600),  # Bottom Right
+#     (100, 600),    # Bottom Left
+#     (100, 100)
+# ]
 
 
-    def update(self):
-        return
 
 # characters = [PathfindingCharacter() for i in range(20)]
 

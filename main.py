@@ -50,6 +50,7 @@ PixelPopcorn = Attraction(screen, "Pixel Popcorn", PINK, 230, 120, 355, 571, "Co
 SugarShack = Attraction(screen, "The Sugar Shack", WHITE, 230, 120, 660, 571, "Concession", "image/SugarShack.png")
 HydrationStation = Attraction(screen, "Hydration Station", BLUE, 230, 120, 935, 571, "Concession", "image/HydrationStation.png")
 Attractions = [NebulaSpinner, QuantumCafe, MainEntrance, GrandExit, RocketSlingshot, TitanCoaster, PixelArcade, PixelPopcorn, SplashingMountain, LazyRiver, SugarShack, HydrationStation]
+not_attractions_list_for_my_red_dot_only = [NebulaSpinner, QuantumCafe, RocketSlingshot, TitanCoaster, PixelArcade, PixelPopcorn, SplashingMountain, LazyRiver, SugarShack, HydrationStation]
 
 #Define the different screens/visual-segments of the game
 
@@ -100,7 +101,7 @@ ControlsScreen = [ControlsTitle, CloseAlerts, ContinueButton, DoNotShowAgainButt
 TutorialButton.clickScreen = ControlsScreen
 
 #Make pathfinding dot
-characters = [PathfindingCharacter() for i in range(20)]
+characters = [PathfindingCharacter() for i in range(100)]
 
 #Define the screen currently being displayed
 showTutOnStartFile = open(showTutOnStart, "r")
@@ -125,10 +126,15 @@ finishSound = pygame.mixer.Sound("FinishSound.mp3")
 isRunning = True
 while isRunning:
     screen.fill(BACKGROUNDCOLOUR)
+    #random red dot moving
     if InSimulation:
         for character in characters:
             character.draw_circle()
-            character.move_to_another_spot()
+            character.update_movement()
+            if character.moving_or_not() == False:
+                random_destination = random.choice(not_attractions_list_for_my_red_dot_only)
+                character.move_to_destination(random_destination.x, random_destination.y)
+
     #Render attractions
     for attraction in Attractions:
         if attraction.visible == True:
