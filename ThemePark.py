@@ -129,6 +129,11 @@ class Attraction:
         if self.OnFix == True and self.alerting == True:
             self.alerting = False
             self.fixed = True
+            self.CTAPopup.visible = False
+            self.CTAFix.visible = False
+            self.CTAFixText.visible = False
+            self.CTAButton.visible = False
+            self.CTAButtonText.visible = False
         if time != self.timeOfAlert:
             self.fixed = False
 

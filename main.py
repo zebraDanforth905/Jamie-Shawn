@@ -93,6 +93,7 @@ ControlsTitle = Text(screen, False, None, None, WIDTH/2, 100, None, 80, None,  B
 CloseAlerts = Text(screen, False, None, None, WIDTH/2, 300, None, 50, None, BLACK, None, "comic sans ms", "To close alerts, simply left-click on the coloured object holding the alert.")
 AlertsExplain = Text(screen, False, None, None, WIDTH/2, 350, None, 40, None, BLACK, None, "comic sans ms", "Alerts only happen when the satisfaction/waiting time/items sold falls below an amount.")
 SettingsTip = Text(screen, False, None, None, WIDTH/2, 400, None, 50, None, BLACK, None, "comic sans ms", "There are many additional features in the settings.")
+RedDotNotice = Text(screen, False, None, None, WIDTH/2, 450, None, 50, None, BLACK, None, "comic sans ms", "Red dots represent people navigating the park.")
 ContinueButton = Rectangle(screen, True, "Continue", MenuScreen, 800, 550, 400, 100, 0, None, MENUBUTTONCOLOUR, None, None)
 showTutOnStart = "ShowTutorialOnStart.txt"
 DoNotShowAgainButton = Rectangle(screen, True, "Edit", showTutOnStart, 800, 550, 400, 100, 0, None, MENUBUTTONCOLOUR, None, None)
