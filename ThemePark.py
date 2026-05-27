@@ -73,29 +73,34 @@ class Attraction:
         self.alertImageRect = pygame.rect.Rect(self.x, self.y-30, 75, 75)
         self.timeOfAlert = 1000
         self.inventory = 500
+        self.TimeChange = 0
     def update(self, time):
         #Change values
         if self.type == "Ride":
             self.waitTime = Ride_Data[time][self.name]["wait"]
             self.satisfaction = Ride_Data[time][self.name]["satisfaction"]
             
-            #Maintenance Overhall
+
+            #Change Fix Text
             if self.satisfaction < 75 and self.waitTime < 15:
                 self.CTAFixText.text = "Maintenance Overhall"
             elif self.satisfaction > 80 and self.waitTime > 30:
                 self.CTAFixText.text = "Split Line"
-            else:
+            elif self.alerting == False:
                 self.CTAFixText.text = "Fix"
         elif self.type == "Concession":
             self.itemsSold = Concessions[time][self.name]["items"]
             self.sales = Concessions[time][self.name]["sales"]
+            
+            if time - self.TimeChange == 1:
+                self.inventory -= self.itemsSold
+                print(self.inventory)
             #Change Fix Text
-            #Flash Sale
             if self.itemsSold < 20 and self.inventory > 250 and time < 11:
                 self.CTAFixText.text = "Start a Flash Sale"
-            elif self.itemsSold < 20 and self.inventory < 100 and time >= 10:
-                self.CTAFixText.text = "Sell items in bulk"
-            else:
+            elif self.itemsSold < 20 and self.inventory < 250 and time >= 8:
+                self.CTAFixText.text = "Sell in bulk"
+            elif self.alerting == False:
                 self.CTAFixText.text = "Fix"
         
         #Render rect + Check for fixes + sustain fixes
@@ -126,7 +131,6 @@ class Attraction:
             self.fixed = True
         if time != self.timeOfAlert:
             self.fixed = False
-            self.inventory -= self.itemsSold*(time-self.timeOfAlert)
 
         #display alert image
         if self.alerting:
@@ -153,3 +157,5 @@ class Attraction:
             if self.itemsSold < 20:
                 self.alerting = True
                 self.timeOfAlert = time
+        
+        self.TimeChange = time
