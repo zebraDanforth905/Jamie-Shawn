@@ -7,13 +7,14 @@ from ScreenElements import Text
 from RideData import Ride_Data
 from RideData import Concessions
 class Attraction:
-    def __init__(self, screen, name, backgroundcolor, width, height, x, y, type, image=None):
+    def __init__(self, screen, name, backgroundcolor, width, height, x, y, type, image=None, entranceCords=[0,0]):
         self.screen = screen
         #Define size + coords
         self.width = width
         self.height = height
         self.x = x
         self.y = y
+        self.entrance = entranceCords
         #Define Attributes
         self.name = name
         self.type = type
@@ -94,7 +95,6 @@ class Attraction:
             
             if time - self.TimeChange == 1:
                 self.inventory -= self.itemsSold
-                print(self.inventory)
             #Change Fix Text
             if self.itemsSold < 20 and self.inventory > 250 and time < 11:
                 self.CTAFixText.text = "Start a Flash Sale"
