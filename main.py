@@ -135,6 +135,12 @@ while isRunning:
             if character.moving_or_not() == False:
                 random_destination = random.choice(not_attractions_list_for_my_red_dot_only)
                 character.move_to_destination(random_destination.x, random_destination.y)
+            if character.clone_yourself:
+                should_i_clone_myself = random.randint(1,1000)
+                if should_i_clone_myself == 1:
+                    characters.append(PathfindingCharacter())
+                    characters.remove(random.choice(characters))
+                    characters.remove(random.choice(characters))
 
     #Render attractions
     for attraction in Attractions:

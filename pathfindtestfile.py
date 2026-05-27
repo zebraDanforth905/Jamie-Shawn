@@ -23,6 +23,7 @@ class PathfindingCharacter:
         self.y_destination = 0
         self.currently_moving = False
         self.radius = 4
+        self.clone_yourself = False
     
     def draw_circle(self):
         pygame.draw.circle(screen, RED, (self.x, self.y), self.radius)
@@ -70,8 +71,14 @@ class PathfindingCharacter:
 
 
             if self.x == self.x_destination and self.y == self.y_destination:
-                self.currently_moving = False
-        
+                self.currently_moving = False 
+                self.clone_yourself = True
+
+
+
+
+
+       
     def moving_or_not(self):
         return self.currently_moving
     
