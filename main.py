@@ -101,6 +101,9 @@ DoNotShowAgainText = Text(screen, None, None, None, 1000, 600, 0, 50, 0, BLACK, 
 ControlsScreen = [ControlsTitle, CloseAlerts, ContinueButton, DoNotShowAgainButton, DoNotShowAgainText, AlertsExplain, SettingsTip]
 TutorialButton.clickScreen = ControlsScreen
 
+
+StatsScreen = []
+
 #Make pathfinding dot
 characters = [PathfindingCharacter() for i in range(100)]
 
@@ -253,9 +256,16 @@ while isRunning:
     if HourTimer >= secondsPerHour and currentHour < 11:
         HourTimer = 0
         currentHour += 1
-    elif currentHour == 11:
+    elif currentHour == 11 and InSimulation == True:
         OpenSign.bc = RED
         OpenSignText.text = "Closed"
+        HourTimer += (Clock.get_time()/1000)
+        if HourTimer >= secondsPerHour:
+            InSimulation = False
+            CurrentScreen = StatsScreen
+            for attraction in Attractions:
+                attraction.visible = False
+                attraction.alerting = False
 
 #Exit the game
 pygame.quit()
