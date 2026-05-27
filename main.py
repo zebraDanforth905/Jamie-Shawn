@@ -167,6 +167,14 @@ while isRunning:
                             ConfirmExitText.visible = False
                             DenyExitButton.visible = False
                             DenyExitText.visible = False
+                            OpenSign.bc = GREEN
+                            OpenSignText.c = WHITE
+                            for attraction in Attractions:
+                                attraction.CTAButton.visible = False
+                                attraction.CTAButtonText.visible = False
+                                attraction.CTAFix.visible = False
+                                attraction.CTAFixText.visible = False
+                                attraction.CTAPopup.visible = False
                             currentHour = 0
                             HourTimer = 0
                             if RandomEvents:
