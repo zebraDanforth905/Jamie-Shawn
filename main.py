@@ -39,18 +39,18 @@ MENUBUTTONCOLOUR = [178, 0, 0]
 #Define Attractions
 MainEntrance = Attraction(screen, "Main Entrance", GREY, 450, 100, 100, 0, "Entrance", "image/GrandExit.png")
 GrandExit = Attraction(screen, "Grand Exit", GREY, 450, 100, 700, 0, "Exit", "image/GrandExit.png")
-NebulaSpinner = Attraction(screen, "Nebula Spinner", PURPLE, 150, 200, 10, 110, "Ride", "image/nebulaSpinner.png")
-RocketSlingshot = Attraction(screen, "Rocket Slingshot", GREEN, 150, 200, 10, 328, "Ride", "image/RocketSlingshot.png")
-TitanCoaster = Attraction(screen, "Titan Coaster", RED, 140, 150, 558, 110, "Ride", "image/TitanCoaster.png")
-PixelArcade = Attraction(screen, "Pixel Arcade", MAGENTA, 140, 150, 558, 278, "Ride", "image/PixelArcade.png")
-SplashingMountain = Attraction(screen, "Splashing Mountain", BLUE, 150, 200, 1125, 105, "Ride", "image/SplashingMountain.png")
-LazyRiver = Attraction(screen, "Lazy River", LIGHTBLUE, 150, 200, 1125, 328, "Ride", "image/LazyRiver.png")
-QuantumCafe = Attraction(screen, "Quantum Cafe", PURPLE, 230, 120, 107, 571, "Concession", "image/QuantumCafe.png")
-PixelPopcorn = Attraction(screen, "Pixel Popcorn", PINK, 230, 120, 355, 571, "Concession", "image/PixelPopcorn.png")
-SugarShack = Attraction(screen, "The Sugar Shack", WHITE, 230, 120, 660, 571, "Concession", "image/SugarShack.png")
-HydrationStation = Attraction(screen, "Hydration Station", BLUE, 230, 120, 935, 571, "Concession", "image/HydrationStation.png")
+NebulaSpinner = Attraction(screen, "Nebula Spinner", PURPLE, 150, 200, 10, 110, "Ride", "image/nebulaSpinner.png", [158, 161])
+RocketSlingshot = Attraction(screen, "Rocket Slingshot", GREEN, 150, 200, 10, 328, "Ride", "image/RocketSlingshot.png", [159, 379])
+TitanCoaster = Attraction(screen, "Titan Coaster", RED, 140, 150, 558, 110, "Ride", "image/TitanCoaster.png", [558, 159])
+PixelArcade = Attraction(screen, "Pixel Arcade", MAGENTA, 140, 150, 558, 278, "Ride", "image/PixelArcade.png", [558, 322])
+SplashingMountain = Attraction(screen, "Splashing Mountain", BLUE, 150, 200, 1125, 105, "Ride", "image/SplashingMountain.png", [1125, 166])
+LazyRiver = Attraction(screen, "Lazy River", LIGHTBLUE, 150, 200, 1125, 328, "Ride", "image/LazyRiver.png", [1125, 384])
+QuantumCafe = Attraction(screen, "Quantum Cafe", PURPLE, 230, 120, 107, 571, "Concession", "image/QuantumCafe.png", [194, 572])
+PixelPopcorn = Attraction(screen, "Pixel Popcorn", PINK, 230, 120, 355, 571, "Concession", "image/PixelPopcorn.png", [405, 570])
+SugarShack = Attraction(screen, "The Sugar Shack", WHITE, 230, 120, 660, 571, "Concession", "image/SugarShack.png", [716, 571])
+HydrationStation = Attraction(screen, "Hydration Station", BLUE, 230, 120, 935, 571, "Concession", "image/HydrationStation.png", [1014, 571])
 Attractions = [NebulaSpinner, QuantumCafe, MainEntrance, GrandExit, RocketSlingshot, TitanCoaster, PixelArcade, PixelPopcorn, SplashingMountain, LazyRiver, SugarShack, HydrationStation]
-not_attractions_list_for_my_red_dot_only = [NebulaSpinner, QuantumCafe, RocketSlingshot, TitanCoaster, PixelArcade, PixelPopcorn, SplashingMountain, LazyRiver, SugarShack, HydrationStation]
+Waypoints = [NebulaSpinner, QuantumCafe, RocketSlingshot, TitanCoaster, PixelArcade, PixelPopcorn, SplashingMountain, LazyRiver, SugarShack, HydrationStation]
 
 #Define the different screens/visual-segments of the game
 
@@ -101,6 +101,9 @@ DoNotShowAgainText = Text(screen, None, None, None, 1000, 600, 0, 50, 0, BLACK, 
 ControlsScreen = [ControlsTitle, CloseAlerts, ContinueButton, DoNotShowAgainButton, DoNotShowAgainText, AlertsExplain, SettingsTip]
 TutorialButton.clickScreen = ControlsScreen
 
+
+StatsScreen = []
+
 #Make pathfinding dot
 characters = [PathfindingCharacter() for i in range(100)]
 
@@ -133,7 +136,9 @@ while isRunning:
             character.draw_circle()
             character.update_movement()
             if character.moving_or_not() == False:
-                random_destination = random.choice(not_attractions_list_for_my_red_dot_only)
+                random_destination = random.choice(Waypoints)
+                character.move_to_destination(random_destination.entrance[0], random_destination.entrance[1], pygame.rect.Rect(random_destination.x, random_destination.y, random_destination.width, random_destination.height).center)
+                random_destination = random.choice(Waypoints)
                 character.move_to_destination(random_destination.x, random_destination.y)
             if character.clone_yourself:
                 should_i_clone_myself = random.randint(1,1000)
@@ -157,7 +162,7 @@ while isRunning:
             isRunning = False
         elif ev.type == pygame.MOUSEBUTTONDOWN:
             if ev.button == 1:
-                #print(pygame.mouse.get_pos())
+                print(pygame.mouse.get_pos())
                 #Check if left-clicking + alert every object in the current screen that the user is clicking
                 for obj in CurrentScreen:
                     obj.clicking = True
@@ -259,9 +264,16 @@ while isRunning:
     if HourTimer >= secondsPerHour and currentHour < 11:
         HourTimer = 0
         currentHour += 1
-    elif currentHour == 11:
+    elif currentHour == 11 and InSimulation == True:
         OpenSign.bc = RED
         OpenSignText.text = "Closed"
+        HourTimer += (Clock.get_time()/1000)
+        if HourTimer >= secondsPerHour:
+            InSimulation = False
+            CurrentScreen = StatsScreen
+            for attraction in Attractions:
+                attraction.visible = False
+                attraction.alerting = False
 
 #Exit the game
 pygame.quit()

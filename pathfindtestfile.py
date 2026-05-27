@@ -48,10 +48,11 @@ class PathfindingCharacter:
             self.y_destination = random.randint(150, 200)
             self.currently_moving = True
     
-    def move_to_destination(self, x_place_to_go, y_place_to_go):
+    def move_to_destination(self, x_place_to_go, y_place_to_go, center=None):
         self.currently_moving = True
         self.x_destination = x_place_to_go
         self.y_destination = y_place_to_go
+        self.center_destination = center
 
 
     def update_movement(self):
@@ -71,14 +72,14 @@ class PathfindingCharacter:
 
 
             if self.x == self.x_destination and self.y == self.y_destination:
-                self.currently_moving = False 
+                self.currently_moving = False
                 self.clone_yourself = True
+                if self.x_destination != self.center_destination[0] or self.y_destination != self.center_destination[1]:
+                    self.currently_moving = True
+                    self.x_destination = self.center_destination[0]
+                    self.y_destination = self.center_destination[1] 
 
-
-
-
-
-       
+        
     def moving_or_not(self):
         return self.currently_moving
     
