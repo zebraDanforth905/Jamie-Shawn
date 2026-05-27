@@ -75,6 +75,9 @@ class Attraction:
         self.timeOfAlert = 1000
         self.inventory = 500
         self.TimeChange = 0
+        #Statistics
+        self.totalAlerts = 0
+        self.fixedAlerts = 0
     def update(self, time):
         #Change values
         if self.type == "Ride":
@@ -127,6 +130,7 @@ class Attraction:
         self.CTAButtonText.update()
 
         if self.OnFix == True and self.alerting == True:
+            self.fixedAlerts += 1
             self.alerting = False
             self.fixed = True
             self.CTAPopup.visible = False
@@ -158,9 +162,15 @@ class Attraction:
             if self.waitTime > 30 or self.satisfaction < 75:
                 self.alerting = True
                 self.timeOfAlert = time
+                if time - self.TimeChange == 1:
+                    self.totalAlerts += 1
         elif self.type == "Concession" and not self.fixed:
             if self.itemsSold < 20:
                 self.alerting = True
                 self.timeOfAlert = time
+                if time - self.TimeChange == 1:
+                    self.totalAlerts += 1
         
         self.TimeChange = time
+    def getStats(self):
+        return [self.totalAlerts, self.fixedAlerts]

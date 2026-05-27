@@ -101,8 +101,13 @@ DoNotShowAgainText = Text(screen, None, None, None, 1000, 600, 0, 50, 0, BLACK, 
 ControlsScreen = [ControlsTitle, CloseAlerts, ContinueButton, DoNotShowAgainButton, DoNotShowAgainText, AlertsExplain, SettingsTip]
 TutorialButton.clickScreen = ControlsScreen
 
-
-StatsScreen = []
+StatsTitle = Text(screen, False, None, None, WIDTH/2, 100, None, 80, None,  BLACK, None, "comic sans ms", "Statistics Report")
+PercentageFixed = Text(screen=screen, x=WIDTH/2, y=200, height=50, colour=BLACK, Text="You fixed _ % of alerts.")
+StatsScreen = [StatsTitle, PercentageFixed]
+rawStats = []
+formattedStats = []
+fixedAmount = 0
+totalAlerts = 0
 
 #Make pathfinding dot
 characters = [PathfindingCharacter() for i in range(100)]
@@ -138,8 +143,6 @@ while isRunning:
             if character.moving_or_not() == False:
                 random_destination = random.choice(Waypoints)
                 character.move_to_destination(random_destination.entrance[0], random_destination.entrance[1], pygame.rect.Rect(random_destination.x, random_destination.y, random_destination.width, random_destination.height).center)
-                random_destination = random.choice(Waypoints)
-                character.move_to_destination(random_destination.x, random_destination.y)
             if character.clone_yourself:
                 should_i_clone_myself = random.randint(1,1000)
                 if should_i_clone_myself == 1:
@@ -274,6 +277,11 @@ while isRunning:
             for attraction in Attractions:
                 attraction.visible = False
                 attraction.alerting = False
+                rawStats.append(attraction.getStats())
+                for i in rawStats:
+                    totalAlerts += i[0]
+                    fixedAmount += i[1]
+            PercentageFixed.text = f"You fixed {fixedAmount/totalAlerts*100} % of alerts."
 
 #Exit the game
 pygame.quit()
