@@ -1,6 +1,7 @@
 #Import + Initialize Libraries
 import pygame
 import random
+import copy
 pygame.init()
 from ScreenElements import Rectangle
 from ScreenElements import Text
@@ -8,6 +9,8 @@ from ThemePark import Attraction
 from pathfindtestfile import PathfindingCharacter
 from RideData import Ride_Data
 from RideData import Concessions
+TempRideDataRides = copy.deepcopy(Ride_Data)
+TempRideDataConcessions = copy.deepcopy(Concessions)
 
 #Set FPS
 Clock = pygame.time.Clock()
@@ -153,7 +156,7 @@ while isRunning:
     #Render attractions
     for attraction in Attractions:
         if attraction.visible == True:
-            attraction.update(currentHour)
+            attraction.update(currentHour, [TempRideDataRides, TempRideDataConcessions])
     #Render objects
     for obj in CurrentScreen:
         obj.update()
@@ -165,7 +168,7 @@ while isRunning:
             isRunning = False
         elif ev.type == pygame.MOUSEBUTTONDOWN:
             if ev.button == 1:
-                print(pygame.mouse.get_pos())
+                #print(pygame.mouse.get_pos())
                 #Check if left-clicking + alert every object in the current screen that the user is clicking
                 for obj in CurrentScreen:
                     obj.clicking = True
@@ -193,23 +196,23 @@ while isRunning:
                             currentHour = 0
                             HourTimer = 0
                             if RandomEvents:
-                                for i in Ride_Data:
-                                    if list.index(Ride_Data, i) == 0:
+                                for i in TempRideDataRides:
+                                    if list.index(TempRideDataRides, i) == 0:
                                         for v in i.keys():
                                             i[v]["wait"] = int(random.randint(0, 750)/10)
                                             i[v]["satisfaction"] = random.randint(65, 100)
                                     else:
                                         for v in i.keys():
-                                            i[v]["wait"] = int(Ride_Data[list.index(Ride_Data, i)-1][v]["wait"]+random.randint(-150, 150)/10)
+                                            i[v]["wait"] = int(TempRideDataRides[list.index(TempRideDataRides, i)-1][v]["wait"]+random.randint(-150, 150)/10)
                                             if i[v]["wait"] < 0:
                                                 i[v]["wait"] = 0
-                                            i[v]["satisfaction"] = Ride_Data[list.index(Ride_Data, i)-1][v]["satisfaction"]+random.randint(-15, 15)
+                                            i[v]["satisfaction"] = TempRideDataRides[list.index(TempRideDataRides, i)-1][v]["satisfaction"]+random.randint(-15, 15)
                                             if i[v]["satisfaction"] < 0:
                                                 i[v]["satisfaction"] = 0
                                             elif i[v]["satisfaction"] > 100:
                                                 i[v]["satisfaction"] = 100
-                                for i in Concessions:
-                                    if list.index(Concessions, i) == 0:
+                                for i in TempRideDataConcessions:
+                                    if list.index(TempRideDataConcessions, i) == 0:
                                         for v in i.keys():
                                             i[v]["items"] = int(random.randint(13, 78))
                                             if i[v]["items"] < 0:
@@ -217,10 +220,14 @@ while isRunning:
                                             #i[v]["sales"] = random.randint(i[v]["items"], (i[v]["items"])*6)
                                     else:
                                         for v in i.keys():
-                                            i[v]["items"] = int(Concessions[list.index(Concessions, i)-1][v]["items"]+random.randint(-150, 150)/10)
+                                            i[v]["items"] = int(TempRideDataConcessions[list.index(TempRideDataConcessions, i)-1][v]["items"]+random.randint(-150, 150)/10)
                                             if i[v]["items"] < 0:
                                                 i[v]["items"] = 0
                                             #i[v]["sales"] = random.randint(i[v]["items"], (i[v]["items"])*6)
+
+                            else:
+                                TempRideDataRides = copy.deepcopy(Ride_Data)
+                                TempRideDataConcessions = copy.deepcopy(Concessions)
                     elif obj.clickingType == "Exit":
                         if(obj.update()):
                             CurrentScreen = MenuScreen
@@ -250,7 +257,6 @@ while isRunning:
                             else:
                                 RandomEvents = True
                                 obj.bc = GREEN
-                            print(RandomEvents)
                             
                 #Alert attractions that the user is clicking
                 for i in Attractions:

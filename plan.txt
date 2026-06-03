@@ -14,5 +14,5 @@ Wanted:
 Wish List:
 - Dots pathfinding to each location 3
 - Statistics menu at the end of a shift 2
-- Call To Action when fixing a problem 1
+- Call To Action when fixing a problem 1 ✅
 - Fully customizable maps + gameplay settings 4

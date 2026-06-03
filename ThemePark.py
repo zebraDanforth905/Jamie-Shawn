@@ -78,11 +78,11 @@ class Attraction:
         #Statistics
         self.totalAlerts = 0
         self.fixedAlerts = 0
-    def update(self, time):
+    def update(self, time, data=[Ride_Data, Concessions]):
         #Change values
         if self.type == "Ride":
-            self.waitTime = Ride_Data[time][self.name]["wait"]
-            self.satisfaction = Ride_Data[time][self.name]["satisfaction"]
+            self.waitTime = data[0][time][self.name]["wait"]
+            self.satisfaction = data[0][time][self.name]["satisfaction"]
             
 
             #Change Fix Text
@@ -93,8 +93,8 @@ class Attraction:
             elif self.alerting == False:
                 self.CTAFixText.text = "Fix"
         elif self.type == "Concession":
-            self.itemsSold = Concessions[time][self.name]["items"]
-            self.sales = Concessions[time][self.name]["sales"]
+            self.itemsSold = data[1][time][self.name]["items"]
+            self.sales = data[1][time][self.name]["sales"]
             
             if time - self.TimeChange == 1:
                 self.inventory -= self.itemsSold
