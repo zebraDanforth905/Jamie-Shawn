@@ -7,7 +7,7 @@ Required:
 Wanted:
 - Settings menu 1 ✅
 - Randomization toggle which randomizes the day 2 ✅
-- Sound effects and music 4 
+- Sound effects and music 4  *Record music from phone and guitar
 - More thorough tutorial 3 ✅
 - move around with arrow key 5
 

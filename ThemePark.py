@@ -173,6 +173,4 @@ class Attraction:
         
         self.TimeChange = time
     def getStats(self):
-        if self.totalAlerts > 0:
-            print(f"{self.name}:{self.fixedAlerts/self.totalAlerts}")
         return [self.totalAlerts, self.fixedAlerts]

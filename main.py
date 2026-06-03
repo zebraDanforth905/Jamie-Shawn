@@ -53,7 +53,6 @@ PixelPopcorn = Attraction(screen, "Pixel Popcorn", PINK, 230, 120, 355, 571, "Co
 SugarShack = Attraction(screen, "The Sugar Shack", WHITE, 230, 120, 660, 571, "Concession", "image/SugarShack.png", [716, 571])
 HydrationStation = Attraction(screen, "Hydration Station", BLUE, 230, 120, 935, 571, "Concession", "image/HydrationStation.png", [1014, 571])
 Attractions = [NebulaSpinner, QuantumCafe, MainEntrance, GrandExit, RocketSlingshot, TitanCoaster, PixelArcade, PixelPopcorn, SplashingMountain, LazyRiver, SugarShack, HydrationStation]
-Waypoints = [NebulaSpinner, QuantumCafe, RocketSlingshot, TitanCoaster, PixelArcade, PixelPopcorn, SplashingMountain, LazyRiver, SugarShack, HydrationStation]
 
 #Define the different screens/visual-segments of the game
 
@@ -114,7 +113,8 @@ formattedStats = []
 fixedAmount = 0
 totalAlerts = 0
 
-#Make pathfinding dot
+#Make pathfinding dot + waypoints
+Waypoints = [NebulaSpinner, QuantumCafe, RocketSlingshot, TitanCoaster, PixelArcade, PixelPopcorn, SplashingMountain, LazyRiver, SugarShack, HydrationStation]
 characters = [PathfindingCharacter() for i in range(100)]
 
 #Define the screen currently being displayed
@@ -130,17 +130,17 @@ RandomEvents = False
 #Define hour system
 currentHour = 0
 FinalHour = 11
-secondsPerHour = 5
+secondsPerHour = 10
 HourTimer = 0
 
-#Define sounds
+#Define sounds + music
 finishSound = pygame.mixer.Sound("FinishSound.mp3")
 
 #Game loop
 isRunning = True
 while isRunning:
     screen.fill(BACKGROUNDCOLOUR)
-    #random red dot moving
+    #Get dot/people to pathfind, clone, and remove self 
     if InSimulation:
         for character in characters:
             character.draw_circle()
@@ -180,6 +180,7 @@ while isRunning:
                     #SwitchScreens
                     if obj.clickingType == "Play":
                         if(obj.update()):
+                            #Reset simulation
                             CurrentScreen = SimulationScreen
                             for attraction in Attractions:
                                 attraction.visible = True
@@ -200,6 +201,7 @@ while isRunning:
                                 attraction.CTAPopup.visible = False
                             currentHour = 0
                             HourTimer = 0
+                            #Randomize events if enabled
                             if RandomEvents:
                                 for i in TempRideDataRides:
                                     if list.index(TempRideDataRides, i) == 0:
@@ -231,6 +233,7 @@ while isRunning:
                                             #i[v]["sales"] = random.randint(i[v]["items"], (i[v]["items"])*6)
 
                             else:
+                                #Set events back to normal state
                                 TempRideDataRides = copy.deepcopy(Ride_Data)
                                 TempRideDataConcessions = copy.deepcopy(Concessions)
                     elif obj.clickingType == "Exit":
