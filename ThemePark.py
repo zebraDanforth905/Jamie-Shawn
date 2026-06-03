@@ -74,7 +74,7 @@ class Attraction:
         self.alertImageRect = pygame.rect.Rect(self.x, self.y-30, 75, 75)
         self.timeOfAlert = 1000
         self.inventory = 500
-        self.TimeChange = 0
+        self.TimeChange = -1
         #Statistics
         self.totalAlerts = 0
         self.fixedAlerts = 0
@@ -173,4 +173,6 @@ class Attraction:
         
         self.TimeChange = time
     def getStats(self):
+        if self.totalAlerts > 0:
+            print(f"{self.name}:{self.fixedAlerts/self.totalAlerts}")
         return [self.totalAlerts, self.fixedAlerts]

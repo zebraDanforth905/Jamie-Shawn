@@ -106,7 +106,9 @@ TutorialButton.clickScreen = ControlsScreen
 
 StatsTitle = Text(screen, False, None, None, WIDTH/2, 100, None, 80, None,  BLACK, None, "comic sans ms", "Statistics Report")
 PercentageFixed = Text(screen=screen, x=WIDTH/2, y=200, height=50, colour=BLACK, Text="You fixed _ % of alerts.")
-StatsScreen = [StatsTitle, PercentageFixed]
+ContinueToMenu = Rectangle(screen, clickable=True, clickingType="Continue", clickScreen=MenuScreen, x=800, y=550, width=400, height=100, backgroundColour=MENUBUTTONCOLOUR)
+ContinueToMenuText = Text(screen, None, None, None, 1000, 600, 0, 50, 0, BLACK, None, "comic sans ms", "Continue To Menu")
+StatsScreen = [StatsTitle, PercentageFixed, ContinueToMenu, ContinueToMenuText]
 rawStats = []
 formattedStats = []
 fixedAmount = 0
@@ -128,7 +130,7 @@ RandomEvents = False
 #Define hour system
 currentHour = 0
 FinalHour = 11
-secondsPerHour = 10
+secondsPerHour = 5
 HourTimer = 0
 
 #Define sounds
@@ -161,7 +163,10 @@ while isRunning:
     for obj in CurrentScreen:
         obj.update()
     #Update visual clock display
-    simulationClock.text = f"{10+currentHour}:00"
+    if currentHour == 11 and HourTimer > secondsPerHour/5:
+        simulationClock.text = f"{round((secondsPerHour - HourTimer)*100)/100}"
+    else:
+        simulationClock.text = f"{10+currentHour}:00"
     #Get quit input + click inputs
     for ev in pygame.event.get():
         if ev.type == pygame.QUIT:
@@ -287,7 +292,7 @@ while isRunning:
                 for i in rawStats:
                     totalAlerts += i[0]
                     fixedAmount += i[1]
-            PercentageFixed.text = f"You fixed {fixedAmount/totalAlerts*100} % of alerts."
+            PercentageFixed.text = f"You fixed {round(fixedAmount/totalAlerts*100)} % of alerts."
 
 #Exit the game
 pygame.quit()

@@ -13,6 +13,8 @@ WHITE = [255, 255, 255]
 BLACK = [0, 0, 0]
 RED = [255, 0, 0]
 
+speed = 1
+
 
 
 class PathfindingCharacter:
@@ -61,14 +63,14 @@ class PathfindingCharacter:
         if self.currently_moving:
 
             if self.x < self.x_destination:
-                self.x += 1
+                self.x += speed
             if self.x > self.x_destination:
-                self.x -= 1
+                self.x -= speed
 
             if self.y < self.y_destination:
-                self.y += 1
+                self.y += speed
             if self.y > self.y_destination:
-                self.y -= 1
+                self.y -= speed
 
 
             if self.x == self.x_destination and self.y == self.y_destination:
