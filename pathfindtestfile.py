@@ -21,44 +21,143 @@ class PathfindingCharacter:
         self.y = random.randint(150, 200)
         self.x_destination = 0
         self.y_destination = 0
-        self.currently_moving = False
+        self.currently_moving_to_attraction = False
+        self.currently_moving_to_corner = False
         self.radius = 4
         self.clone_yourself = False
     
     def draw_circle(self):
         pygame.draw.circle(screen, RED, (self.x, self.y), self.radius)
     
-    def move_to_bottom_left(self):
-        if self.currently_moving == False:
-            self.x_destination = random.randint(170, 470)
-            self.y_destination = random.randint(530, 560)
-            self.currently_moving = True
 
+    def is_it_in_bottom_left(self, x, y):
+        if x <= 640 and y >= 360:
+            return True
+        else:
+            return False
+    
+    def is_it_in_bottom_right(self, x, y):
+        if x >= 640 and y >= 360:
+            return True
+        else:
+            return False
+        
+    def is_it_in_top_left(self, x, y):
+        if x <= 640 and y <= 360:
+            return True
+        else:
+            return False
+
+    def is_it_in_top_right(self, x, y):
+        if x >= 640 and y <= 360:
+            return True
+        else:
+            return False
+        
+
+    def move_to_bottom_left(self):
+        if self.is_it_in_top_left(self.x, self.y) or self.is_it_in_bottom_left(self.x, self.y) or self.is_it_in_bottom_right(self.x, self.y):
+            if self.currently_moving_to_attraction == False and self.currently_moving_to_corner == False:
+                self.x_destination = random.randint(170, 470)
+                self.y_destination = random.randint(530, 560)
+                self.currently_moving_to_corner = True
+        if self.is_it_in_top_right(self.x, self.y):
+            if self.currently_moving_to_attraction == False and self.currently_moving_to_corner == False:
+                self.move_to_bottom_right()
+                it_isnt_in_place = True
+                while it_isnt_in_place:
+                    if self.x == self.x_destination and self.y == self.y_destination:
+                        it_isnt_in_place = False
+                        self.x_destination = random.randint(170, 470)
+                        self.y_destination = random.randint(530, 560)
+                        self.currently_moving_to_corner = True
+
+    
 
     def move_to_bottom_right(self):
-        if self.currently_moving == False:
-            self.x_destination = random.randint(710, 1120)
-            self.y_destination = random.randint(530, 560)
-            self.currently_moving = True
-
+        if self.is_it_in_bottom_left(self.x,self.y) or self.is_it_in_bottom_right(self.x, self.y) or self.is_it_in_top_right(self.x, self.y):
+            if self.currently_moving_to_attraction == False and self.currently_moving_to_corner == False:
+                self.x_destination = random.randint(710, 1120)
+                self.y_destination = random.randint(530, 560)
+                self.currently_moving_to_corner = True
+        if self.is_it_in_top_left(self.x, self.y):
+            if self.currently_moving_to_attraction == False and self.currently_moving_to_corner == False:
+                self.move_to_bottom_left()
+                it_isnt_in_place = True
+                while it_isnt_in_place:
+                    if self.x == self.x_destination and self.y == self.y_destination:
+                        it_isnt_in_place = False
+                        self.x_destination = random.randint(710, 1120)
+                        self.y_destination = random.randint(530, 560)
+                        self.currently_moving_to_corner = True
+        
 
     def move_to_top_left(self):
-        if self.currently_moving == False:
-            self.x_destination = random.randint(170, 470)
-            self.y_destination = random.randint(150, 200)
-            self.currently_moving = True
+        if self.is_it_in_top_left(self.x, self.y) or self.is_it_in_bottom_left(self.x, self.y):
+            if self.currently_moving_to_attraction == False and self.currently_moving_to_corner == False:
+                self.x_destination = random.randint(170, 470)
+                self.y_destination = random.randint(150, 200)
+                self.currently_moving_to_corner = True
+        if self.is_it_in_bottom_right(self.x, self.y):
+            if self.currently_moving_to_attraction == False and self.currently_moving_to_corner == False:
+                self.move_to_bottom_left()
+                it_isnt_in_place = True
+                while it_isnt_in_place:
+                    if self.x == self.x_destination and self.y == self.y_destination:
+                        it_isnt_in_place = False
+                        self.x_destination = random.randint(170, 470)
+                        self.y_destination = random.randint(150, 200)
+                        self.currently_moving_to_corner = True
+        if self.is_it_in_top_right(self.x, self.y):
+            if self.currently_moving_to_attraction == False and self.currently_moving_to_corner == False:
+                self.move_to_bottom_right()
+                it_isnt_in_place = True
+                while it_isnt_in_place:
+                    if self.x == self.x_destination and self.y == self.y_destination:
+                        it_isnt_in_place = False
+                        self.move_to_top_left()
+
+
+        
+    def move_to_top_right(self):
+        if self.is_it_in_top_right(self.x, self.y) or self.is_it_in_bottom_right(self.x, self.y):
+            if self.currently_moving_to_attraction == False and self.currently_moving_to_corner == False:
+                self.x_destination = random.randint(710, 1120)
+                self.y_destination = random.randint(150, 200)
+                self.currently_moving_to_corner = True
+        if self.is_it_in_bottom_left(self.x, self.y):
+            if self.currently_moving_to_attraction == False and self.currently_moving_to_corner == False:
+                self.move_to_bottom_right()
+                it_isnt_in_place = True
+                while it_isnt_in_place:
+                    if self.x == self.x_destination and self.y == self.y_destination:
+                        it_isnt_in_place = False
+                        self.x_destination = random.randint(710, 1120)
+                        self.y_destination = random.randint(150, 200)
+                        self.currently_moving_to_corner = True
+        if self.is_it_in_top_left(self.x, self.y):
+            if self.currently_moving_to_attraction == False and self.currently_moving_to_corner == False:
+                self.move_to_bottom_left()
+                it_isnt_in_place = True
+                while it_isnt_in_place:
+                    if self.x == self.x_destination and self.y == self.y_destination:
+                        it_isnt_in_place = False
+                        self.move_to_top_right()
+
+
+
+
     
     def move_to_destination(self, x_place_to_go, y_place_to_go, center=None):
-        self.currently_moving = True
+        self.currently_moving_to_attraction = True
         self.x_destination = x_place_to_go
         self.y_destination = y_place_to_go
         self.center_destination = center
 
 
-    def update_movement(self):
 
-
-        if self.currently_moving:
+    def update_movement_to_corner(self):
+        if self.currently_moving_to_corner:
 
             if self.x < self.x_destination:
                 self.x += 1
@@ -72,16 +171,38 @@ class PathfindingCharacter:
 
 
             if self.x == self.x_destination and self.y == self.y_destination:
-                self.currently_moving = False
+                self.currently_moving_to_corner = False
+
+    def update_movement_to_attraction(self):
+
+
+        if self.currently_moving_to_attraction:
+
+            if self.x < self.x_destination:
+                self.x += 1
+            if self.x > self.x_destination:
+                self.x -= 1
+
+            if self.y < self.y_destination:
+                self.y += 1
+            if self.y > self.y_destination:
+                self.y -= 1
+
+
+            if self.x == self.x_destination and self.y == self.y_destination:
+                self.currently_moving_to_attraction = False
                 self.clone_yourself = True
                 if self.x_destination != self.center_destination[0] or self.y_destination != self.center_destination[1]:
-                    self.currently_moving = True
+                    self.currently_moving_to_attraction = True
                     self.x_destination = self.center_destination[0]
                     self.y_destination = self.center_destination[1] 
 
         
     def moving_or_not(self):
-        return self.currently_moving
+        if self.currently_moving_to_corner == False and self.currently_moving_to_attraction == False:
+            return False
+        else:
+            return True
     
 
         

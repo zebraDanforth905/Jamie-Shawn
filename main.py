@@ -131,21 +131,41 @@ isRunning = True
 while isRunning:
     screen.fill(BACKGROUNDCOLOUR)
     #random red dot moving
+    # to jamie tomorrow in wednesday. the thing is not bugged its just i have to do all four other destination so yah.
     if InSimulation:
         for character in characters:
             character.draw_circle()
-            character.update_movement()
+            character.update_movement_to_attraction()
+            character.update_movement_to_corner()
             if character.moving_or_not() == False:
                 random_destination = random.choice(Waypoints)
+                # its so buggy so i hashtag them all
+                # if character.is_it_in_top_left(random_destination.x, random_destination.y):
+                #     character.move_to_top_left()
+                #     character.move_to_destination(random_destination.entrance[0], random_destination.entrance[1], pygame.rect.Rect(random_destination.x, random_destination.y, random_destination.width, random_destination.height).center)
+                # if character.is_it_in_bottom_left(random_destination.x, random_destination.y):
+                #     character.move_to_bottom_left()
+                #     character.move_to_destination(random_destination.entrance[0], random_destination.entrance[1], pygame.rect.Rect(random_destination.x, random_destination.y, random_destination.width, random_destination.height).center)
+                # if character.is_it_in_bottom_right(random_destination.x, random_destination.y):
+                #     character.move_to_bottom_right()
+                #     character.move_to_destination(random_destination.entrance[0], random_destination.entrance[1], pygame.rect.Rect(random_destination.x, random_destination.y, random_destination.width, random_destination.height).center)
+                # if character.is_it_in_top_right(random_destination.x, random_destination.y):
+                #     character.move_to_top_right()
+                #     character.move_to_destination(random_destination.entrance[0], random_destination.entrance[1], pygame.rect.Rect(random_destination.x, random_destination.y, random_destination.width, random_destination.height).center)
+
+
                 character.move_to_destination(random_destination.entrance[0], random_destination.entrance[1], pygame.rect.Rect(random_destination.x, random_destination.y, random_destination.width, random_destination.height).center)
-                random_destination = random.choice(Waypoints)
-                character.move_to_destination(random_destination.x, random_destination.y)
-            if character.clone_yourself:
-                should_i_clone_myself = random.randint(1,1000)
-                if should_i_clone_myself == 1:
-                    characters.append(PathfindingCharacter())
-                    characters.remove(random.choice(characters))
-                    characters.remove(random.choice(characters))
+
+
+
+
+            
+            # if character.clone_yourself:
+            #     should_i_clone_myself = random.randint(1,1000)
+            #     if should_i_clone_myself == 1:
+            #         characters.append(PathfindingCharacter())
+            #         characters.remove(random.choice(characters))
+            #         characters.remove(random.choice(characters))
 
     #Render attractions
     for attraction in Attractions:
