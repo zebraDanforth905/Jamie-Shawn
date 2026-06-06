@@ -1,6 +1,7 @@
 #Import + Initialize Libraries
 import pygame
 import random
+import copy
 pygame.init()
 from ScreenElements import Rectangle
 from ScreenElements import Text
@@ -8,6 +9,8 @@ from ThemePark import Attraction
 from pathfindtestfile import PathfindingCharacter
 from RideData import Ride_Data
 from RideData import Concessions
+TempRideDataRides = copy.deepcopy(Ride_Data)
+TempRideDataConcessions = copy.deepcopy(Concessions)
 
 #Set FPS
 Clock = pygame.time.Clock()
@@ -50,7 +53,6 @@ PixelPopcorn = Attraction(screen, "Pixel Popcorn", PINK, 230, 120, 355, 571, "Co
 SugarShack = Attraction(screen, "The Sugar Shack", WHITE, 230, 120, 660, 571, "Concession", "image/SugarShack.png", [716, 571])
 HydrationStation = Attraction(screen, "Hydration Station", BLUE, 230, 120, 935, 571, "Concession", "image/HydrationStation.png", [1014, 571])
 Attractions = [NebulaSpinner, QuantumCafe, MainEntrance, GrandExit, RocketSlingshot, TitanCoaster, PixelArcade, PixelPopcorn, SplashingMountain, LazyRiver, SugarShack, HydrationStation]
-Waypoints = [NebulaSpinner, QuantumCafe, RocketSlingshot, TitanCoaster, PixelArcade, PixelPopcorn, SplashingMountain, LazyRiver, SugarShack, HydrationStation]
 
 #Define the different screens/visual-segments of the game
 
@@ -101,10 +103,18 @@ DoNotShowAgainText = Text(screen, None, None, None, 1000, 600, 0, 50, 0, BLACK, 
 ControlsScreen = [ControlsTitle, CloseAlerts, ContinueButton, DoNotShowAgainButton, DoNotShowAgainText, AlertsExplain, SettingsTip]
 TutorialButton.clickScreen = ControlsScreen
 
+StatsTitle = Text(screen, False, None, None, WIDTH/2, 100, None, 80, None,  BLACK, None, "comic sans ms", "Statistics Report")
+PercentageFixed = Text(screen=screen, x=WIDTH/2, y=200, height=50, colour=BLACK, Text="You fixed _ % of alerts.")
+ContinueToMenu = Rectangle(screen, clickable=True, clickingType="Continue", clickScreen=MenuScreen, x=800, y=550, width=400, height=100, backgroundColour=MENUBUTTONCOLOUR)
+ContinueToMenuText = Text(screen, None, None, None, 1000, 600, 0, 50, 0, BLACK, None, "comic sans ms", "Continue To Menu")
+StatsScreen = [StatsTitle, PercentageFixed, ContinueToMenu, ContinueToMenuText]
+rawStats = []
+formattedStats = []
+fixedAmount = 0
+totalAlerts = 0
 
-StatsScreen = []
-
-#Make pathfinding dot
+#Make pathfinding dot + waypoints
+Waypoints = [NebulaSpinner, QuantumCafe, RocketSlingshot, TitanCoaster, PixelArcade, PixelPopcorn, SplashingMountain, LazyRiver, SugarShack, HydrationStation]
 characters = [PathfindingCharacter() for i in range(100)]
 
 #Define the screen currently being displayed
@@ -123,15 +133,14 @@ FinalHour = 11
 secondsPerHour = 10
 HourTimer = 0
 
-#Define sounds
+#Define sounds + music
 finishSound = pygame.mixer.Sound("FinishSound.mp3")
 
 #Game loop
 isRunning = True
 while isRunning:
     screen.fill(BACKGROUNDCOLOUR)
-    #random red dot moving
-    # to jamie tomorrow in wednesday. the thing is not bugged its just i have to do all four other destination so yah.
+    #Get dot/people to pathfind, clone, and remove self 
     if InSimulation:
         for character in characters:
             character.draw_circle()
@@ -155,40 +164,39 @@ while isRunning:
 
 
                 character.move_to_destination(random_destination.entrance[0], random_destination.entrance[1], pygame.rect.Rect(random_destination.x, random_destination.y, random_destination.width, random_destination.height).center)
-
-
-
-
-            
-            # if character.clone_yourself:
-            #     should_i_clone_myself = random.randint(1,1000)
-            #     if should_i_clone_myself == 1:
-            #         characters.append(PathfindingCharacter())
-            #         characters.remove(random.choice(characters))
-            #         characters.remove(random.choice(characters))
+            if character.clone_yourself:
+                should_i_clone_myself = random.randint(1,1000)
+                if should_i_clone_myself == 1:
+                    characters.append(PathfindingCharacter())
+                    characters.remove(random.choice(characters))
+                    characters.remove(random.choice(characters))
 
     #Render attractions
     for attraction in Attractions:
         if attraction.visible == True:
-            attraction.update(currentHour)
+            attraction.update(currentHour, [TempRideDataRides, TempRideDataConcessions])
     #Render objects
     for obj in CurrentScreen:
         obj.update()
     #Update visual clock display
-    simulationClock.text = f"{10+currentHour}:00"
+    if currentHour == 11 and HourTimer > secondsPerHour/5:
+        simulationClock.text = f"{round((secondsPerHour - HourTimer)*100)/100}"
+    else:
+        simulationClock.text = f"{10+currentHour}:00"
     #Get quit input + click inputs
     for ev in pygame.event.get():
         if ev.type == pygame.QUIT:
             isRunning = False
         elif ev.type == pygame.MOUSEBUTTONDOWN:
             if ev.button == 1:
-                print(pygame.mouse.get_pos())
+                #print(pygame.mouse.get_pos())
                 #Check if left-clicking + alert every object in the current screen that the user is clicking
                 for obj in CurrentScreen:
                     obj.clicking = True
                     #SwitchScreens
                     if obj.clickingType == "Play":
                         if(obj.update()):
+                            #Reset simulation
                             CurrentScreen = SimulationScreen
                             for attraction in Attractions:
                                 attraction.visible = True
@@ -209,24 +217,25 @@ while isRunning:
                                 attraction.CTAPopup.visible = False
                             currentHour = 0
                             HourTimer = 0
+                            #Randomize events if enabled
                             if RandomEvents:
-                                for i in Ride_Data:
-                                    if list.index(Ride_Data, i) == 0:
+                                for i in TempRideDataRides:
+                                    if list.index(TempRideDataRides, i) == 0:
                                         for v in i.keys():
                                             i[v]["wait"] = int(random.randint(0, 750)/10)
                                             i[v]["satisfaction"] = random.randint(65, 100)
                                     else:
                                         for v in i.keys():
-                                            i[v]["wait"] = int(Ride_Data[list.index(Ride_Data, i)-1][v]["wait"]+random.randint(-150, 150)/10)
+                                            i[v]["wait"] = int(TempRideDataRides[list.index(TempRideDataRides, i)-1][v]["wait"]+random.randint(-150, 150)/10)
                                             if i[v]["wait"] < 0:
                                                 i[v]["wait"] = 0
-                                            i[v]["satisfaction"] = Ride_Data[list.index(Ride_Data, i)-1][v]["satisfaction"]+random.randint(-15, 15)
+                                            i[v]["satisfaction"] = TempRideDataRides[list.index(TempRideDataRides, i)-1][v]["satisfaction"]+random.randint(-15, 15)
                                             if i[v]["satisfaction"] < 0:
                                                 i[v]["satisfaction"] = 0
                                             elif i[v]["satisfaction"] > 100:
                                                 i[v]["satisfaction"] = 100
-                                for i in Concessions:
-                                    if list.index(Concessions, i) == 0:
+                                for i in TempRideDataConcessions:
+                                    if list.index(TempRideDataConcessions, i) == 0:
                                         for v in i.keys():
                                             i[v]["items"] = int(random.randint(13, 78))
                                             if i[v]["items"] < 0:
@@ -234,10 +243,15 @@ while isRunning:
                                             #i[v]["sales"] = random.randint(i[v]["items"], (i[v]["items"])*6)
                                     else:
                                         for v in i.keys():
-                                            i[v]["items"] = int(Concessions[list.index(Concessions, i)-1][v]["items"]+random.randint(-150, 150)/10)
+                                            i[v]["items"] = int(TempRideDataConcessions[list.index(TempRideDataConcessions, i)-1][v]["items"]+random.randint(-150, 150)/10)
                                             if i[v]["items"] < 0:
                                                 i[v]["items"] = 0
                                             #i[v]["sales"] = random.randint(i[v]["items"], (i[v]["items"])*6)
+
+                            else:
+                                #Set events back to normal state
+                                TempRideDataRides = copy.deepcopy(Ride_Data)
+                                TempRideDataConcessions = copy.deepcopy(Concessions)
                     elif obj.clickingType == "Exit":
                         if(obj.update()):
                             CurrentScreen = MenuScreen
@@ -267,7 +281,6 @@ while isRunning:
                             else:
                                 RandomEvents = True
                                 obj.bc = GREEN
-                            print(RandomEvents)
                             
                 #Alert attractions that the user is clicking
                 for i in Attractions:
@@ -294,6 +307,11 @@ while isRunning:
             for attraction in Attractions:
                 attraction.visible = False
                 attraction.alerting = False
+                rawStats.append(attraction.getStats())
+                for i in rawStats:
+                    totalAlerts += i[0]
+                    fixedAmount += i[1]
+            PercentageFixed.text = f"You fixed {round(fixedAmount/totalAlerts*100)} % of alerts."
 
 #Exit the game
 pygame.quit()

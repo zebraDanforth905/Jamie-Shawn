@@ -74,12 +74,15 @@ class Attraction:
         self.alertImageRect = pygame.rect.Rect(self.x, self.y-30, 75, 75)
         self.timeOfAlert = 1000
         self.inventory = 500
-        self.TimeChange = 0
-    def update(self, time):
+        self.TimeChange = -1
+        #Statistics
+        self.totalAlerts = 0
+        self.fixedAlerts = 0
+    def update(self, time, data=[Ride_Data, Concessions]):
         #Change values
         if self.type == "Ride":
-            self.waitTime = Ride_Data[time][self.name]["wait"]
-            self.satisfaction = Ride_Data[time][self.name]["satisfaction"]
+            self.waitTime = data[0][time][self.name]["wait"]
+            self.satisfaction = data[0][time][self.name]["satisfaction"]
             
 
             #Change Fix Text
@@ -90,8 +93,8 @@ class Attraction:
             elif self.alerting == False:
                 self.CTAFixText.text = "Fix"
         elif self.type == "Concession":
-            self.itemsSold = Concessions[time][self.name]["items"]
-            self.sales = Concessions[time][self.name]["sales"]
+            self.itemsSold = data[1][time][self.name]["items"]
+            self.sales = data[1][time][self.name]["sales"]
             
             if time - self.TimeChange == 1:
                 self.inventory -= self.itemsSold
@@ -127,6 +130,7 @@ class Attraction:
         self.CTAButtonText.update()
 
         if self.OnFix == True and self.alerting == True:
+            self.fixedAlerts += 1
             self.alerting = False
             self.fixed = True
             self.CTAPopup.visible = False
@@ -158,9 +162,15 @@ class Attraction:
             if self.waitTime > 30 or self.satisfaction < 75:
                 self.alerting = True
                 self.timeOfAlert = time
+                if time - self.TimeChange == 1:
+                    self.totalAlerts += 1
         elif self.type == "Concession" and not self.fixed:
             if self.itemsSold < 20:
                 self.alerting = True
                 self.timeOfAlert = time
+                if time - self.TimeChange == 1:
+                    self.totalAlerts += 1
         
         self.TimeChange = time
+    def getStats(self):
+        return [self.totalAlerts, self.fixedAlerts]
