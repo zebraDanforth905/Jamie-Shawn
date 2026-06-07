@@ -12,6 +12,7 @@ clock = pygame.time.Clock()
 WHITE = [255, 255, 255]
 BLACK = [0, 0, 0]
 RED = [255, 0, 0]
+BACKGROUNDCOLOUR = [115, 147, 179]
 
 speed = 1
 
@@ -25,36 +26,106 @@ class PathfindingCharacter:
         self.y_destination = 0
         self.currently_moving_to_attraction = False
         self.currently_moving_to_corner = False
+        self.moving = False
         self.radius = 4
         self.clone_yourself = False
+        self.path = []
+        self.quadrantOrder = ["Top-Left", "Bottom-Left", "Bottom-Right", "Top-Right"]
     
     def draw_circle(self):
         pygame.draw.circle(screen, RED, (self.x, self.y), self.radius)
     
-
-    def is_it_in_bottom_left(self, x, y):
+    def get_quadrant(self, x=0, y=0):
         if x <= 640 and y >= 360:
-            return True
-        else:
-            return False
-    
-    def is_it_in_bottom_right(self, x, y):
-        if x >= 640 and y >= 360:
-            return True
-        else:
-            return False
-        
-    def is_it_in_top_left(self, x, y):
-        if x <= 640 and y <= 360:
-            return True
-        else:
-            return False
+            return "Bottom-Left"
+        elif x > 640 and y >= 360:
+            return "Bottom-Right"
+        elif x <= 640 and y < 360:
+            return "Top-Left"
+        elif x > 640 and y < 360:
+            return "Top-Right"
 
-    def is_it_in_top_right(self, x, y):
-        if x >= 640 and y <= 360:
-            return True
-        else:
-            return False
+    # def is_it_in_bottom_left(self, x, y):
+    #     if x <= 640 and y >= 360:
+    #         return True
+    #     else:
+    #         return False
+    
+    # def is_it_in_bottom_right(self, x, y):
+    #     if x >= 640 and y >= 360:
+    #         return True
+    #     else:
+    #         return False
+        
+    # def is_it_in_top_left(self, x, y):
+    #     if x <= 640 and y <= 360:
+    #         return True
+    #     else:
+    #         return False
+
+    # def is_it_in_top_right(self, x, y):
+    #     if x >= 640 and y <= 360:
+    #         return True
+    #     else:
+    #         return False
+    def move(self):
+        self.moving = True
+        while self.moving:
+            if self.x < self.x_destination:
+                self.x += 1
+            elif self.x > self.x_destination:
+                self.x -= 1
+            if self.y < self.y_destination:
+                self.y += 1
+            elif self.y > self.y_destination:
+                self.y -= 1
+            
+            if self.x >= self.x_destination-1 and self.x <= self.x_destination+1 and self.y >= self.y_destination-1 and self.y <= self.y_destination+1:
+                self.moving = False
+            
+            screen.fill(BACKGROUNDCOLOUR)
+            self.draw_circle()
+
+    def moveToQuadrant(self, quadrant="Bottom-Left"):
+        if quadrant == "Bottom-Left":
+            self.x_destination = random.randint(170, 470)
+            self.y_destination = random.randint(530, 560)
+            self.move()
+        elif quadrant == "Bottom-Right":
+            self.x_destination = random.randint(710, 1120)
+            self.y_destination = random.randint(530, 560)
+            self.move()
+        elif quadrant == "Top-Right":
+            self.x_destination = random.randint(710, 1120)
+            self.y_destination = random.randint(150, 200)
+            self.move()
+        elif quadrant == "Top-Left":
+            self.x_destination = random.randint(170, 470)
+            self.y_destination = random.randint(150, 200)
+            self.move()
+
+    def get_path(self, destination):
+        self.path = []
+        #Top left = 0, Bottom left = 1, Bottom right = 2, top right = 3
+        currentQuadrant = self.get_quadrant(self.x, self.y)
+        currentQuadrantNum = self.quadrantOrder.index(currentQuadrant)
+        finalQuadrant = self.quadrantOrder.index(self.get_quadrant(destination.x, destination.y))
+        if currentQuadrantNum + 1 < finalQuadrant:
+            for i in range(currentQuadrantNum+1, finalQuadrant+1):
+                self.path.append(self.quadrantOrder[i])
+        self.path.append(destination)
+
+        for i in self.path:
+            if self.path.index(i) < len(self.path) - 1:
+                self.moveToQuadrant(i)
+            else:
+                self.x_destination = destination.entrance[0]
+                self.y_destination = destination.entrance[1]
+                self.move()
+        return self.path
+        
+
+        
         
 
     def move_to_bottom_left(self):
