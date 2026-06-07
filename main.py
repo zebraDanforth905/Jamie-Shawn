@@ -115,7 +115,7 @@ totalAlerts = 0
 
 #Make pathfinding dot + waypoints
 Waypoints = [NebulaSpinner, QuantumCafe, RocketSlingshot, TitanCoaster, PixelArcade, PixelPopcorn, SplashingMountain, LazyRiver, SugarShack, HydrationStation]
-characters = [PathfindingCharacter() for i in range(1)]
+characters = [PathfindingCharacter() for i in range(100)]
 
 #Define the screen currently being displayed
 showTutOnStartFile = open(showTutOnStart, "r")
@@ -149,6 +149,8 @@ while isRunning:
             if character.moving == False:
                 random_destination = random.choice(Waypoints)
                 print(character.get_path(random_destination))
+            else:
+                character.move()
                 
                 # if character.get_quadrant() == "Top-Left":
                 #     character.move_to_top_left
