@@ -135,7 +135,10 @@ HourTimer = 0
 
 #Define sounds + music
 finishSound = pygame.mixer.Sound("FinishSound.mp3")
+menuMusic = pygame.mixer.Sound("menuSoundtrack.mp3")
+menuMusic.set_volume(0.2)
 
+menuMusic.play()
 #Game loop
 isRunning = True
 while isRunning:
@@ -148,7 +151,8 @@ while isRunning:
             # character.update_movement_to_corner()
             if character.moving == False:
                 random_destination = random.choice(Waypoints)
-                print(character.get_path(random_destination))
+                character.get_path(random_destination)
+                print(character.x_destination)
             else:
                 character.move()
                 
@@ -217,6 +221,7 @@ while isRunning:
                             DenyExitText.visible = False
                             OpenSign.bc = GREEN
                             OpenSignText.c = WHITE
+                            OpenSignText.text = "Open"
                             for attraction in Attractions:
                                 attraction.CTAButton.visible = False
                                 attraction.CTAButtonText.visible = False
@@ -225,6 +230,7 @@ while isRunning:
                                 attraction.CTAPopup.visible = False
                             currentHour = 0
                             HourTimer = 0
+                            menuMusic.stop()
                             #Randomize events if enabled
                             if RandomEvents:
                                 for i in TempRideDataRides:
@@ -266,6 +272,7 @@ while isRunning:
                             for attraction in Attractions:
                                 attraction.visible = False
                                 attraction.alerting = False
+                            menuMusic.play()
                             InSimulation = False
                     elif obj.clickingType == "Continue":
                         if(obj.update()):
