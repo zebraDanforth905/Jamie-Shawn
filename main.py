@@ -132,7 +132,7 @@ RandomEvents = False
 #Define hour system
 currentHour = 0
 FinalHour = 11
-secondsPerHour = 0.5
+secondsPerHour = 10
 HourTimer = 0
 
 #Define sounds + music
@@ -222,6 +222,8 @@ while isRunning:
                                 attraction.CTAPopup.visible = False
                             currentHour = 0
                             HourTimer = 0
+                            fixedAmount = 0
+                            totalAlerts = 0
                             #Randomize events if enabled
                             if RandomEvents:
                                 for i in TempRideDataRides:
