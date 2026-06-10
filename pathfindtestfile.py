@@ -76,12 +76,18 @@ class PathfindingCharacter:
             if len(self.path) == 1:
                 self.x_destination = self.path[0].entrance[0]
                 self.y_destination = self.path[0].entrance[1]
-                self.path.pop(0)
+                if self.x >= self.x_destination-1 and self.x <= self.x_destination+1 and self.y >= self.y_destination-1 and self.y <= self.y_destination+1:
+                    self.x = self.path[0].rect.rect.centerx
+                    self.y = self.path[0].rect.rect.centery
+                    self.x_destination = self.path[0].exit[0]
+                    self.y_destination = self.path[0].exit[1]
+                    self.path.pop(0)
             elif len(self.path) > 1:
                 self.moveToQuadrant(self.path[0])
                 self.path.pop(0)
             else:
                 self.moving = False
+                
 
     def get_path(self, destination):
         self.path = []

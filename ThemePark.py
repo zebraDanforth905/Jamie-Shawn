@@ -8,7 +8,7 @@ from ScreenElements import Text
 from RideData import Ride_Data
 from RideData import Concessions
 class Attraction:
-    def __init__(self, screen, name, backgroundcolor, width, height, x, y, type, image=None, entranceCords=[0,0]):
+    def __init__(self, screen, name, backgroundcolor, width, height, x, y, type, image=None, entranceCords=[0,0], exitCords=[0,0]):
         self.screen = screen
         #Define size + coords
         self.width = width
@@ -16,6 +16,7 @@ class Attraction:
         self.x = x
         self.y = y
         self.entrance = entranceCords
+        self.exit = exitCords
         #Define Attributes
         self.name = name
         self.type = type
