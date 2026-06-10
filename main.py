@@ -103,14 +103,15 @@ ContinueButton = Rectangle(screen, True, "Continue", MenuScreen, 800, 550, 400, 
 showTutOnStart = "ShowTutorialOnStart.txt"
 DoNotShowAgainButton = Rectangle(screen, True, "Edit", showTutOnStart, 800, 550, 400, 100, 0, None, MENUBUTTONCOLOUR, None, None)
 DoNotShowAgainText = Text(screen, None, None, None, 1000, 600, 0, 50, 0, BLACK, None, "comic sans ms", "Do Not Show Again")
-ControlsScreen = [ControlsTitle, CloseAlerts, ContinueButton, DoNotShowAgainButton, DoNotShowAgainText, AlertsExplain, SettingsTip]
+ControlsScreen = [ControlsTitle, CloseAlerts, ContinueButton, DoNotShowAgainButton, DoNotShowAgainText, AlertsExplain, SettingsTip, RedDotNotice]
 TutorialButton.clickScreen = ControlsScreen
 
 StatsTitle = Text(screen, False, None, None, WIDTH/2, 100, None, 80, None,  BLACK, None, "comic sans ms", "Statistics Report")
 PercentageFixed = Text(screen=screen, x=WIDTH/2, y=200, height=50, colour=BLACK, Text="You fixed _ % of alerts.")
+MostLikedRide = Text(screen=screen, x=WIDTH/2, y=200, height=50, colour=BLACK, Text="The most liked attraction was _.")
 ContinueToMenu = Rectangle(screen, clickable=True, clickingType="Continue", clickScreen=MenuScreen, x=800, y=550, width=400, height=100, backgroundColour=MENUBUTTONCOLOUR)
 ContinueToMenuText = Text(screen, None, None, None, 1000, 600, 0, 50, 0, BLACK, None, "comic sans ms", "Continue To Menu")
-StatsScreen = [StatsTitle, PercentageFixed, ContinueToMenu, ContinueToMenuText]
+StatsScreen = [StatsTitle, PercentageFixed, ContinueToMenu, ContinueToMenuText, MostLikedRide]
 formattedStats = []
 fixedAmount = 0
 totalAlerts = 0
@@ -176,7 +177,10 @@ while isRunning:
     if currentHour == 11 and HourTimer > secondsPerHour/5:
         simulationClock.text = f"{round((secondsPerHour - HourTimer)*100)/100}"
     else:
-        simulationClock.text = f"{10+currentHour}:00"
+        if math.floor(HourTimer/secondsPerHour*60) < 10:
+            simulationClock.text = f"{10+currentHour}:0{math.floor(HourTimer/secondsPerHour*60)}"
+        else:
+            simulationClock.text = f"{10+currentHour}:{math.floor(HourTimer/secondsPerHour*60)}"
     #Get quit input + click inputs
     for ev in pygame.event.get():
         if ev.type == pygame.QUIT:
@@ -317,6 +321,7 @@ while isRunning:
                 totalAlerts += attraction.getStats()[0]
                 fixedAmount += attraction.getStats()[1]
             PercentageFixed.text = f"You fixed {math.floor((fixedAmount/totalAlerts)*100)} % of alerts."
+            # NotDone: MostLikedRide.text = f"The most liked attraction was {}."
 
 #Exit the game
 pygame.quit()

@@ -81,6 +81,7 @@ class Attraction:
         #Statistics
         self.totalAlerts = 0
         self.fixedAlerts = 0
+        self.AverageLikeness = 75
     def update(self, time, data=[Ride_Data, Concessions]):
         #Change values
         if self.type == "Ride":
@@ -182,4 +183,4 @@ class Attraction:
         
         self.TimeChange = time
     def getStats(self):
-        return [self.totalAlerts, self.fixedAlerts]
+        return [self.totalAlerts, self.fixedAlerts, ]
