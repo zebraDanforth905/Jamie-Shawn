@@ -2,6 +2,7 @@
 import pygame
 import random
 import copy
+import math
 pygame.init()
 from ScreenElements import Rectangle
 from ScreenElements import Text
@@ -108,7 +109,6 @@ PercentageFixed = Text(screen=screen, x=WIDTH/2, y=200, height=50, colour=BLACK,
 ContinueToMenu = Rectangle(screen, clickable=True, clickingType="Continue", clickScreen=MenuScreen, x=800, y=550, width=400, height=100, backgroundColour=MENUBUTTONCOLOUR)
 ContinueToMenuText = Text(screen, None, None, None, 1000, 600, 0, 50, 0, BLACK, None, "comic sans ms", "Continue To Menu")
 StatsScreen = [StatsTitle, PercentageFixed, ContinueToMenu, ContinueToMenuText]
-rawStats = []
 formattedStats = []
 fixedAmount = 0
 totalAlerts = 0
@@ -130,7 +130,7 @@ RandomEvents = False
 #Define hour system
 currentHour = 0
 FinalHour = 11
-secondsPerHour = 10
+secondsPerHour = 0.5
 HourTimer = 0
 
 #Define sounds + music
@@ -151,7 +151,6 @@ while isRunning:
             if character.moving == False:
                 random_destination = random.choice(Waypoints)
                 character.get_path(random_destination)
-                print(character.x_destination)
             else:
                 character.move()
             if character.clone_yourself:
@@ -302,11 +301,9 @@ while isRunning:
             for attraction in Attractions:
                 attraction.visible = False
                 attraction.alerting = False
-                rawStats.append(attraction.getStats())
-                for i in rawStats:
-                    totalAlerts += i[0]
-                    fixedAmount += i[1]
-            PercentageFixed.text = f"You fixed {round(fixedAmount/totalAlerts*100)} % of alerts."
+                totalAlerts += attraction.getStats()[0]
+                fixedAmount += attraction.getStats()[1]
+            PercentageFixed.text = f"You fixed {math.floor((fixedAmount/totalAlerts)*100)} % of alerts."
 
 #Exit the game
 pygame.quit()
