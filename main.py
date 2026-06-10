@@ -145,6 +145,7 @@ while isRunning:
     screen.fill(BACKGROUNDCOLOUR)
     #Get dot/people to pathfind, clone, and remove self 
     if InSimulation:
+        menuMusic.set_volume(0)
         for character in characters:
             character.draw_circle()
             # character.update_movement_to_attraction()
@@ -182,6 +183,8 @@ while isRunning:
                     characters.append(PathfindingCharacter())
                     characters.remove(random.choice(characters))
                     characters.remove(random.choice(characters))
+    else:
+        menuMusic.set_volume(0.2)
 
     #Render attractions
     for attraction in Attractions:
@@ -230,7 +233,6 @@ while isRunning:
                                 attraction.CTAPopup.visible = False
                             currentHour = 0
                             HourTimer = 0
-                            menuMusic.stop()
                             #Randomize events if enabled
                             if RandomEvents:
                                 for i in TempRideDataRides:
