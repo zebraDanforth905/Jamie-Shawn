@@ -12,6 +12,7 @@ clock = pygame.time.Clock()
 WHITE = [255, 255, 255]
 BLACK = [0, 0, 0]
 RED = [255, 0, 0]
+BLUE = [0, 0, 255]
 BACKGROUNDCOLOUR = [115, 147, 179]
 
 speed = 1
@@ -19,7 +20,7 @@ speed = 1
 
 
 class PathfindingCharacter:
-    def __init__(self):
+    def __init__(self, color):
         self.x = random.randint(170, 470)
         self.y = random.randint(150, 200)
         self.x_destination = self.x
@@ -28,12 +29,13 @@ class PathfindingCharacter:
         self.currently_moving_to_corner = False
         self.moving = False
         self.radius = 4
+        self.color = color
         self.clone_yourself = False
         self.path = []
         self.quadrantOrder = ["Top-Left", "Bottom-Left", "Bottom-Right", "Top-Right"]
     
     def draw_circle(self):
-        pygame.draw.circle(screen, RED, (self.x, self.y), self.radius)
+        pygame.draw.circle(screen, self.color, (self.x, self.y), self.radius)
     
     def get_quadrant(self, x=0, y=0):
         if x <= 640 and y >= 360:

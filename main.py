@@ -36,6 +36,7 @@ PURPLE = [155,0,155]
 MAGENTA = [255,0,255]
 PINK = [222, 49, 99]
 ORANGE = [255,180,0]
+colors = [WHITE, RED, GREEN, BLUE, LIGHTBLUE, BLACK, GREY, DARKGREY, YELLOW, PURPLE, MAGENTA, PINK, ORANGE]
 BACKGROUNDCOLOUR = [115, 147, 179]
 MENUBUTTONCOLOUR = [178, 0, 0]
 
@@ -115,7 +116,7 @@ totalAlerts = 0
 
 #Make pathfinding dot + waypoints
 Waypoints = [NebulaSpinner, QuantumCafe, RocketSlingshot, TitanCoaster, PixelArcade, PixelPopcorn, SplashingMountain, LazyRiver, SugarShack, HydrationStation]
-characters = [PathfindingCharacter() for i in range(100)]
+characters = [PathfindingCharacter(RED) for i in range(100)]
 
 #Define the screen currently being displayed
 showTutOnStartFile = open(showTutOnStart, "r")
@@ -142,11 +143,19 @@ menuMusic.play()
 #Game loop
 isRunning = True
 while isRunning:
-    screen.fill(BACKGROUNDCOLOUR)
+    if RandomEvents:
+        screen.fill(random.choice(colors))
+    else:
+        screen.fill(BACKGROUNDCOLOUR)
     #Get dot/people to pathfind, clone, and remove self 
     if InSimulation:
+        
         menuMusic.set_volume(0)
         for character in characters:
+            if RandomEvents:
+                character.color = random.choice(colors)
+            else:
+                character.color = RED
             character.draw_circle()
             # character.update_movement_to_attraction()
             # character.update_movement_to_corner()
