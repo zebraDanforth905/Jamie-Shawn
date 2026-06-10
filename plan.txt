@@ -7,12 +7,12 @@ Required:
 Wanted:
 - Settings menu 1 ✅
 - Randomization toggle which randomizes the day 2 ✅
-- Sound effects and music 4  *Record music from phone and guitar
+- Sound effects and music 4  ✅
 - More thorough tutorial 3 ✅
 - move around with arrow key 5
 
 Wish List:
-- Dots pathfinding to each location 3
+- Dots pathfinding to each location 3 ✅
 - Statistics menu at the end of a shift 2 ✅
 - Call To Action when fixing a problem 1 ✅
 - Fully customizable maps + gameplay settings 4

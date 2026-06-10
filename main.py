@@ -156,7 +156,7 @@ while isRunning:
         for character in characters:
             if RandomEvents:
                 # character.color = random.choice(colors)
-                character = RED
+                character.color = RED
             else:
                 character.color = RED
             character.draw_circle()
@@ -222,6 +222,11 @@ while isRunning:
                                 attraction.CTAPopup.visible = False
                             currentHour = 0
                             HourTimer = 0
+                            fixedAmount = 0
+                            totalAlerts = 0
+                            for char in characters:
+                                char.x = random.randint(170, 470)
+                                char.y = random.randint(150, 200)
                             #Randomize events if enabled
                             if RandomEvents:
                                 for i in TempRideDataRides:

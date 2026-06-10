@@ -1,6 +1,7 @@
 #This file is for the rendering of the unique rides and fuel stations
 #Import libraries
 import pygame
+import random
 pygame.init()
 from ScreenElements import Rectangle
 from ScreenElements import Text
@@ -74,6 +75,7 @@ class Attraction:
         self.alertImageRect = pygame.rect.Rect(self.x, self.y-30, 75, 75)
         self.timeOfAlert = 1000
         self.inventory = 500
+        self.durability = random.randint(2, 6)
         self.TimeChange = -1
         #Statistics
         self.totalAlerts = 0
@@ -86,8 +88,11 @@ class Attraction:
             
 
             #Change Fix Text
-            if self.satisfaction < 75 and self.waitTime < 15:
-                self.CTAFixText.text = "Maintenance Overhall"
+            if self.durability <= 0:
+                self.CTAFixText.text = "Repair Structure"
+                self.durability = random.randint(2, 6)
+            elif self.satisfaction < 75 and self.waitTime < 30:
+                self.CTAFixText.text = "Maintenance Fix"
             elif self.satisfaction > 80 and self.waitTime > 30:
                 self.CTAFixText.text = "Split Line"
             elif self.alerting == False:
@@ -170,6 +175,9 @@ class Attraction:
                 self.timeOfAlert = time
                 if time - self.TimeChange == 1:
                     self.totalAlerts += 1
+        
+        if time - self.TimeChange == 1:
+            self.durability -= 1
         
         self.TimeChange = time
     def getStats(self):
