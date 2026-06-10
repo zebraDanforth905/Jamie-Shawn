@@ -165,6 +165,7 @@ while isRunning:
 
                 character.move_to_destination(random_destination.entrance[0], random_destination.entrance[1], pygame.rect.Rect(random_destination.x, random_destination.y, random_destination.width, random_destination.height).center)
             if character.clone_yourself:
+                character.clone_yourself = False
                 should_i_clone_myself = random.randint(1,1000)
                 if should_i_clone_myself == 1:
                     characters.append(PathfindingCharacter())
