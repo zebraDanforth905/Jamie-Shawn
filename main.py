@@ -144,19 +144,11 @@ menuMusic.play()
 #Game loop
 isRunning = True
 while isRunning:
-    if RandomEvents:
-        # screen.fill(random.choice(colors))
-        screen.fill(BACKGROUNDCOLOUR)
-    else:
-        screen.fill(BACKGROUNDCOLOUR)
+    screen.fill(BACKGROUNDCOLOUR)
     #Get dot/people to pathfind, clone, and remove self 
     if InSimulation:
         menuMusic.set_volume(0)
         for character in characters:
-            # if RandomEvents:
-            #     character.color = RED
-            # else:
-            #     character.color = RED
             character.draw_circle()
             if character.moving == False and currentHour < 11:
                 random_destination = random.choice(Waypoints)
