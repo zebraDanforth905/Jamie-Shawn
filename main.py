@@ -151,16 +151,14 @@ while isRunning:
         screen.fill(BACKGROUNDCOLOUR)
     #Get dot/people to pathfind, clone, and remove self 
     if InSimulation:
-        
         menuMusic.set_volume(0)
         for character in characters:
-            if RandomEvents:
-                # character.color = random.choice(colors)
-                character.color = RED
-            else:
-                character.color = RED
+            # if RandomEvents:
+            #     character.color = RED
+            # else:
+            #     character.color = RED
             character.draw_circle()
-            if character.moving == False:
+            if character.moving == False and currentHour < 11:
                 random_destination = random.choice(Waypoints)
                 character.get_path(random_destination)
             else:
@@ -305,6 +303,12 @@ while isRunning:
     #Update Hour Simulation
     if InSimulation:
         HourTimer += (Clock.get_time()/1000)
+
+    if not FinishedSimulation and currentHour == 11:
+        FinishedSimulation = True
+        for char in characters:
+            char.get_path(GrandExit)
+        
     if HourTimer >= secondsPerHour and currentHour < 11:
         HourTimer = 0
         currentHour += 1
