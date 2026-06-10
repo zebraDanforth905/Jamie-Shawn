@@ -10,6 +10,7 @@ from ThemePark import Attraction
 from pathfindtestfile import PathfindingCharacter
 from RideData import Ride_Data
 from RideData import Concessions
+#Make temporary stores of the data
 TempRideDataRides = copy.deepcopy(Ride_Data)
 TempRideDataConcessions = copy.deepcopy(Concessions)
 
