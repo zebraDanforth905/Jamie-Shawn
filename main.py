@@ -144,7 +144,8 @@ menuMusic.play()
 isRunning = True
 while isRunning:
     if RandomEvents:
-        screen.fill(random.choice(colors))
+        # screen.fill(random.choice(colors))
+        screen.fill(BACKGROUNDCOLOUR)
     else:
         screen.fill(BACKGROUNDCOLOUR)
     #Get dot/people to pathfind, clone, and remove self 
@@ -153,7 +154,8 @@ while isRunning:
         menuMusic.set_volume(0)
         for character in characters:
             if RandomEvents:
-                character.color = random.choice(colors)
+                # character.color = random.choice(colors)
+                character = RED
             else:
                 character.color = RED
             character.draw_circle()
