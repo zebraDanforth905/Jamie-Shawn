@@ -2,6 +2,7 @@
 import pygame
 import random
 import copy
+import math
 pygame.init()
 from ScreenElements import Rectangle
 from ScreenElements import Text
@@ -9,6 +10,7 @@ from ThemePark import Attraction
 from pathfindtestfile import PathfindingCharacter
 from RideData import Ride_Data
 from RideData import Concessions
+#Make temporary stores of the data
 TempRideDataRides = copy.deepcopy(Ride_Data)
 TempRideDataConcessions = copy.deepcopy(Concessions)
 
@@ -109,7 +111,6 @@ PercentageFixed = Text(screen=screen, x=WIDTH/2, y=200, height=50, colour=BLACK,
 ContinueToMenu = Rectangle(screen, clickable=True, clickingType="Continue", clickScreen=MenuScreen, x=800, y=550, width=400, height=100, backgroundColour=MENUBUTTONCOLOUR)
 ContinueToMenuText = Text(screen, None, None, None, 1000, 600, 0, 50, 0, BLACK, None, "comic sans ms", "Continue To Menu")
 StatsScreen = [StatsTitle, PercentageFixed, ContinueToMenu, ContinueToMenuText]
-rawStats = []
 formattedStats = []
 fixedAmount = 0
 totalAlerts = 0
@@ -131,7 +132,7 @@ RandomEvents = False
 #Define hour system
 currentHour = 0
 FinalHour = 11
-secondsPerHour = 10
+secondsPerHour = 0.5
 HourTimer = 0
 
 #Define sounds + music
@@ -159,35 +160,11 @@ while isRunning:
             else:
                 character.color = RED
             character.draw_circle()
-            # character.update_movement_to_attraction()
-            # character.update_movement_to_corner()
             if character.moving == False:
                 random_destination = random.choice(Waypoints)
                 character.get_path(random_destination)
-                print(character.x_destination)
             else:
                 character.move()
-                
-                # if character.get_quadrant() == "Top-Left":
-                #     character.move_to_top_left
-                # elif character.get_quadrant() == "Top-Right":
-                #     character.move_to_top_right()
-                # else:
-                #     character.move_to_destination(random_destination.entrance[0], random_destination.entrance[1], pygame.rect.Rect(random_destination.x, random_destination.y, random_destination.width, random_destination.height).center)
-                #its so buggy so i hashtag them all
-                # if character.is_it_in_top_left(random_destination.x, random_destination.y):
-                #     character.move_to_top_left()
-                #     character.move_to_destination(random_destination.entrance[0], random_destination.entrance[1], pygame.rect.Rect(random_destination.x, random_destination.y, random_destination.width, random_destination.height).center)
-                # elif character.is_it_in_bottom_left(random_destination.x, random_destination.y):
-                #     character.move_to_bottom_left()
-                #     character.move_to_destination(random_destination.entrance[0], random_destination.entrance[1], pygame.rect.Rect(random_destination.x, random_destination.y, random_destination.width, random_destination.height).center)
-                # elif character.is_it_in_bottom_right(random_destination.x, random_destination.y):
-                #     character.move_to_bottom_right()
-                #     character.move_to_destination(random_destination.entrance[0], random_destination.entrance[1], pygame.rect.Rect(random_destination.x, random_destination.y, random_destination.width, random_destination.height).center)
-                # elif character.is_it_in_top_right(random_destination.x, random_destination.y):
-                #     character.move_to_top_right()
-                #     character.move_to_destination(random_destination.entrance[0], random_destination.entrance[1], pygame.rect.Rect(random_destination.x, random_destination.y, random_destination.width, random_destination.height).center)
-
             if character.clone_yourself:
                 character.clone_yourself = False
                 should_i_clone_myself = random.randint(1,1000)
@@ -336,11 +313,9 @@ while isRunning:
             for attraction in Attractions:
                 attraction.visible = False
                 attraction.alerting = False
-                rawStats.append(attraction.getStats())
-                for i in rawStats:
-                    totalAlerts += i[0]
-                    fixedAmount += i[1]
-            PercentageFixed.text = f"You fixed {round(fixedAmount/totalAlerts*100)} % of alerts."
+                totalAlerts += attraction.getStats()[0]
+                fixedAmount += attraction.getStats()[1]
+            PercentageFixed.text = f"You fixed {math.floor((fixedAmount/totalAlerts)*100)} % of alerts."
 
 #Exit the game
 pygame.quit()
