@@ -126,15 +126,31 @@ if showTutOnStartFile.readline() == "True":
     CurrentScreen = ControlsScreen
 else:
     CurrentScreen = MenuScreen
+#Define variables pertaining to the simulation
 InSimulation = False
 FinishedSimulation = False
 RandomEvents = False
+weatherEnabled = True
+
 
 #Define hour system
 currentHour = 0
 FinalHour = 11
 secondsPerHour = 10
 HourTimer = 0
+changeInTime = -1
+
+#Define weather conditions
+RainfallIntesity = 0
+WindSpeed = 0
+Temperature = 18
+def getWeather():
+    global RainfallIntesity, WindSpeed, Temperature
+    RainfallIntesity = random.randint(0, 10)
+    WindSpeed = random.randint(0, 60)
+    Temperature = random.randint(18, 45)
+    print(RainfallIntesity, WindSpeed, Temperature)
+
 
 #Define sounds + music
 finishSound = pygame.mixer.Sound("FinishSound.mp3")
@@ -164,6 +180,11 @@ while isRunning:
                     characters.append(PathfindingCharacter())
                     characters.remove(random.choice(characters))
                     characters.remove(random.choice(characters))
+        if weatherEnabled:
+            if currentHour - changeInTime == 1:
+                getWeather()
+        changeInTime = currentHour
+                
     else:
         menuMusic.set_volume(0.2)
 
@@ -329,6 +350,7 @@ while isRunning:
                 
             PercentageFixed.text = f"You fixed {math.floor((fixedAmount/totalAlerts)*100)} % of alerts."
             MostLikedRide.text = f"The most liked ride was {MostLikedRideStatNames} at {round(MostLikedRideStat[0])}% average."
+    
 
 #Exit the game
 pygame.quit()
