@@ -108,13 +108,13 @@ TutorialButton.clickScreen = ControlsScreen
 
 StatsTitle = Text(screen, False, None, None, WIDTH/2, 100, None, 80, None,  BLACK, None, "comic sans ms", "Statistics Report")
 PercentageFixed = Text(screen=screen, x=WIDTH/2, y=200, height=50, colour=BLACK, Text="You fixed _ % of alerts.")
-MostLikedRide = Text(screen=screen, x=WIDTH/2, y=200, height=50, colour=BLACK, Text="The most liked attraction was _.")
+MostLikedRide = Text(screen=screen, x=WIDTH/2, y=300, height=50, colour=BLACK, Text="The most liked attraction was _.")
 ContinueToMenu = Rectangle(screen, clickable=True, clickingType="Continue", clickScreen=MenuScreen, x=800, y=550, width=400, height=100, backgroundColour=MENUBUTTONCOLOUR)
 ContinueToMenuText = Text(screen, None, None, None, 1000, 600, 0, 50, 0, BLACK, None, "comic sans ms", "Continue To Menu")
 StatsScreen = [StatsTitle, PercentageFixed, ContinueToMenu, ContinueToMenuText, MostLikedRide]
-formattedStats = []
 fixedAmount = 0
 totalAlerts = 0
+MostLikedRideStat = []
 
 #Make pathfinding dot + waypoints
 Waypoints = [NebulaSpinner, QuantumCafe, RocketSlingshot, TitanCoaster, PixelArcade, PixelPopcorn, SplashingMountain, LazyRiver, SugarShack, HydrationStation]
@@ -133,7 +133,7 @@ RandomEvents = False
 #Define hour system
 currentHour = 0
 FinalHour = 11
-secondsPerHour = 10
+secondsPerHour = 0.5
 HourTimer = 0
 
 #Define sounds + music
@@ -218,6 +218,7 @@ while isRunning:
                             HourTimer = 0
                             fixedAmount = 0
                             totalAlerts = 0
+                            MostLikedRideStat = []
                             for char in characters:
                                 char.x = random.randint(170, 470)
                                 char.y = random.randint(150, 200)
@@ -315,13 +316,19 @@ while isRunning:
         if HourTimer >= secondsPerHour:
             InSimulation = False
             CurrentScreen = StatsScreen
+            MostLikedRideStatNames = {}
             for attraction in Attractions:
                 attraction.visible = False
                 attraction.alerting = False
                 totalAlerts += attraction.getStats()[0]
                 fixedAmount += attraction.getStats()[1]
+                MostLikedRideStat.append(attraction.getStats()[2])
+                MostLikedRideStatNames[attraction.name] = attraction.getStats()[2]
+            MostLikedRideStat.sort(reverse=True)
+            MostLikedRideStatNames = next((k for k, v in MostLikedRideStatNames.items() if v == MostLikedRideStat[0]), None)
+                
             PercentageFixed.text = f"You fixed {math.floor((fixedAmount/totalAlerts)*100)} % of alerts."
-            # NotDone: MostLikedRide.text = f"The most liked attraction was {}."
+            MostLikedRide.text = f"The most liked ride was {MostLikedRideStatNames} at {round(MostLikedRideStat[0])}% average."
 
 #Exit the game
 pygame.quit()
