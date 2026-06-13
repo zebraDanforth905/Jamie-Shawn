@@ -178,7 +178,12 @@ class Attraction:
                 if time - self.TimeChange == 1:
                     self.totalAlerts += 1
         
+        if time == 0 and self.TimeChange == 0:
+            self.TimeChange = -1
+
         if time - self.TimeChange == 1:
+            if time == 0:
+                self.AverageLikeness = []
             self.AverageLikeness.append(self.satisfaction)
             self.durability -= 1
             if time == 11:
@@ -186,6 +191,4 @@ class Attraction:
         self.TimeChange = time
 
     def getStats(self):
-        print(f"{self.name}:{self.AverageLikeness}")
-        
         return [self.totalAlerts, self.fixedAlerts, self.AverageLikeness]

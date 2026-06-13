@@ -133,7 +133,7 @@ RandomEvents = False
 #Define hour system
 currentHour = 0
 FinalHour = 11
-secondsPerHour = 0.5
+secondsPerHour = 10
 HourTimer = 0
 
 #Define sounds + music
@@ -263,7 +263,6 @@ while isRunning:
                             for attraction in Attractions:
                                 attraction.visible = False
                                 attraction.alerting = False
-                            menuMusic.play()
                             InSimulation = False
                     elif obj.clickingType == "Continue":
                         if(obj.update()):
