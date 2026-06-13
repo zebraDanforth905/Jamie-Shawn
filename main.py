@@ -152,6 +152,7 @@ while isRunning:
         for character in characters:
             character.draw_circle()
             if character.moving == False and currentHour < 11:
+                #chosenDestination = character.find_attraction_to_goto()
                 random_destination = random.choice(Waypoints)
                 character.get_path(random_destination)
             else:

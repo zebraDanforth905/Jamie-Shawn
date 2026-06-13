@@ -37,6 +37,9 @@ class PathfindingCharacter:
     def draw_circle(self):
         pygame.draw.circle(screen, self.color, (self.x, self.y), self.radius)
     
+    def find_attraction_to_goto(self, data, locations):
+        pass
+
     def get_quadrant(self, x=0, y=0):
         if x <= 640 and y >= 360:
             return "Bottom-Left"
