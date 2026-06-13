@@ -1,0 +1,194 @@
+#This file is for the rendering of the unique rides and fuel stations
+#Import libraries
+import pygame
+import random
+pygame.init()
+from ScreenElements import Rectangle
+from ScreenElements import Text
+from RideData import Ride_Data
+from RideData import Concessions
+class Attraction:
+    def __init__(self, screen, name, backgroundcolor, width, height, x, y, type, image=None, entranceCords=[0,0], exitCords=[0,0]):
+        self.screen = screen
+        #Define size + coords
+        self.width = width
+        self.height = height
+        self.x = x
+        self.y = y
+        self.entrance = entranceCords
+        self.exit = exitCords
+        #Define Attributes
+        self.name = name
+        self.type = type
+        self.visible = False
+        self.backgroundcolor = backgroundcolor
+        self.img = None
+        self.imgRect = None
+        if image != None:
+            self.img = pygame.image.load(image)
+            self.img = pygame.transform.scale(self.img, (width, height))
+            self.imgRect = self.img.get_rect(x=x, y=y)
+        #Define visible components
+        self.font = pygame.font.Font(None, round(self.width/6 - len(self.name)/5))
+        self.statsFont = pygame.font.Font(None, round(self.width/7))
+        self.CTAPopup = Rectangle(screen, None, None, None, self.x+self.width, self.y, 125, 125, 0, None, [100, 100, 100], None, None, visible=False)
+        self.CTAFix = Rectangle(screen, True, "Fix", None, self.x+self.width + 5, self.y+10, 115, 50, 0, None, [255, 0, 0], None, None, visible=False)
+        self.CTAFixText = Text(screen=screen, clickable=None, clickingType=None, clickScreen=None, x=self.x+self.width + 5 + self.CTAFix.w/2, y=self.y+35, height=20, colour=[0,0,0], Text="Fix", visible=False)
+        self.CTAButton = Rectangle(screen, True, "ClosePopup", None, self.x+self.width + 5, self.y+70, 115, 50, 0, None, [255, 0, 0], None, None, visible=False)
+        self.CTAButton.clickScreen = [self.CTAPopup, self.CTAFix, self.CTAFixText, self.CTAButton]
+        self.CTAButtonText = Text(screen=screen, clickable=None, clickingType=None, clickScreen=None, x=self.x+self.width + 5 + self.CTAFix.w/2, y=self.y+95, height=30, colour=[0,0,0], Text="Close", visible=False)
+
+        if self.y > 2*self.screen.get_height()/3:
+            self.CTAPopup.y -= 100
+            self.CTAPopup.x -= self.width/2
+            self.CTAFix.y -= 100
+            self.CTAFix.x -= self.width/2
+            self.CTAFixText.y -= 100
+            self.CTAFixText.x -= self.width/2
+            self.CTAButton.y -= 100
+            self.CTAButton.x -= self.width/2
+            self.CTAButtonText.y -= 100
+            self.CTAButtonText.x -= self.width/2
+        elif self.x > self.screen.get_width()/2:
+            self.CTAPopup.x += -self.width - 100
+            self.CTAFix.x += -self.width - 100
+            self.CTAFixText.x += -self.width - 100
+            self.CTAButtonText.x += -self.width - 100
+            self.CTAButton.x += -self.width - 100
+        self.rect = Rectangle(self.screen, True, "OpenPopup", [self.CTAPopup], self.x, self.y, self.width, self.height, 0, None, self.backgroundcolor, None, None)
+        #Set starting values
+        self.waitTime = 0
+        self.satisfaction = 0
+        self.itemsSold = 0
+        self.sales = 0
+        if self.type == 'Ride':
+            self.waitTime = Ride_Data[0][self.name]["wait"]
+            self.satisfaction = Ride_Data[0][self.name]["satisfaction"]
+        elif self.type == "Concession":
+            self.itemsSold = Concessions[0][self.name]["items"]
+            self.sales = Concessions[0][self.name]["sales"]
+        #Define alert system vars
+        self.fixed = False
+        self.OnFix = False
+        self.alerting = False
+        self.alertImage = pygame.image.load("image/warningSign.png")
+        self.alertImage = pygame.transform.scale(self.alertImage, (75, 75))
+        self.alertImageRect = pygame.rect.Rect(self.x, self.y-30, 75, 75)
+        self.timeOfAlert = 1000
+        self.inventory = 500
+        self.durability = random.randint(2, 6)
+        self.TimeChange = -1
+        #Statistics
+        self.totalAlerts = 0
+        self.fixedAlerts = 0
+        self.AverageLikeness = []
+    def update(self, time, data=[Ride_Data, Concessions]):
+        #Change values
+        if self.type == "Ride":
+            self.waitTime = data[0][time][self.name]["wait"]
+            self.satisfaction = data[0][time][self.name]["satisfaction"]
+            
+
+            #Change Fix Text
+            if self.durability <= 0:
+                self.CTAFixText.text = "Repair Structure"
+                self.durability = random.randint(2, 6)
+            elif self.satisfaction < 75 and self.waitTime < 30:
+                self.CTAFixText.text = "Maintenance Fix"
+            elif self.satisfaction > 80 and self.waitTime > 30:
+                self.CTAFixText.text = "Split Line"
+            elif self.alerting == False:
+                self.CTAFixText.text = "Fix"
+        elif self.type == "Concession":
+            self.itemsSold = data[1][time][self.name]["items"]
+            self.sales = data[1][time][self.name]["sales"]
+            
+            if time - self.TimeChange == 1:
+                self.inventory -= self.itemsSold
+            #Change Fix Text
+            if self.itemsSold < 20 and self.inventory > 250 and time < 11:
+                self.CTAFixText.text = "Start a Flash Sale"
+            elif self.itemsSold < 20 and self.inventory < 250 and time >= 8:
+                self.CTAFixText.text = "Sell in bulk"
+            elif self.alerting == False:
+                self.CTAFixText.text = "Fix"
+        
+        #Render rect + Check for fixes + sustain fixes
+        self.OnFix = self.rect.update()
+        if self.img != None:
+            self.screen.blit(self.img, self.imgRect)
+        
+        if self.OnFix != None and self.alerting == True:
+            self.CTAPopup.visible = True
+            self.CTAFix.visible = True
+            self.CTAFixText.visible = True
+            self.CTAButton.visible = True
+            self.CTAButtonText.visible = True
+
+        self.CTAPopup.update()
+        self.OnFix = self.CTAFix.update()
+        self.CTAFixText.update()
+        if self.CTAButton.update():
+            self.CTAPopup.visible = False
+            self.CTAFix.visible = False
+            self.CTAFixText.visible = False
+            self.CTAButton.visible = False
+            self.CTAButtonText.visible = False
+        self.CTAButtonText.update()
+
+        if self.OnFix == True and self.alerting == True:
+            self.fixedAlerts += 1
+            self.alerting = False
+            self.fixed = True
+            self.CTAPopup.visible = False
+            self.CTAFix.visible = False
+            self.CTAFixText.visible = False
+            self.CTAButton.visible = False
+            self.CTAButtonText.visible = False
+        if time != self.timeOfAlert:
+            self.fixed = False
+
+        #display alert image
+        if self.alerting:
+            self.screen.blit(self.alertImage, self.alertImageRect)
+        #Render text
+        self.render = self.font.render(self.name, True, [255,255,255], None)
+        if self.type == 'Ride':
+            self.renderWaitTime = self.statsFont.render(f"Wait Time: {self.waitTime}m", True, [255,255,255], None)
+            self.renderLikability = self.statsFont.render(f"Satisfaction: {self.satisfaction}%", True, [255,255,255], None)
+            self.screen.blit(self.renderWaitTime, self.render.get_rect(center=(self.x + self.width/2, self.y + self.height/2 + 21)))
+            self.screen.blit(self.renderLikability, self.render.get_rect(center=(self.x + self.width/2, self.y + self.height/2 + 42)))
+        elif self.type == "Concession":
+            self.renderitemsSold = self.statsFont.render(f"Items Sold: {self.itemsSold}", True, [255,255,255], None)
+            self.renderSales = self.statsFont.render(f"Sales: ${self.sales}", True, [255,255,255], None)
+            self.screen.blit(self.renderitemsSold, self.render.get_rect(center=(self.x + self.width/2, self.y + self.height/2 + 21)))
+            self.screen.blit(self.renderSales, self.render.get_rect(center=(self.x + self.width/2, self.y + self.height/2 + 42)))
+        self.screen.blit(self.render, self.render.get_rect(center=(self.x + self.width/2, self.y + self.height/2)))
+        #Check for any alerts
+        if self.type == "Ride" and not self.fixed:
+            if self.waitTime > 30 or self.satisfaction < 75:
+                self.alerting = True
+                self.timeOfAlert = time
+                if time - self.TimeChange == 1:
+                    self.totalAlerts += 1
+        elif self.type == "Concession" and not self.fixed:
+            if self.itemsSold < 20:
+                self.alerting = True
+                self.timeOfAlert = time
+                if time - self.TimeChange == 1:
+                    self.totalAlerts += 1
+        
+        if time == 0 and self.TimeChange == 0:
+            self.TimeChange = -1
+
+        if time - self.TimeChange == 1:
+            if time == 0:
+                self.AverageLikeness = []
+            self.AverageLikeness.append(self.satisfaction)
+            self.durability -= 1
+            if time == 11:
+                self.AverageLikeness = sum(self.AverageLikeness)/len(self.AverageLikeness)
+        self.TimeChange = time
+
+    def getStats(self):
+        return [self.totalAlerts, self.fixedAlerts, self.AverageLikeness]
