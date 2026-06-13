@@ -8,7 +8,7 @@ from ScreenElements import Text
 from RideData import Ride_Data
 from RideData import Concessions
 class Attraction:
-    def __init__(self, screen, name, backgroundcolor, width, height, x, y, type, image=None, entranceCords=[0,0], exitCords=[0,0]):
+    def __init__(self, screen, name, backgroundcolor, width, height, x, y, type, image=None, entranceCords=[0,0], exitCords=[0,0], weatherEnabled=False, weatherImpact={}):
         self.screen = screen
         #Define size + coords
         self.width = width
@@ -82,7 +82,10 @@ class Attraction:
         self.totalAlerts = 0
         self.fixedAlerts = 0
         self.AverageLikeness = []
-    def update(self, time, data=[Ride_Data, Concessions]):
+        #Weather Events
+        self.weatherIsEnabled = weatherEnabled
+        self.weatherImpact = weatherImpact
+    def update(self, time, weatherConditions=[], data=[Ride_Data, Concessions]):
         #Change values
         if self.type == "Ride":
             self.waitTime = data[0][time][self.name]["wait"]
